@@ -36,6 +36,7 @@ public class Feed {
     @JoinColumn(name ="user_id")
     private User user;
 
+    //ERD에 추가
     @OneToMany(mappedBy = "feed")
     private final List<Comment> commentList = new ArrayList<>();
 
