@@ -23,7 +23,7 @@ public class IndexController {
 
     @GetMapping("/health")
     public String health(){
-        return "health";
+        return "health!";
     }
 
 }
