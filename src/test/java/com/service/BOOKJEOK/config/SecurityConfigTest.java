@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.service.BOOKJEOK.config;
 
 import org.junit.jupiter.api.Test;
@@ -56,7 +55,4 @@ public class SecurityConfigTest {
         //then
         assertThat(httpStatusCode).isEqualTo(401);
     }
-=======
-package com.service.BOOKJEOK.config;public class SecurityConfigTest {
->>>>>>> 36f437db1594839a77a680395ed75ec9deabc918
 }
