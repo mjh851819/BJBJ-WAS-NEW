@@ -8,22 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 
-    @Autowired
-    private Environment env;
-
     @GetMapping
     public String index(){
         return "index";
-    }
-
-    @GetMapping("/info")
-    public String info(){
-        return env.getProperty("spring.datasource.url");
-    }
-
-    @GetMapping("/health")
-    public String health(){
-        return "health!";
     }
 
 }
