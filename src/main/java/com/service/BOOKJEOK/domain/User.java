@@ -9,6 +9,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor //스프링이 User 객체 생성할 때 빈 생성자로 new를 하기 때문에
 @Getter
@@ -29,6 +31,10 @@ public class User {
 
     private String img_url;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserEnum role; //ADMIN, CUSTOMER
+
     @CreatedDate //insert
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -43,6 +49,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.img_url = img_url;
+        this.role = UserEnum.USER;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
