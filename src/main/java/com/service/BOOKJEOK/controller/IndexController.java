@@ -2,10 +2,13 @@ package com.service.BOOKJEOK.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 public class IndexController {
@@ -22,7 +25,15 @@ public class IndexController {
     }
 
     @GetMapping("/auth")
-    public String auth(){
+    public String auth(Authentication authentication){
+        Object principal = authentication.getAuthorities();
+        System.out.println(principal);
+
+        return "Ok";
+    }
+
+    @GetMapping("/user")
+    public String user(){
         return "Ok";
     }
 
