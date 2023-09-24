@@ -1,0 +1,9 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 889385961395-25m1fp9lbfmtjn6bdohfibhqmbn3b13d.apps.googleusercontent.com    # REST API 키
+            client-secret: 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
+            scope: profile, email # 기본값이 openid, profile, email이지만 openid를 등록하게 되면 서비스마다(카카오, 네이버) OAuth2Service를 만들어야하기 때문에 profile, email만 scope로 지정
