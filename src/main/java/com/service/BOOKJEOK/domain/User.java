@@ -46,12 +46,12 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Builder
-    public User(Long id, String name, String email, String img_url, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(Long id, String name, String email, String img_url, UserEnum role, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.img_url = img_url;
-        this.role = UserEnum.USER;
+        this.role = role;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

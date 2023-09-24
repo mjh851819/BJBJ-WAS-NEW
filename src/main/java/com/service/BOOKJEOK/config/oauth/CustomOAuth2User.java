@@ -3,6 +3,7 @@ package com.service.BOOKJEOK.config.oauth;
 import com.service.BOOKJEOK.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
@@ -27,14 +28,11 @@ public class CustomOAuth2User implements OAuth2User{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collect = new ArrayList<>();
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return user.getRole().toString();
-            }
-        });
-        return collect;
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        String role = user.getRole().value();
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role);
+        authorities.add(grantedAuthority);
+        return authorities;
     }
 
     @Override

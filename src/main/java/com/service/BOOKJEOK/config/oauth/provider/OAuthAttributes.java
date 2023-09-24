@@ -2,6 +2,7 @@ package com.service.BOOKJEOK.config.oauth.provider;
 
 
 import com.service.BOOKJEOK.domain.User;
+import com.service.BOOKJEOK.domain.UserEnum;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -79,6 +80,7 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .img_url(profileImageUrl)
+                .role(UserEnum.USER)
                 .build();
     }
 }
