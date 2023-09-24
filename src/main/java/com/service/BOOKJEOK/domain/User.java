@@ -53,4 +53,11 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public User update(String name, String img_url){
+        this.name = name;
+        this.img_url = img_url;
+
+        return this;
+    }
 }
