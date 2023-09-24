@@ -1,11 +1,9 @@
 package com.service.BOOKJEOK.config.oauth;
 
-import com.service.BOOKJEOK.config.jwt.JwtProcess;
 import com.service.BOOKJEOK.domain.User;
 import com.service.BOOKJEOK.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -29,13 +27,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-        redirect(request, response, oAuth2User.getUser().getEmail());  // Access Token과 Refresh Token을 Frontend에 전달하기 위해 Redirect
+        redirect(request, response, oAuth2User);  // Access Token과 Refresh Token을 Frontend에 전달하기 위해 Redirect
     }
 
-    private void redirect(HttpServletRequest request, HttpServletResponse response, String email) throws IOException {
+    private void redirect(HttpServletRequest request, HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
         //log.info("Token 생성 시작");
-        String accessToken = delegateAccessToken(email);  // Access Token 생성
-        String refreshToken = delegateRefreshToken(email);     // Refresh Token 생성
+        String email = oAuth2User.getUser().getEmail();
+
+        String accessToken = delegateAccessToken(email, oAuth2User.getAuthorities());  // Access Token 생성
+        String refreshToken = delegateRefreshToken(email, oAuth2User.getAuthorities());     // Refresh Token 생성
         Optional<User> target = userService.findByEmail(email);
         //인증 성공 로직이기 때문에 반드시 객체가 존재한다.
         User user = target.get();
