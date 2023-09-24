@@ -1,7 +1,9 @@
 package com.service.BOOKJEOK.config;
 
+import com.service.BOOKJEOK.config.Auth.JwtAuthorizationFilter;
 import com.service.BOOKJEOK.config.oauth.CustomOAuth2UserService;
 import com.service.BOOKJEOK.config.oauth.OAuth2SuccessHandler;
+import com.service.BOOKJEOK.domain.UserEnum;
 import com.service.BOOKJEOK.userService.UserService;
 import com.service.BOOKJEOK.util.CustomResponseUtil;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +47,7 @@ public class SecurityConfig {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             //builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
-            //builder.addFilter(new JwtAuthorizationFilter(authenticationManager));
+            builder.addFilter(new JwtAuthorizationFilter(authenticationManager));
         }
     }
 
@@ -69,7 +71,7 @@ public class SecurityConfig {
         });
         // 권한 실패에 대한 핸들링
         http.exceptionHandling().accessDeniedHandler(((request, response, accessDeniedException) -> {
-            CustomResponseUtil.fail(response, "관리자 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            CustomResponseUtil.fail(response, "권한이 없습니다.", HttpStatus.FORBIDDEN);
         }));
 
 
@@ -83,6 +85,8 @@ public class SecurityConfig {
                 //.antMatchers("/api/s/**").authenticated()
                 //.antMatchers("/api/admin/**").hasRole(""+UserEnum.ADMIN)
                 //.antMatchers("/oauth2", "/login").permitAll()
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/auth").authenticated()
                 .anyRequest().permitAll();
 
