@@ -35,6 +35,8 @@ public class User {
     @Column(nullable = false)
     private UserEnum role; //ADMIN, CUSTOMER
 
+    private String refresh_token;
+
     @CreatedDate //insert
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -59,5 +61,9 @@ public class User {
         this.img_url = img_url;
 
         return this;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refresh_token = refreshToken;
     }
 }
