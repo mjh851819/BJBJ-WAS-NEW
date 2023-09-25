@@ -1,11 +1,10 @@
-package com.service.BOOKJEOK.config.oauth;
+package com.service.BOOKJEOK.security.oauth;
 
-import com.service.BOOKJEOK.config.oauth.provider.OAuthAttributes;
 import com.service.BOOKJEOK.domain.User;
 import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.security.dto.CustomOauth2UserDetails;
+import com.service.BOOKJEOK.security.oauth.provider.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -14,18 +13,17 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, CustomOAuth2User> {
+public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, CustomOauth2UserDetails> {
 
     private final UserRepository userRepository;
 
     @Override
-    public CustomOAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+    public CustomOauth2UserDetails loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         DefaultOAuth2UserService service = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = service.loadUser(userRequest);  // OAuth2 정보를 가져옵니다.
 
@@ -39,7 +37,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         User user = saveOrUpdate(attributes);
 
-        return new CustomOAuth2User(registrationId, user, originAttributes);
+        return new CustomOauth2UserDetails(user, attributes);
     }
 
     private User saveOrUpdate(OAuthAttributes authAttributes) {
