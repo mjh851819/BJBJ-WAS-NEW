@@ -1,4 +1,4 @@
-package com.service.BOOKJEOK.config.jwt;
+package com.service.BOOKJEOK.security.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,6 +12,10 @@ public class JwtVO {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String ACCESS_TOKEN = "Access_Token";
     public static final String REFRESH_TOKEN = "Refresh_Token";
+    public static final String EXCEPTION = "EXCEPTION";
+    public static final String EMAIL = "EMAIL";
+    public static final String ACCESS_TOKEN_HEADER = "Authorization";
+    public static final String REFRESH_TOKEN_HEADER = "Authorization-refresh";
 
 
 }

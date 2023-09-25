@@ -1,4 +1,4 @@
-package com.service.BOOKJEOK.userService;
+package com.service.BOOKJEOK.service;
 
 import com.service.BOOKJEOK.domain.User;
 import com.service.BOOKJEOK.repository.UserRepository;
