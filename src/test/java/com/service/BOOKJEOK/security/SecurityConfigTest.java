@@ -25,7 +25,7 @@ public class SecurityConfigTest {
         //given
 
         //when
-        ResultActions resultActions = mvc.perform(get("/api/s/hello"));
+        ResultActions resultActions = mvc.perform(get("/user"));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
         int httpStatusCode = resultActions.andReturn().getResponse().getStatus();
@@ -44,7 +44,7 @@ public class SecurityConfigTest {
         //given
 
         //when
-        ResultActions resultActions = mvc.perform(get("/api/admin/hello"));
+        ResultActions resultActions = mvc.perform(get("/user"));
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
         int httpStatusCode = resultActions.andReturn().getResponse().getStatus();
