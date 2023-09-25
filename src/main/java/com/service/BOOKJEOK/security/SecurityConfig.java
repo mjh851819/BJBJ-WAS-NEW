@@ -4,7 +4,6 @@ import com.service.BOOKJEOK.security.filter.JwtAuthorizationFilter;
 import com.service.BOOKJEOK.security.jwt.JwtService;
 import com.service.BOOKJEOK.security.jwt.JwtVO;
 import com.service.BOOKJEOK.security.oauth.OAuth2SuccessHandler;
-import com.service.BOOKJEOK.service.UserService;
 import com.service.BOOKJEOK.util.CustomResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -30,7 +29,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private final UserService userService;
     private final JwtService jwtService;
     private final OAuth2UserService customOAuth2UserService;
 
