@@ -31,11 +31,14 @@ public class User {
 
     private String img_url;
 
+    private String provider; // oauth로 로그인한 사용자를 구별하기 위한 필드
+    private String providerId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserEnum role; //ADMIN, CUSTOMER
 
-    private String refresh_token;
+    private String refresh;
 
     @CreatedDate //insert
     @Column(nullable = false)
@@ -46,12 +49,15 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Builder
-    public User(Long id, String name, String email, String img_url, UserEnum role, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(Long id, String name, String email, String img_url, String provider, String providerId, UserEnum role, String refresh_token, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.img_url = img_url;
+        this.provider = provider;
+        this.providerId = providerId;
         this.role = role;
+        this.refresh = refresh_token;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -64,6 +70,6 @@ public class User {
     }
 
     public void setRefreshToken(String refreshToken) {
-        this.refresh_token = refreshToken;
+        this.refresh = refreshToken;
     }
 }
