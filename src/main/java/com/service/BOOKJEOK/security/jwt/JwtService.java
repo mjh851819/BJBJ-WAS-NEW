@@ -139,7 +139,7 @@ public class JwtService {
     }
 
     @Transactional
-    public String updateRefreshTokenOfUser(User user, String token) {
+    public String updateRefreshTokenOfUser(String token) {
         String reissuedRefreshToken = createRefreshToken();
 
         userRepository.findByRefresh(token)
@@ -149,6 +149,7 @@ public class JwtService {
         return reissuedRefreshToken;
     }
 
+    //추후 사용시 테스트 코드 추가 필요함
     @Transactional
     public void removeRefreshTokenOfUser(String token) {
         userRepository.findByRefresh(token)
@@ -164,6 +165,7 @@ public class JwtService {
         response.addHeader(JwtVO.REFRESH_TOKEN_HEADER, JwtVO.TOKEN_PREFIX + token);
     }
 
+    //추후 사용시 테스트 코드 추가 필요함
     public void setResponseMessage(boolean result, HttpServletResponse response, String message) throws IOException {
         JSONObject object = new JSONObject();
         response.setContentType("application/json;charset=UTF-8");

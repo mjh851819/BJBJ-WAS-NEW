@@ -66,7 +66,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                         // 리프레쉬 토큰이 1일 이내 만료일 경우 새로 발급
                         if (jwtService.isExpiredInHourTokenOrThrow(refreshToken)) {
                             log.info("[REFRESH TOKEN] > 리프레쉬 토큰 재발급");
-                            refreshToken = jwtService.updateRefreshTokenOfUser(userByToken, refreshToken);
+                            refreshToken = jwtService.updateRefreshTokenOfUser(refreshToken);
                             jwtService.setResponseOfRefreshToken(response, refreshToken);
                         }
 
