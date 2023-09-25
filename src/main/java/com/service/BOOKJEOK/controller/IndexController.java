@@ -20,8 +20,8 @@ public class IndexController {
 
 
     @GetMapping("/tokenTest")
-    public String tokenTest(@RequestParam String access_token, @RequestParam String refresh_token) {
-        return access_token;
+    public String tokenTest(@RequestParam String Access_Token, @RequestParam String Refresh_Token) {
+        return Access_Token + '\n' + Refresh_Token;
     }
 
     @GetMapping("/auth")
