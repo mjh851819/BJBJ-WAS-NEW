@@ -2,10 +2,13 @@ package com.service.BOOKJEOK.dto.club;
 
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
+
 
 public class ClubRequestDto {
 
+    @Builder
     @Getter
     public static class ClubCreateReqDto {
         private Long userId;

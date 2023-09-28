@@ -74,4 +74,5 @@ public class User {
     public void setRefreshToken(String refreshToken) {
         this.refresh = refreshToken;
     }
+    public void setClub(Club club) {this.club = club;}
 }
