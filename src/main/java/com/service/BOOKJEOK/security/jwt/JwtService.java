@@ -3,7 +3,7 @@ package com.service.BOOKJEOK.security.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.service.BOOKJEOK.domain.User;
+import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.security.ex.JwtException;
 import lombok.RequiredArgsConstructor;

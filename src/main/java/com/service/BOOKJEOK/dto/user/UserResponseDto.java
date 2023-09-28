@@ -1,6 +1,6 @@
 package com.service.BOOKJEOK.dto.user;
 
-import com.service.BOOKJEOK.domain.User;
+import com.service.BOOKJEOK.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
 

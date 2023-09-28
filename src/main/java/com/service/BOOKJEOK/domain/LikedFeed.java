@@ -1,5 +1,6 @@
 package com.service.BOOKJEOK.domain;
 
+import com.service.BOOKJEOK.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

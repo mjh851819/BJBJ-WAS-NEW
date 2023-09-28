@@ -1,8 +1,6 @@
 package com.service.BOOKJEOK.controller;
 
-import com.service.BOOKJEOK.domain.User;
 import com.service.BOOKJEOK.dto.ResponseDto;
-import com.service.BOOKJEOK.dto.user.UserResponseDto;
 import com.service.BOOKJEOK.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,8 @@
-package com.service.BOOKJEOK.domain;
+package com.service.BOOKJEOK.domain.club;
 
+import com.service.BOOKJEOK.domain.Feed;
+import com.service.BOOKJEOK.domain.member.Member;
+import com.service.BOOKJEOK.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +32,8 @@ public class Club {
     private int max_personnel;
     private String description;
     private int likes;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ClubStatus status; // true / false
     private String tags;
 
     @OneToOne
@@ -52,19 +56,26 @@ public class Club {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Embedded
+    private Book book = new Book();
+
     @Builder
-    public Club(Long id, String title, String img_url, String contents, int max_personnel, String description, int likes, String status, String tags, User user, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Club(Long id, String title, String img_url, String contents, int max_personnel, String description, String tags, User user, LocalDateTime createdAt, LocalDateTime updatedAt,
+                String bookTitle, String author, String publisher) {
         this.id = id;
         this.title = title;
         this.img_url = img_url;
         this.contents = contents;
         this.max_personnel = max_personnel;
         this.description = description;
-        this.likes = likes;
-        this.status = status;
+        this.likes = 0;
+        this.status = ClubStatus.ACTIVE;
         this.tags = tags;
-        this.user = user;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.book.bookTitle = bookTitle;
+        this.book.author = author;
+        this.book.publisher = publisher;
+        this.user = user;
     }
 }

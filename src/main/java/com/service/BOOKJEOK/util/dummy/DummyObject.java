@@ -1,6 +1,6 @@
 package com.service.BOOKJEOK.util.dummy;
 
-import com.service.BOOKJEOK.domain.User;
+import com.service.BOOKJEOK.domain.user.User;
 
 public class DummyObject {
 

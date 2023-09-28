@@ -1,6 +1,6 @@
 package com.service.BOOKJEOK.security.dto;
 
-import com.service.BOOKJEOK.domain.User;
+import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.security.oauth.provider.OAuthAttributes;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

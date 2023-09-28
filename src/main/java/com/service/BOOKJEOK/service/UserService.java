@@ -1,7 +1,6 @@
 package com.service.BOOKJEOK.service;
 
-import com.service.BOOKJEOK.domain.User;
-import com.service.BOOKJEOK.dto.user.UserResponseDto;
+import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.user.UserResponseDto.*;
+import static com.service.BOOKJEOK.handler.ex.ExMessage.NOT_FOUND_USER;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,7 +25,7 @@ public class UserService {
         Optional<User> userPS = userRepository.findById(userId);
 
         if(userPS.isEmpty()){
-            throw new CustomApiException("유저를 찾을 수 없습니다.");
+            throw new CustomApiException(NOT_FOUND_USER);
         }
 
         return new UserSearchResDto(userPS.get());
