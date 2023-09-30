@@ -3,6 +3,7 @@ package com.service.BOOKJEOK.dto.club;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
@@ -57,5 +58,16 @@ public class ClubRequestDto {
                     .user(user)
                     .build();
         }
+    }
+
+    @Data
+    @Builder
+    @Getter
+    public static class ClubSearchReqDto {
+        @NotNull
+        private String sortBy;
+        private String tags;
+        @Size(min = 1, max = 10)
+        private String keyword;
     }
 }

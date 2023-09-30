@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor //스프링이 User 객체 생성할 때 빈 생성자로 new를 하기 때문에
@@ -33,8 +34,11 @@ public class Club {
     private String description;
     private int likes;
     @Enumerated(EnumType.STRING)
-    private ClubStatus status; // true / false
-    private String tags;
+    private ClubStatus status;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "club_id")
+    private final List<TagEntity> tags = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -70,12 +74,22 @@ public class Club {
         this.description = description;
         this.likes = 0;
         this.status = ClubStatus.ACTIVE;
-        this.tags = tags;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.book.bookTitle = bookTitle;
         this.book.author = author;
         this.book.publisher = publisher;
         this.user = user;
+        
+        // issue : 반드시 리펙토링 해야함. 코드가 부끄러움
+        List<String> tagList = Arrays.asList(tags.split(","));
+
+        for (int i = 0; i < tagList.size(); i++) {
+            if(tagList.get(i).equals(Tag.SMALL.getValue())) this.tags.add(new TagEntity(Tag.SMALL));
+            if(tagList.get(i).equals(Tag.OFFLINE.getValue())) this.tags.add(new TagEntity(Tag.OFFLINE));
+            if(tagList.get(i).equals(Tag.ONLINE.getValue())) this.tags.add(new TagEntity(Tag.ONLINE));
+            if(tagList.get(i).equals(Tag.CAPITAL.getValue())) this.tags.add(new TagEntity(Tag.CAPITAL));
+            if(tagList.get(i).equals(Tag.LOCAL.getValue())) this.tags.add(new TagEntity(Tag.LOCAL));
+        }
     }
 }
