@@ -1,5 +1,7 @@
-package com.service.BOOKJEOK.domain;
+package com.service.BOOKJEOK.domain.member;
 
+import com.service.BOOKJEOK.domain.club.Club;
+import com.service.BOOKJEOK.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

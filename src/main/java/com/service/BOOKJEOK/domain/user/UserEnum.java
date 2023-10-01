@@ -1,4 +1,4 @@
-package com.service.BOOKJEOK.domain;
+package com.service.BOOKJEOK.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

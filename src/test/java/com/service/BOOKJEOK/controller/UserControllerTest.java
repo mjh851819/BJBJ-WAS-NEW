@@ -1,20 +1,16 @@
 package com.service.BOOKJEOK.controller;
 
-import com.service.BOOKJEOK.domain.User;
-import com.service.BOOKJEOK.domain.UserEnum;
-import com.service.BOOKJEOK.dto.user.UserRequestDto;
+import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.domain.user.UserEnum;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
+
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -23,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -69,10 +64,10 @@ class UserControllerTest extends DummyObject {
     @Test
     public void searchUser_Test() throws Exception {
         //given
-        Long id = 1L;
+        User userPS = userRepository.findByEmail("mjh8518@naver.com").get();
 
         //when
-        ResultActions resultActions = mvc.perform(get("/users/" + id));
+        ResultActions resultActions = mvc.perform(get("/users/" + userPS.getId()));
         //String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
         //then

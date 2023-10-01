@@ -1,6 +1,6 @@
 package com.service.BOOKJEOK.security.dto;
 
-import com.service.BOOKJEOK.domain.User;
+import com.service.BOOKJEOK.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

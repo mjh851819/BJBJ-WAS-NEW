@@ -1,11 +1,10 @@
 package com.service.BOOKJEOK.security.filter;
 
-import com.service.BOOKJEOK.domain.User;
-import com.service.BOOKJEOK.domain.UserEnum;
+import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.domain.user.UserEnum;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.security.jwt.JwtService;
 import com.service.BOOKJEOK.security.jwt.JwtVO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

@@ -1,6 +1,6 @@
 package com.service.BOOKJEOK.security.filter;
 
-import com.service.BOOKJEOK.domain.User;
+import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.security.dto.PrincipalUserDetails;
 import com.service.BOOKJEOK.security.jwt.JwtError;
 import com.service.BOOKJEOK.security.jwt.JwtService;

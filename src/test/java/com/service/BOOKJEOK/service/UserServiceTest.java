@@ -1,7 +1,6 @@
 package com.service.BOOKJEOK.service;
 
-import com.service.BOOKJEOK.domain.User;
-import com.service.BOOKJEOK.dto.user.UserResponseDto;
+import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
@@ -14,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.user.UserResponseDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

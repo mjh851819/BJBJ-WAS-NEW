@@ -1,5 +1,6 @@
-package com.service.BOOKJEOK.domain;
+package com.service.BOOKJEOK.domain.user;
 
+import com.service.BOOKJEOK.domain.club.Club;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor //스프링이 User 객체 생성할 때 빈 생성자로 new를 하기 때문에
 @Getter
@@ -39,6 +38,9 @@ public class User {
     private UserEnum role; //ADMIN, CUSTOMER
 
     private String refresh;
+
+    @OneToOne(mappedBy = "user")
+    private Club club;
 
     @CreatedDate //insert
     @Column(nullable = false)
@@ -72,4 +74,5 @@ public class User {
     public void setRefreshToken(String refreshToken) {
         this.refresh = refreshToken;
     }
+    public void setClub(Club club) {this.club = club;}
 }

@@ -1,8 +1,8 @@
 package com.service.BOOKJEOK.security.oauth.provider;
 
 
-import com.service.BOOKJEOK.domain.User;
-import com.service.BOOKJEOK.domain.UserEnum;
+import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.domain.user.UserEnum;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
