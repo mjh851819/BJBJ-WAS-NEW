@@ -80,22 +80,6 @@ class ClubRepositoryTest {
         //when
         Page<Club> clubs = clubRepository.searchClub(clubSearchReqDto, pageRequest);
 
-        /*
-        System.out.println("총 개수 : " + clubs.getTotalElements());
-        System.out.println("페이지 : " + clubs.getTotalPages());
-        List<ClubSearchResDto> collect = clubs.stream().map(m ->
-                ClubSearchResDto.builder()
-                        .id(m.getId())
-                        .title(m.getTitle())
-                        .contents(m.getContents())
-                        .img_url(m.getImg_url())
-                        .tags(m.getTags())
-                        .likes(m.getLikes())
-                        .build()
-        ).collect(Collectors.toList());
-
-        System.out.println("테스트: " + collect);
-         */
 
         //then
         Assertions.assertThat(clubs.getTotalPages()).isEqualTo(5);

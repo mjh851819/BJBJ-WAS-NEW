@@ -63,10 +63,10 @@ class UserControllerTest extends DummyObject {
     @Test
     public void searchUser_Test() throws Exception {
         //given
-        Long id = 1L;
+        User userPS = userRepository.findByEmail("mjh8518@naver.com").get();
 
         //when
-        ResultActions resultActions = mvc.perform(get("/users/" + id));
+        ResultActions resultActions = mvc.perform(get("/users/" + userPS.getId()));
         //String responseBody = resultActions.andReturn().getResponse().getContentAsString();
 
         //then

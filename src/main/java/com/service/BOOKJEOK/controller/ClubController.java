@@ -32,12 +32,20 @@ public class ClubController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getClubs(
+    public ResponseEntity<?> getClubList(
             ClubSearchReqDto clubSearchReqDto,
             @PageableDefault(size = 9) Pageable pageable) {
 
         ClubSearchPageResDto res = clubService.searchClub(clubSearchReqDto, pageable);
 
         return new ResponseEntity<>(new ResponseDto<>(1, "클럽 검색 성공", res), HttpStatus.OK);
+    }
+
+    @GetMapping("/{clubId}")
+    public ResponseEntity<?> getClubDetail(
+            @PathVariable Long clubId) {
+
+        ClubSearchDetailResDto res = clubService.findClubById(clubId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "클럽 상세검색 성공", res), HttpStatus.OK);
     }
 }

@@ -7,6 +7,7 @@ import com.service.BOOKJEOK.domain.user.UserEnum;
 import com.service.BOOKJEOK.dto.club.ClubRequestDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
+import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.util.Optional;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class ClubControllerTest {
+class ClubControllerTest extends DummyObject {
 
     @Autowired
     private MockMvc mvc;
@@ -58,6 +61,7 @@ class ClubControllerTest {
                 .role(UserEnum.USER)
                 .build();
         userRepository.save(user);
+
         for (int i = 0; i < 10; i++) {
             clubRepository.save(Club.builder()
                     .title("q1" + i)
@@ -71,14 +75,16 @@ class ClubControllerTest {
     @Test
     public void createClub_success_Test() throws Exception {
         //given
+        User userPS = userRepository.findByEmail("abc@abc").get();
+
         ClubRequestDto.ClubCreateReqDto clubCreateReqDto = ClubRequestDto.ClubCreateReqDto.builder()
-                .userId(1L)
+                .userId(userPS.getId())
                 .title("mjhClub")
                 .img_url("123")
                 .contents("abc")
                 .max_personnel(3)
                 .description("good")
-                .tags("123")
+                .tags("온라인")
                 .bookTitle("qewr")
                 .author("min")
                 .publisher("abc")
@@ -94,6 +100,7 @@ class ClubControllerTest {
         resultActions.andExpect(status().isCreated());
     }
 
+    @WithMockUser
     @Test
     public void search_club_Test() throws Exception {
         //given
@@ -106,6 +113,27 @@ class ClubControllerTest {
 
         //String contentAsString = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println("테스트 : " + contentAsString);
+
+        //then
+        resultActions.andExpect(status().isOk());
+
+    }
+
+    @WithMockUser
+    @Test
+    public void getClubDetail_test() throws Exception {
+        //given
+        Long myClubId = 100L;
+        User myUser = newMockUser(101L, "juhong", "mjh8518@naver.com");
+        User myUserPS = userRepository.save(myUser);
+
+        Club myClub = newMockClub(myClubId, "MyClub", myUserPS);
+        Club myClubPS = clubRepository.save(myClub);
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/clubs/" + myClubPS.getId()));
+        //String contentAsString = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println(contentAsString);
 
         //then
         resultActions.andExpect(status().isOk());

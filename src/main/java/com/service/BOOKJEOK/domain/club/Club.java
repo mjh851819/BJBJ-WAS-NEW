@@ -80,8 +80,7 @@ public class Club {
         this.book.author = author;
         this.book.publisher = publisher;
         this.user = user;
-        
-        // issue : 반드시 리펙토링 해야함. 코드가 부끄러움
+
         List<String> tagList = Arrays.asList(tags.split(","));
 
         for (int i = 0; i < tagList.size(); i++) {

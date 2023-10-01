@@ -32,6 +32,7 @@ public class ClubRequestDto {
         private int max_personnel;
         @Size(min = 1, max = 300)
         private String description;
+        @NotEmpty
         private String tags;
         @NotEmpty
         @Size(min = 1, max = 20)

@@ -3,6 +3,7 @@ package com.service.BOOKJEOK.service;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.club.TagEntity;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.user.UserResponseDto;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.UserRepository;
@@ -81,13 +82,14 @@ class ClubServiceTest extends DummyObject {
         ClubCreateReqDto clubCreateReqDto = ClubCreateReqDto.builder()
                 .userId(1L)
                 .title("mjhClub")
+                .tags("온라인,오프라인")
                 .build();
 
         //stub 1
         User user = newMockUser(1L, "mjh", "abc@abc");
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
         //stub 2
-        Club club = newMockClub(1L, "mjhClub");
+        Club club = newMockClub(1L, "mjhClub", user);
         when(clubRepository.save(any())).thenReturn(club);
         //stub 3
 
@@ -129,11 +131,34 @@ class ClubServiceTest extends DummyObject {
 
         //when
         ClubSearchPageResDto res = clubService.searchClub(req, pageRequest);
-        //System.out.println("테스트 : " + res.getClubList().get(0).getTags());
+        System.out.println("테스트 : " + res.getClubList().get(0).getTags());
 
         //then
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
         Assertions.assertThat(res.getClubList().size()).isEqualTo(1);
+    }
+
+    @Test
+    public void findClubById_Test() throws Exception {
+        //given
+        Long clubId = 1L;
+        Long userId = 1L;
+        String userName= "mjh";
+        String email = "abc@abc";
+        String myTitle = "MyClub";
+
+        //when
+        User user = newMockUser(userId, userName, email);
+        Club club = newMockClub(clubId, "MyClub", user);
+        when(clubRepository.findById(clubId)).thenReturn(Optional.of(club));
+
+        ClubSearchDetailResDto res = clubService.findClubById(clubId);
+
+        //then
+        Assertions.assertThat(res.getTitle()).isEqualTo(myTitle);
+        Assertions.assertThat(res.getClubId()).isEqualTo(clubId);
+        Assertions.assertThat(res.getUserId()).isEqualTo(userId);
 
     }
+
 }

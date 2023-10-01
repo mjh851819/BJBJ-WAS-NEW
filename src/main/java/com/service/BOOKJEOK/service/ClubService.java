@@ -47,16 +47,25 @@ public class ClubService {
         Page<Club> clubs = clubRepository.searchClub(clubSearchReqDto, pageable);
 
         List<ClubSearchResDto> collect = clubs.stream().map(m ->
-                ClubSearchResDto.builder()
+                /*ClubSearchResDto.builder()
                         .id(m.getId())
                         .title(m.getTitle())
                         .contents(m.getContents())
                         .img_url(m.getImg_url())
                         .tags(m.getTags())
                         .likes(m.getLikes())
-                        .build()
+                        .build()*/
+                new ClubSearchResDto(m)
         ).collect(Collectors.toList());
 
         return new ClubSearchPageResDto((int) clubs.getTotalElements(), collect);
+    }
+
+    public ClubSearchDetailResDto findClubById(Long clubId) {
+        Club clubPS = clubRepository.findById(clubId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
+
+        ClubSearchDetailResDto clubSearchDetailResDto = new ClubSearchDetailResDto(clubPS);
+
+        return clubSearchDetailResDto;
     }
 }
