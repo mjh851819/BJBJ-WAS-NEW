@@ -158,7 +158,28 @@ class ClubServiceTest extends DummyObject {
         Assertions.assertThat(res.getTitle()).isEqualTo(myTitle);
         Assertions.assertThat(res.getClubId()).isEqualTo(clubId);
         Assertions.assertThat(res.getUserId()).isEqualTo(userId);
+    }
 
+    @Test
+    public void findClubByUserId_Test() throws Exception {
+        //given
+        Long clubId = 1L;
+        Long userId = 1L;
+        String userName= "mjh";
+        String email = "abc@abc";
+        String myTitle = "MyClub";
+
+        //when
+        User user = newMockUser(userId, userName, email);
+        Club club = newMockClub(clubId, "MyClub", user);
+        when(clubRepository.findByUserId(userId)).thenReturn(Optional.of(club));
+
+        ClubSearchDetailResDto res = clubService.findClubByUserId(userId);
+
+        //then
+        Assertions.assertThat(res.getTitle()).isEqualTo(myTitle);
+        Assertions.assertThat(res.getClubId()).isEqualTo(clubId);
+        Assertions.assertThat(res.getUserId()).isEqualTo(userId);
     }
 
 }

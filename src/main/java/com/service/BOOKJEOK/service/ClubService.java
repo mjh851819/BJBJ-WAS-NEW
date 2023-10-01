@@ -68,4 +68,13 @@ public class ClubService {
 
         return clubSearchDetailResDto;
     }
+
+    public ClubSearchDetailResDto findClubByUserId(Long userId) {
+        Club clubPS = clubRepository.findByUserId(userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
+
+        ClubSearchDetailResDto clubSearchDetailResDto = new ClubSearchDetailResDto(clubPS);
+
+        return clubSearchDetailResDto;
+    }
+
 }

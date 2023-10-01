@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -134,6 +135,27 @@ class ClubControllerTest extends DummyObject {
         ResultActions resultActions = mvc.perform(get("/clubs/" + myClubPS.getId()));
         //String contentAsString = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println(contentAsString);
+
+        //then
+        resultActions.andExpect(status().isOk());
+
+    }
+
+    @WithMockUser
+    @Test
+    public void getUserClub_test() throws Exception {
+        //given
+        Long myClubId = 100L;
+        User myUser = newMockUser(101L, "juhong", "mjh8518@naver.com");
+        User myUserPS = userRepository.save(myUser);
+
+        Club myClub = newMockClub(myClubId, "MyClub", myUserPS);
+        Club myClubPS = clubRepository.save(myClub);
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/clubs/users/" + myUserPS.getId()));
+        String contentAsString = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println(contentAsString);
 
         //then
         resultActions.andExpect(status().isOk());

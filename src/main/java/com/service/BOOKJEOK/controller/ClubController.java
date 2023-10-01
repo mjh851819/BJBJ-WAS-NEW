@@ -48,4 +48,12 @@ public class ClubController {
         ClubSearchDetailResDto res = clubService.findClubById(clubId);
         return new ResponseEntity<>(new ResponseDto<>(1, "클럽 상세검색 성공", res), HttpStatus.OK);
     }
+
+    //사용자가 만든 독서모임 조회
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<?> getUserClub(
+            @PathVariable Long userId) {
+        ClubSearchDetailResDto res = clubService.findClubByUserId(userId);
+        return new ResponseEntity<>(new ResponseDto<>(1, "클럽 상세검색 성공", res), HttpStatus.OK);
+    }
 }

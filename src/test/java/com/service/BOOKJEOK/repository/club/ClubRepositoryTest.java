@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.club.Tag;
 import com.service.BOOKJEOK.domain.club.TagEntity;
+import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.club.ClubRequestDto;
 import com.service.BOOKJEOK.dto.club.ClubResponseDto;
+import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,35 +31,16 @@ import static com.service.BOOKJEOK.dto.club.ClubResponseDto.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-class ClubRepositoryTest {
+class ClubRepositoryTest extends DummyObject {
 
     @Autowired
     private ClubRepository clubRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     public void setUp() {
         System.out.println("초기화 시작");
-        /*
-        Club club1 = Club.builder()
-                .title("abc")
-                .tags("소모임,오프라인,온라인")
-                .build();
-        Club club2 = Club.builder()
-                .title("def")
-                .tags("온라인")
-                .build();
-        Club club3 = Club.builder()
-                .title("gea")
-                .tags("오프라인,온라인")
-                .build();
-        Club club4 = Club.builder()
-                .title("qqq")
-                .tags("소모임")
-                .build();
-        clubRepository.save(club1);
-        clubRepository.save(club2);
-        clubRepository.save(club3);
-        clubRepository.save(club4);*/
 
         for (int i = 0; i < 10; i++) {
             clubRepository.save(Club.builder()
@@ -84,6 +68,29 @@ class ClubRepositoryTest {
         //then
         Assertions.assertThat(clubs.getTotalPages()).isEqualTo(5);
         Assertions.assertThat(clubs.getTotalElements()).isEqualTo(10);
+    }
+
+    @Test
+    public void findByUserId_Test() {
+        //given
+        Long clubId = 1L;
+        Long userId = 1L;
+        String userName= "mjh";
+        String email = "abc@abc";
+        String myTitle = "MyClub";
+
+        User user = newMockUser(userId, userName, email);
+        User userPS = userRepository.save(user);
+        Club club = newJpaClub(clubId, myTitle, userPS);
+        Club clubPS = clubRepository.save(club);
+
+        //when
+        Club res = clubRepository.findByUserId(userPS.getId()).get();
+        //System.out.println("테스트 : " + res.getTitle());
+
+        //then
+        Assertions.assertThat(res.getTitle()).isEqualTo(myTitle);
+        Assertions.assertThat(res.getUser().getName()).isEqualTo(userName);
 
     }
 
