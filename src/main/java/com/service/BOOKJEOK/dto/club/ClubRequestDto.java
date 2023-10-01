@@ -27,7 +27,7 @@ public class ClubRequestDto {
         @Size(min = 1, max = 30)
         private String contents;
         @NotNull
-        private Integer max_personnel;
+        private int max_personnel;
         @Size(min = 1, max = 300)
         private String description;
         @NotEmpty

@@ -44,6 +44,7 @@ class ClubServiceTest extends DummyObject {
                 .userId(1L)
                 .title("mjhClub")
                 .tags("소모임,오프라인,온라인")
+                .max_personnel(3)
                 .build();
         //when
         User user = newMockUser(1L, "mjh", "abc@abc");
