@@ -3,6 +3,7 @@ package com.service.BOOKJEOK.domain.club;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.club.ClubRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.service.BOOKJEOK.dto.club.ClubRequestDto.*;
 
 @NoArgsConstructor //스프링이 User 객체 생성할 때 빈 생성자로 new를 하기 때문에
 @Getter
@@ -38,7 +41,7 @@ public class Club {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "club_id")
-    private final List<TagEntity> tags = new ArrayList<>();
+    private List<TagEntity> tags = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -46,11 +49,11 @@ public class Club {
 
     //ERD에 추가
     @OneToMany(mappedBy = "club")
-    private final List<Member> memberList = new ArrayList<>();
+    private List<Member> memberList = new ArrayList<>();
 
     //ERD에 추가
     @OneToMany(mappedBy = "club")
-    private final List<Feed> feedList = new ArrayList<>();
+    private List<Feed> feedList = new ArrayList<>();
 
     @CreatedDate //insert
     @Column(nullable = false)
@@ -81,14 +84,46 @@ public class Club {
         this.book.publisher = publisher;
         this.user = user;
 
-        List<String> tagList = Arrays.asList(tags.split(","));
+        List<TagEntity> tagEntities = makeTags(tags);
+        this.tags = tagEntities;
+    }
+
+    public void updateClub(ClubUpdateReqDto req) {
+        this.title = req.getTitle();
+        this.img_url = req.getImg_url();
+        this.contents = req.getContents();
+        this.max_personnel = req.getMax_personnel();
+        this.description = req.getDescription();
+        this.updatedAt = LocalDateTime.now();
+
+        Book book = Book.builder()
+                .author(req.getAuthor())
+                .bookTitle(req.getBookTitle())
+                .publisher(req.getPublisher())
+                .build();
+        this.book = book;
+
+        List<TagEntity> tagEntities = makeTags(req.getTags());
+        this.tags.clear();
+        this.tags.addAll(
+                tagEntities
+        );
+    }
+
+    private List<TagEntity> makeTags (String tag){
+        List<String> tagList = Arrays.asList(tag.split(","));
+
+        List<TagEntity> tags = new ArrayList<>();
 
         for (int i = 0; i < tagList.size(); i++) {
-            if(tagList.get(i).equals(Tag.SMALL.getValue())) this.tags.add(new TagEntity(Tag.SMALL));
-            if(tagList.get(i).equals(Tag.OFFLINE.getValue())) this.tags.add(new TagEntity(Tag.OFFLINE));
-            if(tagList.get(i).equals(Tag.ONLINE.getValue())) this.tags.add(new TagEntity(Tag.ONLINE));
-            if(tagList.get(i).equals(Tag.CAPITAL.getValue())) this.tags.add(new TagEntity(Tag.CAPITAL));
-            if(tagList.get(i).equals(Tag.LOCAL.getValue())) this.tags.add(new TagEntity(Tag.LOCAL));
+            if(tagList.get(i).equals(Tag.SMALL.getValue())) tags.add(new TagEntity(Tag.SMALL));
+            if(tagList.get(i).equals(Tag.OFFLINE.getValue())) tags.add(new TagEntity(Tag.OFFLINE));
+            if(tagList.get(i).equals(Tag.ONLINE.getValue())) tags.add(new TagEntity(Tag.ONLINE));
+            if(tagList.get(i).equals(Tag.CAPITAL.getValue())) tags.add(new TagEntity(Tag.CAPITAL));
+            if(tagList.get(i).equals(Tag.LOCAL.getValue())) tags.add(new TagEntity(Tag.LOCAL));
         }
+
+        return tags;
     }
+
 }

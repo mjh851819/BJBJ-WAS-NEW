@@ -182,4 +182,35 @@ class ClubServiceTest extends DummyObject {
         Assertions.assertThat(res.getUserId()).isEqualTo(userId);
     }
 
+    @Test
+    public void updateClub() throws Exception {
+        //given
+        Long clubId = 1L;
+        Long userId = 1L;
+        String userName= "mjh";
+        String email = "abc@abc";
+        String myTitle = "MyClub";
+
+        User user = newMockUser(userId, userName, email);
+        Club club = newMockClub(clubId, "MyClub", user);
+        ClubUpdateReqDto req = ClubUpdateReqDto.builder()
+                .clubId(1L)
+                .title("update")
+                .img_url("update")
+                .contents("update")
+                .max_personnel(1)
+                .description("update")
+                .tags("소모임")
+                .bookTitle("update")
+                .author("update")
+                .publisher("update")
+                .build();
+
+        //when
+        when(clubRepository.findByUserId(any())).thenReturn(Optional.of(club));
+
+        //then
+        clubService.updateClub(req, userId);
+    }
+
 }

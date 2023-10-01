@@ -16,8 +16,6 @@ public class ClubRequestDto {
     @Builder
     @Getter
     public static class ClubCreateReqDto {
-
-
         @NotNull
         private Long userId;
         @NotEmpty
@@ -29,7 +27,7 @@ public class ClubRequestDto {
         @Size(min = 1, max = 30)
         private String contents;
         @NotNull
-        private int max_personnel;
+        private Integer max_personnel;
         @Size(min = 1, max = 300)
         private String description;
         @NotEmpty
@@ -70,5 +68,35 @@ public class ClubRequestDto {
         private String tags;
         @Size(min = 1, max = 10)
         private String keyword;
+    }
+
+    @Builder
+    @Getter
+    public static class ClubUpdateReqDto {
+        @NotNull
+        private Long clubId;
+        @NotEmpty
+        @Size(min = 2, max = 10)
+        private String title;
+        @NotEmpty
+        private String img_url;
+        @NotEmpty
+        @Size(min = 1, max = 30)
+        private String contents;
+        @NotNull
+        private int max_personnel;
+        @Size(min = 1, max = 300)
+        private String description;
+        @NotEmpty
+        private String tags;
+        @NotEmpty
+        @Size(min = 1, max = 20)
+        private String bookTitle;
+        @NotEmpty
+        @Size(min = 1, max = 15)
+        private String author;
+        @NotEmpty
+        @Size(min = 1, max = 10)
+        private String publisher;
     }
 }

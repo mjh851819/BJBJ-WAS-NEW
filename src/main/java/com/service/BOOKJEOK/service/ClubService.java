@@ -77,4 +77,15 @@ public class ClubService {
         return clubSearchDetailResDto;
     }
 
+    @Transactional
+    public void updateClub(ClubUpdateReqDto requestDto, Long userId) {
+        Club clubPS = clubRepository.findByUserId(userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
+
+        if(clubPS.getUser().getId() != userId) {
+            throw new CustomApiException(ExMessage.FORBIDDEN);
+        }
+
+        clubPS.updateClub(requestDto);
+    }
+
 }

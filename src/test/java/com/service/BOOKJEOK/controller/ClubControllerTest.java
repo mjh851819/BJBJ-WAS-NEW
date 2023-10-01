@@ -24,10 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,6 +47,8 @@ class ClubControllerTest extends DummyObject {
     private WebApplicationContext ctx;
     @Autowired
     private ObjectMapper om;
+    @Autowired
+    private EntityManager em;
 
     @BeforeEach
     public void setUp(){
@@ -94,8 +96,8 @@ class ClubControllerTest extends DummyObject {
 
         //when
         ResultActions resultActions = mvc.perform(post("/clubs").content(dto).contentType(MediaType.APPLICATION_JSON));
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println(responseBody);
+        //String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println(responseBody);
 
         //then
         resultActions.andExpect(status().isCreated());
@@ -154,12 +156,47 @@ class ClubControllerTest extends DummyObject {
 
         //when
         ResultActions resultActions = mvc.perform(get("/clubs/users/" + myUserPS.getId()));
-        String contentAsString = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println(contentAsString);
+        //String contentAsString = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println(contentAsString);
 
         //then
         resultActions.andExpect(status().isOk());
+    }
 
+    @WithMockUser
+    @Test
+    public void updateClub() throws Exception {
+        //given
+        Long myClubId = 100L;
+        User myUser = newMockUser(101L, "juhong", "mjh8518@naver.com");
+        User myUserPS = userRepository.save(myUser);
+
+        Club myClub = newMockClub(myClubId, "MyClub", myUserPS);
+        Club myClubPS = clubRepository.save(myClub);
+        ClubRequestDto.ClubUpdateReqDto req = ClubRequestDto.ClubUpdateReqDto.builder()
+                .clubId(1L)
+                .title("update")
+                .img_url("update")
+                .contents("update")
+                .max_personnel(1)
+                .description("update")
+                .tags("소모임")
+                .bookTitle("update")
+                .author("update")
+                .publisher("update")
+                .build();
+        String dto = om.writeValueAsString(req);
+
+        em.flush();
+        em.clear();
+
+        //when
+        ResultActions resultActions = mvc.perform(put("/clubs/users/" + myUserPS.getId()).content(dto).contentType(MediaType.APPLICATION_JSON));
+        //String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + responseBody);
+
+        //then
+        resultActions.andExpect(status().isOk());
     }
 
 }

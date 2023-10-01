@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import javax.persistence.EntityManager;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.List;
@@ -37,6 +38,8 @@ class ClubRepositoryTest extends DummyObject {
     private ClubRepository clubRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EntityManager em;
 
     @BeforeEach
     public void setUp() {
@@ -91,6 +94,48 @@ class ClubRepositoryTest extends DummyObject {
         //then
         Assertions.assertThat(res.getTitle()).isEqualTo(myTitle);
         Assertions.assertThat(res.getUser().getName()).isEqualTo(userName);
+    }
+
+    @Test
+    public void clubUpdate_Test() throws Exception {
+        //given
+        Long clubId = 1L;
+        Long userId = 1L;
+        String userName= "mjh";
+        String email = "abc@abc";
+        String myTitle = "MyClub";
+
+        User user = newMockUser(userId, userName, email);
+        User userPS = userRepository.save(user);
+        Club club = newJpaClub(clubId, myTitle, userPS);
+        Club clubPS = clubRepository.save(club);
+
+        ClubUpdateReqDto req = ClubUpdateReqDto.builder()
+                .clubId(clubPS.getId())
+                .title("update")
+                .img_url("update")
+                .contents("update")
+                .max_personnel(1)
+                .description("update")
+                .tags("소모임")
+                .bookTitle("update")
+                .author("update")
+                .publisher("update")
+                .build();
+
+        //when
+        em.flush();
+        em.clear();
+        Club findClub = clubRepository.findByUserId(userPS.getId()).get();
+        findClub.updateClub(req);
+        em.flush();
+        em.clear();
+        Club res = clubRepository.findByUserId(userPS.getId()).get();
+        //System.out.println("테스트 : " + res.getTags().get(0).getTag().getValue());
+
+        //then
+        Assertions.assertThat(res.getTitle()).isEqualTo("update");
+
 
     }
 
