@@ -88,4 +88,12 @@ public class ClubService {
         clubPS.updateClub(requestDto);
     }
 
+    public void deleteClub(Long userId) {
+        Club club = clubRepository.findByUserId(userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
+        // TO DO : 추후 구현 필요!
+        //commentRepository.deleteAllByClub(club);
+        //likedClubRepository.deleteByClub(club);
+        //memberRepository.deleteAllByClub(club);
+        clubRepository.delete(club);
+    }
 }

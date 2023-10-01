@@ -213,4 +213,24 @@ class ClubServiceTest extends DummyObject {
         clubService.updateClub(req, userId);
     }
 
+    @Test
+    public void deleteClub_Test() throws Exception {
+        //given
+        Long clubId = 1L;
+        Long userId = 1L;
+        String userName= "mjh";
+        String email = "abc@abc";
+        String myTitle = "MyClub";
+
+        User user = newMockUser(userId, userName, email);
+        Club club = newMockClub(clubId, "MyClub", user);
+
+        //when
+        when(clubRepository.findByUserId(any())).thenReturn(Optional.of(club));
+
+        //then
+        clubService.deleteClub(userId);
+    }
+
+
 }

@@ -31,7 +31,7 @@ public class ClubController {
     public ResponseEntity<?> createClub(@RequestBody @Valid ClubCreateReqDto reqDto, BindingResult bindingResult) {
         ClubCreateResDto res = clubService.createClub(reqDto);
 
-        return new ResponseEntity<>(new ResponseDto<>(1, "클럽 생성 성공", res), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 생성 성공", res), HttpStatus.CREATED);
     }
 
     //독서모임 리스트 조회
@@ -42,7 +42,7 @@ public class ClubController {
 
         ClubSearchPageResDto res = clubService.searchClub(clubSearchReqDto, pageable);
 
-        return new ResponseEntity<>(new ResponseDto<>(1, "클럽 검색 성공", res), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 검색 성공", res), HttpStatus.OK);
     }
 
     //독서모임 상세조회
@@ -51,7 +51,7 @@ public class ClubController {
             @PathVariable Long clubId) {
 
         ClubSearchDetailResDto res = clubService.findClubById(clubId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "클럽 상세검색 성공", res), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 상세검색 성공", res), HttpStatus.OK);
     }
 
     //사용자가 만든 독서모임 조회
@@ -59,7 +59,7 @@ public class ClubController {
     public ResponseEntity<?> getUserClub(
             @PathVariable Long userId) {
         ClubSearchDetailResDto res = clubService.findClubByUserId(userId);
-        return new ResponseEntity<>(new ResponseDto<>(1, "클럽 상세검색 성공", res), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 상세검색 성공", res), HttpStatus.OK);
     }
 
     // 독서모임 수정 (my page)
@@ -73,6 +73,15 @@ public class ClubController {
 
         clubService.updateClub(clubUpdateReqDto, userId);
 
-        return new ResponseEntity<>(new ResponseDto<>(1, "클럽 업데이트 성공", null), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 업데이트 성공", null), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<?> deleteClub(
+            @PathVariable Long userId) {
+
+        clubService.deleteClub(userId);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 삭제 성공", null), HttpStatus.OK);
     }
 }

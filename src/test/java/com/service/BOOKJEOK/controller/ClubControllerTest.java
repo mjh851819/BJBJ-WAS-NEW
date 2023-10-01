@@ -198,5 +198,21 @@ class ClubControllerTest extends DummyObject {
         //then
         resultActions.andExpect(status().isOk());
     }
+    @WithMockUser
+    @Test
+    public void deleteClub_Test() throws Exception {
+        //given
+        Long myClubId = 100L;
+        User myUser = newMockUser(101L, "juhong", "mjh8518@naver.com");
+        User myUserPS = userRepository.save(myUser);
 
+        Club myClub = newMockClub(myClubId, "MyClub", myUserPS);
+        Club myClubPS = clubRepository.save(myClub);
+        //when
+        ResultActions resultActions = mvc.perform(delete("/clubs/users/" + myUserPS.getId()));
+
+        //then
+        resultActions.andExpect(status().isOk());
+
+    }
 }
