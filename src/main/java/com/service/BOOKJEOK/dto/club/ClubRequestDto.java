@@ -44,7 +44,6 @@ public class ClubRequestDto {
 
         public Club toEntity(User user){
             return Club.builder()
-                    .id(userId)
                     .title(title)
                     .img_url(img_url)
                     .contents(contents)
