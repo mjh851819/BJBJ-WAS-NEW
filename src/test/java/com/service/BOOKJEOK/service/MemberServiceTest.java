@@ -124,4 +124,25 @@ class MemberServiceTest extends DummyObject {
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
     }
 
+    @Test
+    public void getJoiningClubList() throws Exception {
+        //given
+        Long userId = 1L;
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //stub
+        List<MemberJoiningClubResDto> dto = new ArrayList<>();
+        dto.add(new MemberJoiningClubResDto(1L, "myclub", "abc", "hello", 1));
+        Page<MemberJoiningClubResDto> clubPage = new PageImpl<>(dto, pageRequest, 1);
+
+        when(memberRepository.searchJoiningClubs(any(), any())).thenReturn(clubPage);
+
+        //when
+        MemberJoiningClubsPageResDto res = memberService.getJoiningClubList(userId, pageRequest);
+
+        //then
+        Assertions.assertThat(res.getClubList().get(0).getTitle()).isEqualTo("myclub");
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
+    }
+
 }

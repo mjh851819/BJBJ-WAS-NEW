@@ -8,4 +8,6 @@ import static com.service.BOOKJEOK.dto.member.MemberResponseDto.*;
 
 public interface MemberRepositoryCustom {
     Page<MemberSearchResDto> searchMember(Long userId, ApprovalStatus status, Pageable pageable);
+
+    Page<MemberJoiningClubResDto> searchJoiningClubs(Long userId, Pageable pageable);
 }

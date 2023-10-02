@@ -82,4 +82,10 @@ public class MemberService {
 
         return new MemberSearchPageResDto((int) res.getTotalElements(), res.getContent());
     }
+
+    public MemberJoiningClubsPageResDto getJoiningClubList(Long userId, Pageable pageable) {
+        Page<MemberJoiningClubResDto> res = memberRepository.searchJoiningClubs(userId, pageable);
+
+        return new MemberJoiningClubsPageResDto((int) res.getTotalElements(), res.getContent());
+    }
 }

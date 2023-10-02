@@ -64,5 +64,16 @@ public class MemberController {
         return new ResponseEntity<>(new ResponseDto<>(1, "멤버 검색 성공", res), HttpStatus.OK);
     }
 
+    //참여중인 독서모임 조회
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<?> getJoiningClubs(
+            @PathVariable("userId") Long userId,
+            @PageableDefault(size = 4) Pageable pageable) {
+
+        MemberJoiningClubsPageResDto res = memberService.getJoiningClubList(userId, pageable);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 검색 성공", res), HttpStatus.OK);
+    }
+
 
 }

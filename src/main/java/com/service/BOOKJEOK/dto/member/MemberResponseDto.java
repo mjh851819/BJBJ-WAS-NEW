@@ -1,31 +1,21 @@
 package com.service.BOOKJEOK.dto.member;
 
 import com.querydsl.core.annotations.QueryProjection;
-import com.service.BOOKJEOK.domain.club.Club;
-import com.service.BOOKJEOK.domain.club.TagEntity;
 import com.service.BOOKJEOK.domain.member.ApprovalStatus;
-import com.service.BOOKJEOK.dto.club.ClubResponseDto;
-import lombok.Builder;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MemberResponseDto {
 
+    @AllArgsConstructor
     @Getter
     public static class MemberSearchPageResDto {
         private int totalCount;
         private List<MemberSearchResDto> memberList;
-
-        public MemberSearchPageResDto(int totalCount, List<MemberSearchResDto> memberList) {
-            this.totalCount = totalCount;
-            this.memberList = memberList;
-        }
     }
 
-    @Data
     @Getter
     public static class MemberSearchResDto {
         private Long memberId;
@@ -45,6 +35,31 @@ public class MemberResponseDto {
             this.name = name;
             this.email = email;
             this.status = status.getValue();
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static public class MemberJoiningClubsPageResDto {
+        private int totalCount;
+        private List<MemberJoiningClubResDto> clubList;
+    }
+
+    @Getter
+    static public class MemberJoiningClubResDto {
+        private Long id;
+        private String title;
+        private String imgUrl;
+        private String contents;
+        private int likes;
+
+        @QueryProjection
+        public MemberJoiningClubResDto(Long id, String title, String imgUrl, String contents, int likes) {
+            this.id = id;
+            this.title = title;
+            this.imgUrl = imgUrl;
+            this.contents = contents;
+            this.likes = likes;
         }
     }
 }
