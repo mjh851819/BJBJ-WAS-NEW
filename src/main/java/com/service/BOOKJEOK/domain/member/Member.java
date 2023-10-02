@@ -52,4 +52,8 @@ public class Member {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public void updateState() {
+        this.status = ApprovalStatus.CONFIRMED;
+    }
 }

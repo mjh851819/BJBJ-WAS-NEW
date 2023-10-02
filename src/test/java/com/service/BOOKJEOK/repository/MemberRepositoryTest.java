@@ -4,14 +4,20 @@ import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.member.ApprovalStatus;
 import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.member.MemberResponseDto;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
+import com.service.BOOKJEOK.repository.member.MemberRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static com.service.BOOKJEOK.dto.member.MemberResponseDto.*;
 
 @DataJpaTest
 class MemberRepositoryTest extends DummyObject {
@@ -38,6 +44,42 @@ class MemberRepositoryTest extends DummyObject {
 
         //then
         Assertions.assertThat(findMember.getId()).isEqualTo(memberPS.getId());
+    }
+
+    @Test
+    public void searchMember_Test() throws Exception {
+        //given
+        User me = newMockUser(1L, "mjh", "abc@abc.com");
+        User user1 = newMockUser(2L, "qwe", "abc@abc.com");
+        User mePS = userRepository.save(me);
+        User user1PS = userRepository.save(user1);
+
+        Club club1 = newMockClub(1L, "abc", user1PS);
+        Club club2 = newMockClub(2L, "cde", user1PS);
+        Club club3 = newMockClub(3L, "fgh", user1PS);
+        Club club1PS = clubRepository.save(club1);
+        Club club2PS = clubRepository.save(club2);
+        Club club3PS = clubRepository.save(club3);
+
+        Member member1 = Member.builder().club(club1PS).user(mePS).build();
+        Member member2 = Member.builder().club(club2PS).user(mePS).build();
+        Member member3 = Member.builder().club(club3PS).user(user1PS).build();
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 4);
+        Page<MemberSearchResDto> res
+                = memberRepository.searchMember(me.getId(), ApprovalStatus.WAITING, pageRequest);
+
+        //System.out.println("테스트 : " + res.getTotalElements());
+
+        //then
+        Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
+        Assertions.assertThat(res.getContent().get(0).getUserId()).isEqualTo(mePS.getId());
+
+
     }
 
 }

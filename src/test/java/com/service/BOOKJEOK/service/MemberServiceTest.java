@@ -1,23 +1,30 @@
 package com.service.BOOKJEOK.service;
 
 import com.service.BOOKJEOK.domain.club.Club;
+import com.service.BOOKJEOK.domain.member.ApprovalStatus;
 import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.member.MemberRequestDto;
-import com.service.BOOKJEOK.repository.MemberRepository;
+import com.service.BOOKJEOK.dto.member.MemberResponseDto;
+import com.service.BOOKJEOK.repository.member.MemberRepository;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.member.MemberRequestDto.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.service.BOOKJEOK.dto.member.MemberResponseDto.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -77,6 +84,44 @@ class MemberServiceTest extends DummyObject {
         //when
         //then
         memberService.delete(userId, clubId, myId);
+    }
+
+    @Test
+    public void approve_Test() throws Exception {
+        //given
+        MemberApproveReqDto req = new MemberApproveReqDto(1L);
+        Member member = Member.builder()
+                .user(newUser("mjh", "abc@abc.com"))
+                .club(newClub("myclub", newUser("abc", "def@def.com")))
+                .build();
+        //stub
+        when(memberRepository.findById(any())).thenReturn(Optional.of(member));
+
+        //when
+        //then
+        memberService.approve(req);
+    }
+
+    @Test
+    public void getMemberList_Test() throws Exception {
+        //given
+        Long userId = 1L;
+        ApprovalStatus status = ApprovalStatus.WAITING;
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //stub
+        List<MemberSearchResDto> dto = new ArrayList<>();
+        dto.add(new MemberSearchResDto(1L, 1L, 1L, "a", "a", "a", ApprovalStatus.CONFIRMED));
+        Page<MemberSearchResDto> clubPage = new PageImpl<>(dto, pageRequest, 1);
+
+        when(memberRepository.searchMember(any(), any(), any())).thenReturn(clubPage);
+
+        //when
+        MemberSearchPageResDto res = memberService.getMemberList(userId, "WAITING", pageRequest);
+
+        //then
+        Assertions.assertThat(res.getMemberList().get(0).getName()).isEqualTo("a");
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
     }
 
 }
