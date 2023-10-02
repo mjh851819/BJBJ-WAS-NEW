@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.service.BOOKJEOK.dto.member.MemberRequestDto.*;
 import static com.service.BOOKJEOK.dto.member.MemberResponseDto.*;
 
@@ -87,5 +89,12 @@ public class MemberService {
         Page<MemberJoiningClubResDto> res = memberRepository.searchJoiningClubs(userId, pageable);
 
         return new MemberJoiningClubsPageResDto((int) res.getTotalElements(), res.getContent());
+    }
+
+    public MemberJoiningClubsIdListResDto getJoiningClubIds(Long userId, String status) {
+
+        List<MemberJoiningClubsIdResDto> res = memberRepository.searchJoiningClubIds(userId, status.equals(ApprovalStatus.WAITING.getValue()) ? ApprovalStatus.WAITING : ApprovalStatus.CONFIRMED);
+
+        return new MemberJoiningClubsIdListResDto(res.size(), res);
     }
 }

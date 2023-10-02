@@ -75,5 +75,16 @@ public class MemberController {
         return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 검색 성공", res), HttpStatus.OK);
     }
 
+    //참여중인 & 가입 대기중인 독서모임 id만 조회
+    @GetMapping("/ids")
+    public ResponseEntity<?> getJoiningClubIds(
+            @RequestParam("userId") Long userId,
+            @RequestParam("approvalStatus") String approvalStatus) {
+
+        MemberJoiningClubsIdListResDto res = memberService.getJoiningClubIds(userId, approvalStatus);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 검색 성공", res), HttpStatus.OK);
+    }
+
 
 }

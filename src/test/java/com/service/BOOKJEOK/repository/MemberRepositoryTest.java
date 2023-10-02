@@ -113,4 +113,37 @@ class MemberRepositoryTest extends DummyObject {
         Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
     }
 
+    @Test
+    public void searchJoiningClubIds() throws Exception {
+        //given
+        User me = newMockUser(1L, "mjh", "abc@abc.com");
+        User user1 = newMockUser(2L, "qwe", "abc@abc.com");
+        User mePS = userRepository.save(me);
+        User user1PS = userRepository.save(user1);
+
+        Club club1 = newMockClub(1L, "abc", user1PS);
+        Club club2 = newMockClub(2L, "cde", user1PS);
+        Club club3 = newMockClub(3L, "fgh", user1PS);
+        Club club1PS = clubRepository.save(club1);
+        Club club2PS = clubRepository.save(club2);
+        Club club3PS = clubRepository.save(club3);
+
+        Member member1 = Member.builder().club(club1PS).user(mePS).build();
+        member1.updateState();
+        Member member2 = Member.builder().club(club2PS).user(mePS).build();
+        Member member3 = Member.builder().club(club3PS).user(user1PS).build();
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+
+        //when
+        List<MemberJoiningClubsIdResDto> res1 = memberRepository.searchJoiningClubIds(mePS.getId(), ApprovalStatus.WAITING);
+        List<MemberJoiningClubsIdResDto> res2 = memberRepository.searchJoiningClubIds(mePS.getId(), ApprovalStatus.CONFIRMED);
+
+        //then
+        Assertions.assertThat(res1.size()).isEqualTo(1);
+        Assertions.assertThat(res2.size()).isEqualTo(1);
+    }
+
+
 }

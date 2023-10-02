@@ -145,4 +145,24 @@ class MemberServiceTest extends DummyObject {
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
     }
 
+    @Test
+    public void getJoiningClubIds() throws Exception {
+        //given
+        Long userId = 1L;
+
+        //stub
+        List<MemberJoiningClubsIdResDto> dtos = new ArrayList<>();
+        dtos.add(new MemberJoiningClubsIdResDto(userId));
+        when(memberRepository.searchJoiningClubIds(any(), any())).thenReturn(dtos);
+
+        //when
+        MemberJoiningClubsIdListResDto res1 = memberService.getJoiningClubIds(userId, ApprovalStatus.CONFIRMED.getValue());
+        MemberJoiningClubsIdListResDto res2 = memberService.getJoiningClubIds(userId, ApprovalStatus.WAITING.getValue());
+
+        //then
+        Assertions.assertThat(res1.getTotalCount()).isEqualTo(1);
+        Assertions.assertThat(res2.getTotalCount()).isEqualTo(1);
+
+    }
+
 }

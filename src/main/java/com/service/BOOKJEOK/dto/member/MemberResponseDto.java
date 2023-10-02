@@ -62,4 +62,21 @@ public class MemberResponseDto {
             this.likes = likes;
         }
     }
+
+    @Getter
+    @AllArgsConstructor
+    static public class MemberJoiningClubsIdListResDto {
+        private int totalCount;
+        private List<MemberJoiningClubsIdResDto> clubIdList;
+    }
+
+    @Getter
+    static public class MemberJoiningClubsIdResDto {
+        private Long id;
+
+        @QueryProjection
+        public MemberJoiningClubsIdResDto(Long id) {
+            this.id = id;
+        }
+    }
 }

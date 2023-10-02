@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.service.BOOKJEOK.domain.member.ApprovalStatus;
 import com.service.BOOKJEOK.dto.member.MemberResponseDto;
 import com.service.BOOKJEOK.dto.member.QMemberResponseDto_MemberJoiningClubResDto;
+import com.service.BOOKJEOK.dto.member.QMemberResponseDto_MemberJoiningClubsIdResDto;
 import com.service.BOOKJEOK.dto.member.QMemberResponseDto_MemberSearchResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -83,5 +84,18 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
 
         return PageableExecutionUtils.getPage(res, pageable,
                 query::fetchOne);
+    }
+
+    @Override
+    public List<MemberJoiningClubsIdResDto> searchJoiningClubIds(Long userId, ApprovalStatus status) {
+        List<MemberJoiningClubsIdResDto> res = queryFactory
+                .select(new QMemberResponseDto_MemberJoiningClubsIdResDto(
+                        member.club.id
+                ))
+                .from(member)
+                .where(member.user.id.eq(userId), member.status.eq(status))
+                .fetch();
+
+        return res;
     }
 }
