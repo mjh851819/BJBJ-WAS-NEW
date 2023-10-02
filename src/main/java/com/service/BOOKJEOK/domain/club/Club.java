@@ -126,4 +126,11 @@ public class Club {
         return tags;
     }
 
+    public void createLike() {
+        this.likes++;
+    }
+
+    public void deleteLike() {
+        this.likes--;
+    }
 }
