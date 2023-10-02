@@ -8,6 +8,7 @@ import com.service.BOOKJEOK.repository.LikedClubRepository;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,8 +51,34 @@ class LikedClubServiceTest extends DummyObject {
         when(likedClubRepository.findByUserAndClub(any(), any())).thenReturn(Optional.empty());
 
         //when
-        //then
         likedClubService.createLike(new LikedClubCreateReqDto(1L, 1L));
+        //then
+        Assertions.assertThat(myClub.getLikes()).isEqualTo(1);
+
+
+    }
+
+    @Test
+    public void deleteLike_Test() throws Exception {
+        //given
+        User me = newUser("mjh", "abc@abc.com");
+        Club myClub = newClub("myclub", me);
+        LikedClub tar = LikedClub.builder()
+                .user(me)
+                .club(myClub)
+                .build();
+        myClub.createLike();
+
+        //stub
+        when(userRepository.findById(any())).thenReturn(Optional.of(me));
+        when(clubRepository.findById(any())).thenReturn(Optional.of(myClub));
+        when(likedClubRepository.findByUserAndClub(any(), any())).thenReturn(Optional.of(tar));
+
+        //when
+        likedClubService.deleteLike(me.getId(), myClub.getId());
+
+        //then
+        Assertions.assertThat(myClub.getLikes()).isEqualTo(0);
     }
 
 }

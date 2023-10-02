@@ -33,11 +33,24 @@ public class LikedClubService {
             throw new CustomApiException(ExMessage.ALREADY_LIKED_CLUB);
         }
 
+        clubPS.createLike();
+
         LikedClub likedclub = LikedClub.builder()
                 .club(clubPS)
                 .user(userPS)
                 .build();
 
         likedClubRepository.save(likedclub);
+    }
+
+    @Transactional
+    public void deleteLike(Long clubId, Long userId) {
+        User userPS = userRepository.findById(userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
+        Club clubPS = clubRepository.findById(clubId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
+        LikedClub likedClubPS = likedClubRepository.findByUserAndClub(userPS, clubPS).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_LIKE));
+
+        clubPS.deleteLike();
+
+        likedClubRepository.delete(likedClubPS);
     }
 }

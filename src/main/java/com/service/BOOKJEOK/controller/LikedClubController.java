@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.service.BOOKJEOK.dto.likedclub.LikedClubRequestDto.*;
 
@@ -21,6 +18,7 @@ public class LikedClubController {
 
     private final LikedClubService likedClubService;
 
+    //좋아요 신청
     @PostMapping
     public ResponseEntity<?> createLikedClub(
             @RequestBody LikedClubCreateReqDto likedClubRequestDto,
@@ -29,4 +27,15 @@ public class LikedClubController {
 
         return new ResponseEntity<>(new ResponseDto<>(1, "좋아요 신청 성공", null), HttpStatus.CREATED);
     }
+
+    //좋아요 취소
+    @DeleteMapping
+    public ResponseEntity<?> deleteLikedClub(
+            @RequestParam("clubId") Long clubId,
+            @RequestParam("userId") Long userId) {
+        likedClubService.deleteLike(clubId, userId);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "좋아요 취소 성공", null), HttpStatus.OK);
+    }
+
 }
