@@ -2,6 +2,7 @@ package com.service.BOOKJEOK.controller;
 
 import com.service.BOOKJEOK.dto.ResponseDto;
 import com.service.BOOKJEOK.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,14 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.service.BOOKJEOK.dto.user.UserResponseDto.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-
-    public UserController(final UserService userService) {
-        this.userService = userService;
-    }
 
     //유저 정보 상세 조회
     @GetMapping("/{userId}")

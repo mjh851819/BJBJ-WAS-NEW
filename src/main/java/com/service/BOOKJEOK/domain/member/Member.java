@@ -44,12 +44,16 @@ public class Member {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Member(Long id, User user, Club club, ApprovalStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Member(Long id, User user, Club club, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.user = user;
         this.club = club;
-        this.status = status;
+        this.status = ApprovalStatus.WAITING;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public void updateState() {
+        this.status = ApprovalStatus.CONFIRMED;
     }
 }

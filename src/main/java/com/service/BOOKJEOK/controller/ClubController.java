@@ -18,7 +18,6 @@ import static com.service.BOOKJEOK.dto.club.ClubResponseDto.*;
 
 import javax.validation.Valid;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/clubs")
@@ -68,8 +67,6 @@ public class ClubController {
             @RequestBody @Valid ClubUpdateReqDto clubUpdateReqDto,
             BindingResult bindingResult,
             @PathVariable Long userId) {
-
-        log.debug("확인 : " + clubUpdateReqDto);
 
         clubService.updateClub(clubUpdateReqDto, userId);
 

@@ -47,14 +47,6 @@ public class ClubService {
         Page<Club> clubs = clubRepository.searchClub(clubSearchReqDto, pageable);
 
         List<ClubSearchResDto> collect = clubs.stream().map(m ->
-                /*ClubSearchResDto.builder()
-                        .id(m.getId())
-                        .title(m.getTitle())
-                        .contents(m.getContents())
-                        .img_url(m.getImg_url())
-                        .tags(m.getTags())
-                        .likes(m.getLikes())
-                        .build()*/
                 new ClubSearchResDto(m)
         ).collect(Collectors.toList());
 
