@@ -8,6 +8,7 @@ import com.service.BOOKJEOK.dto.likedclub.LikedClubRequestDto;
 import com.service.BOOKJEOK.dto.member.MemberRequestDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
+import com.service.BOOKJEOK.repository.likedclub.LikedClubRepository;
 import com.service.BOOKJEOK.service.LikedClubService;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,8 +28,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static com.service.BOOKJEOK.dto.likedclub.LikedClubRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,6 +46,8 @@ class LikedClubControllerTest extends DummyObject {
     private ClubRepository clubRepository;
     @Autowired
     private LikedClubService likedClubService;
+    @Autowired
+    private LikedClubRepository likedClubRepository;
     @Autowired
     private ObjectMapper om;
     @Autowired
@@ -95,6 +97,62 @@ class LikedClubControllerTest extends DummyObject {
         ResultActions resultActions = mvc.perform(delete("/likedclubs")
                 .param("userId", userPS.getId().toString())
                 .param("clubId", clubPS.getId().toString()));
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void getUserLikedClubs_Test() throws Exception {
+        //given
+        User me = newUser("mjh", "abc");
+        User mePS = userRepository.save(me);
+        User user1 = newUser("abc", "abc");
+        User user1PS = userRepository.save(user1);
+        Club club1 = newClub("myClub1", user1PS);
+        Club club2 = newClub("myClub2", user1PS);
+        Club club3 = newClub("myClub3", user1PS);
+        Club club1PS = clubRepository.save(club1);
+        Club club2PS = clubRepository.save(club2);
+        Club club3PS = clubRepository.save(club3);
+        LikedClub like1 = likedClubRepository.save(LikedClub.builder().club(club1PS).user(mePS).build());
+        LikedClub like2 = likedClubRepository.save(LikedClub.builder().club(club2PS).user(mePS).build());
+        LikedClub like3 = likedClubRepository.save(LikedClub.builder().club(club3PS).user(user1PS).build());
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/likedclubs/users/" + mePS.getId())
+                .param("page", "0"));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void getUserLikedClubIds_Test() throws Exception {
+        //given
+        User me = newUser("mjh", "abc");
+        User mePS = userRepository.save(me);
+        User user1 = newUser("abc", "abc");
+        User user1PS = userRepository.save(user1);
+        Club club1 = newClub("myClub1", user1PS);
+        Club club2 = newClub("myClub2", user1PS);
+        Club club3 = newClub("myClub3", user1PS);
+        Club club1PS = clubRepository.save(club1);
+        Club club2PS = clubRepository.save(club2);
+        Club club3PS = clubRepository.save(club3);
+        LikedClub like1 = likedClubRepository.save(LikedClub.builder().club(club1PS).user(mePS).build());
+        LikedClub like2 = likedClubRepository.save(LikedClub.builder().club(club2PS).user(mePS).build());
+        LikedClub like3 = likedClubRepository.save(LikedClub.builder().club(club3PS).user(user1PS).build());
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/likedclubs/ids")
+                .param("userId", mePS.getId().toString()));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println(res);
 
         //then
         resultActions.andExpect(status().isOk());

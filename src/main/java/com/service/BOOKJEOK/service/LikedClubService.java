@@ -3,17 +3,21 @@ package com.service.BOOKJEOK.service;
 import com.service.BOOKJEOK.domain.LikedClub;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.likedclub.LikedClubRequestDto;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.handler.ex.ExMessage;
-import com.service.BOOKJEOK.repository.LikedClubRepository;
+import com.service.BOOKJEOK.repository.likedclub.LikedClubRepository;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.service.BOOKJEOK.dto.likedclub.LikedClubRequestDto.*;
+import static com.service.BOOKJEOK.dto.likedclub.LikedClubResponseDto.*;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -52,5 +56,18 @@ public class LikedClubService {
         clubPS.deleteLike();
 
         likedClubRepository.delete(likedClubPS);
+    }
+
+    public LikedClubSearchPageResDto getLikedClubList(Long userId, Pageable pageable) {
+
+        Page<LikedClubSearchResDto> res = likedClubRepository.searchClubList(userId, pageable);
+
+        return new LikedClubSearchPageResDto((int) res.getTotalElements(), res.getContent());
+    }
+
+    public LikedClubIdListResDto getLikedClubIdList(Long userId) {
+        List<LikedClubIdResDto> res = likedClubRepository.searchClubIdList(userId);
+
+        return new LikedClubIdListResDto(res.size(), res);
     }
 }
