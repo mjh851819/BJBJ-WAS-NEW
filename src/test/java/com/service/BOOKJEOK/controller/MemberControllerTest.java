@@ -2,8 +2,10 @@ package com.service.BOOKJEOK.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.BOOKJEOK.domain.club.Club;
+import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.member.MemberRequestDto;
+import com.service.BOOKJEOK.repository.MemberRepository;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
@@ -24,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,6 +43,8 @@ class MemberControllerTest extends DummyObject {
     private UserRepository userRepository;
     @Autowired
     private ClubRepository clubRepository;
+    @Autowired
+    private MemberRepository memberRepository;
     @Autowired
     private ObjectMapper om;
     @Autowired
@@ -68,11 +73,40 @@ class MemberControllerTest extends DummyObject {
 
         //when
         ResultActions resultActions = mvc.perform(post("/members").content(dto).contentType(MediaType.APPLICATION_JSON));
-        String res = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + res);
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isCreated());
+    }
+
+    @WithMockUser
+    @Test
+    public void memberDelete_Test() throws Exception {
+        //given
+        User myUser = newUser("mjh", "abc@abc.com");
+        User userPS = userRepository.save(myUser);
+        User user = userRepository.save(newUser("def", "def@def.com"));
+        Club club = newClub("myclub", user);
+        Club clubPS = clubRepository.save(club);
+        Member member = Member.builder()
+                .club(clubPS)
+                .user(userPS)
+                .build();
+        Member memberPS = memberRepository.save(member);
+
+
+        //when
+        ResultActions resultActions = mvc.perform(delete("/members")
+                .param("userId", userPS.getId().toString())
+                .param("clubId", clubPS.getId().toString())
+                .param("myId", userPS.getId().toString()));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+
     }
 
 }
