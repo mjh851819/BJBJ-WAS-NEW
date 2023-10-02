@@ -59,7 +59,7 @@ class MemberControllerTest extends DummyObject {
         //given
         User myUser = newUser("mjh", "abc@abc.com");
         User userPS = userRepository.save(myUser);
-        User user = newUser("def", "def@def.com");
+        User user = userRepository.save(newUser("def", "def@def.com"));
         Club club = newClub("myclub", user);
         Club clubPS = clubRepository.save(club);
 
