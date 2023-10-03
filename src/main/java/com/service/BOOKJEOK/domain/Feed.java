@@ -25,9 +25,9 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private int likes;
     private String contents;
     private String img_url;
+    private int likes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
@@ -50,10 +50,10 @@ public class Feed {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Feed(Long id, String title, int likes, String contents, String img_url, Club club, User user, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Feed(Long id, String title, String contents, String img_url, Club club, User user, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
-        this.likes = likes;
+        this.likes = 0;
         this.contents = contents;
         this.img_url = img_url;
         this.club = club;
