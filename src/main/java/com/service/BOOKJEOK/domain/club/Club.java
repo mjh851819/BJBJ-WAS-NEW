@@ -43,7 +43,7 @@ public class Club {
     @JoinColumn(name = "club_id")
     private List<TagEntity> tags = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

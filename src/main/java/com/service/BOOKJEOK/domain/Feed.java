@@ -24,7 +24,6 @@ public class Feed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
     private int likes;
     private String contents;
@@ -34,7 +33,7 @@ public class Feed {
     @JoinColumn(name = "club_id")
     private Club club;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="user_id")
     private User user;
 
