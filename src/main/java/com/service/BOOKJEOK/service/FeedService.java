@@ -25,11 +25,20 @@ public class FeedService {
     private final ClubRepository clubRepository;
 
     @Transactional
-    public void createFeed(FeedCreateReqDto res) {
-        User userPS = userRepository.findById(res.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
-        Club clubPS = clubRepository.findById(res.getClubId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
+    public void createFeed(FeedCreateReqDto req) {
+        User userPS = userRepository.findById(req.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
+        Club clubPS = clubRepository.findById(req.getClubId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
 
-        Feed feed = res.toEntity(userPS, clubPS);
+        Feed feed = req.toEntity(userPS, clubPS);
         feedRepository.save(feed);
+    }
+
+    @Transactional
+    public void updateFeed(FeedUpdateReqDto req) {
+        User userPS = userRepository.findById(req.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
+        Club clubPS = clubRepository.findById(req.getClubId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
+        Feed feedPS = feedRepository.findById(req.getFeedId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_FEED));
+
+        feedPS.update(req);
     }
 }

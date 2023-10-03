@@ -2,6 +2,7 @@ package com.service.BOOKJEOK.domain;
 
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
 
 @NoArgsConstructor //스프링이 User 객체 생성할 때 빈 생성자로 new를 하기 때문에
 @Getter
@@ -60,5 +63,11 @@ public class Feed {
         this.user = user;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public void update(FeedUpdateReqDto req) {
+        this.title = req.getTitle();
+        this.contents = req.getContents();
+        this.img_url = getImg_url();
     }
 }

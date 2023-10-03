@@ -1,6 +1,7 @@
 package com.service.BOOKJEOK.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
@@ -26,6 +27,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -69,11 +71,32 @@ class FeedControllerTest extends DummyObject {
 
         //when
         ResultActions resultActions = mvc.perform(post("/feeds").content(dto).contentType(MediaType.APPLICATION_JSON));
-        String res = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + res);
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isCreated());
     }
 
+    @WithMockUser
+    @Test
+    public void updateFeed_Test() throws Exception {
+        //given
+        User me = newUser("mjh", "abc");
+        User mePS = userRepository.save(me);
+        Club club = newClub("club1", mePS);
+        Club clubPS = clubRepository.save(club);
+        Feed feed = newFeed("myFeed", mePS, clubPS);
+        Feed feedPS = feedRepository.save(feed);
+        FeedUpdateReqDto req = new FeedUpdateReqDto(feedPS.getId(), mePS.getId(), clubPS.getId(), "abc", "abc", "abc");
+        String dto = om.writeValueAsString(req);
+
+        //when
+        ResultActions resultActions = mvc.perform(put("/feeds").content(dto).contentType(MediaType.APPLICATION_JSON));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
 }

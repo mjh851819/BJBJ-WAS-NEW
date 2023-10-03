@@ -3,8 +3,10 @@ package com.service.BOOKJEOK.dto.feed;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
@@ -42,5 +44,17 @@ public class FeedRequestDto {
                     .img_url(imgUrl)
                     .build();
         }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static public class FeedUpdateReqDto {
+        private Long feedId;
+        private Long userId;
+        private Long clubId;
+        private String title;
+        private String contents;
+        private String imgUrl;
     }
 }

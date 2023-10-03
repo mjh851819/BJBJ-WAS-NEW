@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
 
@@ -38,4 +35,11 @@ public class FeedController {
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 작성 성공", null), HttpStatus.CREATED);
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateFeed(@RequestBody FeedUpdateReqDto req, BindingResult bindingResult) {
+
+        feedService.updateFeed(req);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "게시글 수정 성공", null), HttpStatus.OK);
+    }
 }
