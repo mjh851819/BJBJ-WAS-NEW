@@ -72,4 +72,18 @@ class FeedServiceTest extends DummyObject {
         Assertions.assertThat(myFeed.getTitle()).isEqualTo("abc");
     }
 
+    @Test
+    public void deleteFeed_Test() throws Exception {
+        //given
+        Long feedId = 1L;
+        Feed exFeed = newFeed("abc", null, null);
+
+        //stub
+        when(feedRepository.findById(any())).thenReturn(Optional.of(exFeed));
+
+        //when
+        //then
+        feedService.deleteFeed(feedId);
+    }
+
 }

@@ -26,8 +26,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -93,6 +92,27 @@ class FeedControllerTest extends DummyObject {
 
         //when
         ResultActions resultActions = mvc.perform(put("/feeds").content(dto).contentType(MediaType.APPLICATION_JSON));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void deleteFeed_Test() throws Exception {
+        //given
+        User me = newUser("mjh", "abc");
+        User mePS = userRepository.save(me);
+        Club myClub = newClub("club", mePS);
+        Club clubPS = clubRepository.save(myClub);
+        Feed feed = newFeed("feed", mePS, clubPS);
+        Feed feedPS = feedRepository.save(feed);
+
+        //when
+        ResultActions resultActions = mvc.perform(delete("/feeds")
+                        .param("feedId", feedPS.getId().toString()));
         //String res = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println("테스트 : " + res);
 

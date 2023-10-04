@@ -47,14 +47,6 @@ public class Club {
     @JoinColumn(name = "user_id")
     private User user;
 
-    //ERD에 추가
-    @OneToMany(mappedBy = "club")
-    private List<Member> memberList = new ArrayList<>();
-
-    //ERD에 추가
-    @OneToMany(mappedBy = "club")
-    private List<Feed> feedList = new ArrayList<>();
-
     @CreatedDate //insert
     @Column(nullable = false)
     private LocalDateTime createdAt;

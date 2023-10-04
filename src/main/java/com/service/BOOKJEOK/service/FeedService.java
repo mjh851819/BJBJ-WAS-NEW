@@ -35,10 +35,18 @@ public class FeedService {
 
     @Transactional
     public void updateFeed(FeedUpdateReqDto req) {
-        User userPS = userRepository.findById(req.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
-        Club clubPS = clubRepository.findById(req.getClubId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
+        userRepository.findById(req.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
+        clubRepository.findById(req.getClubId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
         Feed feedPS = feedRepository.findById(req.getFeedId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_FEED));
 
         feedPS.update(req);
+    }
+
+    @Transactional
+    public void deleteFeed(Long feedId) {
+        Feed feedPS = feedRepository.findById(feedId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_FEED));
+
+        // issue: delete()를 호출했을때 나가는 쿼리수를 체크해 봐야함.
+        feedRepository.delete(feedPS);
     }
 }

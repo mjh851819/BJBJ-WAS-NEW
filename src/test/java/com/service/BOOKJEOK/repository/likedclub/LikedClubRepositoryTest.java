@@ -3,6 +3,7 @@ package com.service.BOOKJEOK.repository.likedclub;
 import com.service.BOOKJEOK.domain.LikedClub;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.likedclub.LikedClubRequestDto;
 import com.service.BOOKJEOK.dto.likedclub.LikedClubResponseDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
@@ -76,6 +77,24 @@ class LikedClubRepositoryTest extends DummyObject {
 
         //then
         Assertions.assertThat(res.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void delete_Test() throws Exception {
+        //given
+        User myUser = newUser("mjh", "abc@abc.com");
+        User userPS = userRepository.save(myUser);
+        User user = userRepository.save(newUser("def", "def@def.com"));
+        Club club = newClub("myclub", user);
+        Club clubPS = clubRepository.save(club);
+        likedClubRepository.save(LikedClub.builder().club(clubPS).user(userPS).build());
+        LikedClub likedClub = likedClubRepository.findByUserAndClub(userPS, clubPS).get();
+
+
+        //when
+        likedClubRepository.delete(likedClub);
+        //then
+        Assertions.assertThat(likedClubRepository.findByUserAndClub(userPS, clubPS).isEmpty()).isTrue();
     }
 
 }

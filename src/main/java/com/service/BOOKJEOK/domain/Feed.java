@@ -41,7 +41,7 @@ public class Feed {
     private User user;
 
     //ERD에 추가
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "feed", cascade = {CascadeType.REMOVE})
     private final List<Comment> commentList = new ArrayList<>();
 
     @CreatedDate //insert

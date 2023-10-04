@@ -42,4 +42,12 @@ public class FeedController {
 
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 수정 성공", null), HttpStatus.OK);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteFeed(@RequestParam("feedId") Long feedId) {
+
+        feedService.deleteFeed(feedId);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "게시글 삭제 성공", null), HttpStatus.OK);
+    }
 }
