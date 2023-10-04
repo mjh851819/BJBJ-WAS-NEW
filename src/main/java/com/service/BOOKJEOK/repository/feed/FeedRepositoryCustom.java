@@ -13,7 +13,7 @@ public interface FeedRepositoryCustom {
 
     Feed findByIdDetail(Long feedId);
 
-    Page<FeedSearchResDto> findClubFeedList(Long clubId, Pageable pageable);
+    Page<FeedSearchResDto> findClubFeedList(Long clubId, String sortBy, Pageable pageable);
 
     Page<FeedSearchResDto> findFeedList(String sortBy, Pageable pageable);
 

@@ -157,7 +157,11 @@ class FeedControllerTest extends DummyObject {
     public void getClubFeedList_Test() throws Exception {
         //given
         //when
-        ResultActions resultActions = mvc.perform(get("/feeds/clubs/"+clubId));
+        ResultActions resultActions = mvc.perform(get("/feeds/clubs/" + clubId)
+                .param("sortBy", PathMessage.CREATED_AT)
+                .param("page", "1")
+        );
+
         //String res = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println("테스트 : " + res);
 

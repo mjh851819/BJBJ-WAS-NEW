@@ -139,10 +139,10 @@ class FeedServiceTest extends DummyObject {
         List<FeedSearchResDto> list = new ArrayList<>();
         list.add(new FeedSearchResDto(1L, "contents", 0, 0));
         Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
-        when(feedRepository.findClubFeedList(any(), any())).thenReturn(tar);
+        when(feedRepository.findClubFeedList(any(), any(), any())).thenReturn(tar);
 
         //when
-        FeedSearchPageResDto res = feedService.searchClubFeedList(clubId, pageRequest);
+        FeedSearchPageResDto res = feedService.searchClubFeedList(clubId, PathMessage.CREATED_AT, pageRequest);
 
         //then
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);

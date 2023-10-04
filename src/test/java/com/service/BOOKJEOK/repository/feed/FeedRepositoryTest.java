@@ -100,7 +100,7 @@ class FeedRepositoryTest extends DummyObject {
         //given
         PageRequest pageRequest = PageRequest.of(0, 4);
         //when
-        Page<FeedSearchResDto> res = feedRepository.findClubFeedList(clubId, pageRequest);
+        Page<FeedSearchResDto> res = feedRepository.findClubFeedList(clubId, PathMessage.CREATED_AT, pageRequest);
         //then
         Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
     }

@@ -74,10 +74,10 @@ public class FeedController {
     @GetMapping("/clubs/{clubId}")
     public ResponseEntity<?> getClubFeedList(
             @PathVariable Long clubId,
-            //@RequestParam String sortBy,
+            @RequestParam String sortBy,
             @PageableDefault(size = 4) Pageable pageable) {
 
-        FeedSearchPageResDto res = feedService.searchClubFeedList(clubId, pageable);
+        FeedSearchPageResDto res = feedService.searchClubFeedList(clubId, sortBy, pageable);
 
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 리스트 조회 성공", res), HttpStatus.OK);
     }

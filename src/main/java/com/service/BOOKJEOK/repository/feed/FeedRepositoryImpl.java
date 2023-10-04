@@ -48,7 +48,7 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom{
     }
 
     @Override
-    public Page<FeedSearchResDto> findClubFeedList(Long clubId, Pageable pageable) {
+    public Page<FeedSearchResDto> findClubFeedList(Long clubId, String sortBy, Pageable pageable) {
         List<FeedSearchResDto> res = queryFactory
                 .select(new QFeedResponseDto_FeedSearchResDto(
                         feed.id,
@@ -60,6 +60,7 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom{
                 .leftJoin(feed.club, club)
                 .leftJoin(feed.commentList, comment)
                 .where(club.id.eq(clubId))
+                .orderBy(sort(sortBy))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

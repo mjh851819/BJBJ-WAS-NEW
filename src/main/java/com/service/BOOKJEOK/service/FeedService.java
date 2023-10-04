@@ -68,9 +68,9 @@ public class FeedService {
         return new FeedSearchPageResDto((int) res.getTotalElements(), res.getContent());
     }
 
-    public FeedSearchPageResDto searchClubFeedList(Long clubId, Pageable pageable) {
+    public FeedSearchPageResDto searchClubFeedList(Long clubId, String sortBy, Pageable pageable) {
 
-        Page<FeedSearchResDto> res = feedRepository.findClubFeedList(clubId, pageable);
+        Page<FeedSearchResDto> res = feedRepository.findClubFeedList(clubId, sortBy, pageable);
 
         return new FeedSearchPageResDto((int) res.getTotalElements(), res.getContent());
     }
