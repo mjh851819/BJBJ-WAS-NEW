@@ -65,6 +65,8 @@ public class DummyObject {
                 .title(title)
                 .img_url("url")
                 .contents("contents")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 }

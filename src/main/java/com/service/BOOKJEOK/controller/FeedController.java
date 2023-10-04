@@ -2,6 +2,7 @@ package com.service.BOOKJEOK.controller;
 
 import com.service.BOOKJEOK.dto.ResponseDto;
 import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
+import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
+import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 
 /*
 - 게시글 등록
@@ -49,5 +51,13 @@ public class FeedController {
         feedService.deleteFeed(feedId);
 
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 삭제 성공", null), HttpStatus.OK);
+    }
+
+    @GetMapping("/{feedId}")
+    public ResponseEntity<?> getFeedDetail(@PathVariable Long feedId) {
+
+        FeedSearchDetailResDto res = feedService.searchFeed(feedId);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "게시글 조회 성공", res), HttpStatus.OK);
     }
 }

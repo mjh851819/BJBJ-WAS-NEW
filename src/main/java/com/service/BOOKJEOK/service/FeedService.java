@@ -4,6 +4,7 @@ import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
+import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.handler.ex.ExMessage;
 import com.service.BOOKJEOK.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
+import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -48,5 +50,14 @@ public class FeedService {
 
         // issue: delete()를 호출했을때 나가는 쿼리수를 체크해 봐야함.
         feedRepository.delete(feedPS);
+    }
+
+    public FeedSearchDetailResDto searchFeed(Long feedId) {
+
+        Feed feedPS = feedRepository.findByIdDetail(feedId);
+
+        FeedSearchDetailResDto res = new FeedSearchDetailResDto(feedPS);
+
+        return res;
     }
 }

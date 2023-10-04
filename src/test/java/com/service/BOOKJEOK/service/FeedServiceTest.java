@@ -1,9 +1,11 @@
 package com.service.BOOKJEOK.service;
 
+import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
+import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
@@ -15,9 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
+import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -84,6 +88,39 @@ class FeedServiceTest extends DummyObject {
         //when
         //then
         feedService.deleteFeed(feedId);
+    }
+
+    @Test
+    public void searchFeed() throws Exception {
+        //given
+        Long feedId = 1L;
+        User me = newUser("mjh", "abc");
+        Club myClub = newClub("club", me);
+        Feed feed = newFeed("feed", me, myClub);
+        Comment comment1 = Comment.builder()
+                .contents("contents1")
+                .user(me)
+                .feed(feed)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        Comment comment2 = Comment.builder()
+                .contents("contents2")
+                .user(me)
+                .feed(feed)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        //stub
+        when(feedRepository.findByIdDetail(any())).thenReturn(feed);
+        //when
+        FeedSearchDetailResDto res = feedService.searchFeed(feedId);
+        System.out.println(res);
+
+        //then
+        Assertions.assertThat(res.getComments().size()).isEqualTo(2);
+        Assertions.assertThat(res.getTitle()).isEqualTo(feed.getTitle());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.service.BOOKJEOK.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
@@ -23,6 +24,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+
+import java.time.LocalDateTime;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,12 +52,36 @@ class FeedControllerTest extends DummyObject {
     @Autowired
     private WebApplicationContext ctx;
 
+    private Long feedId;
+
     @BeforeEach
     public void setup() {
         this.mvc = MockMvcBuilders.webAppContextSetup(ctx)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
                 .alwaysDo(print())
                 .build();
+        User me = newUser("mjh", "abc");
+        User mePS = userRepository.save(me);
+        Club myClub = newClub("club", mePS);
+        Club clubPS = clubRepository.save(myClub);
+        Feed feed = newFeed("feed", mePS, clubPS);
+        Feed feedPS = feedRepository.save(feed);
+        Comment comment1 = Comment.builder()
+                .contents("contents1")
+                .user(mePS)
+                .feed(feedPS)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        Comment comment2 = Comment.builder()
+                .contents("contents2")
+                .user(mePS)
+                .feed(feedPS)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        this.feedId = feedPS.getId();
     }
 
     @WithMockUser
@@ -115,6 +142,20 @@ class FeedControllerTest extends DummyObject {
                         .param("feedId", feedPS.getId().toString()));
         //String res = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    public void getFeedDetail_Test() throws Exception {
+        //given
+        Long feedId = this.feedId;
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/feeds/"+feedId));
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());
