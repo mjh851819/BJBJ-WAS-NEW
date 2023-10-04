@@ -24,7 +24,7 @@ public class Comment {
 
     private String contents;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -41,10 +41,14 @@ public class Comment {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Comment(Long id, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Comment(Long id, String contents, User user, Feed feed, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.contents = contents;
+        this.user = user;
+        this.feed = feed;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+
+        feed.getCommentList().add(this);
     }
 }

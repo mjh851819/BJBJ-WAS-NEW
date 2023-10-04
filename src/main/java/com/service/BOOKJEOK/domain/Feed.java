@@ -2,7 +2,9 @@ package com.service.BOOKJEOK.domain;
 
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
+
 @NoArgsConstructor //스프링이 User 객체 생성할 때 빈 생성자로 new를 하기 때문에
 @Getter
 @EntityListeners(AuditingEntityListener.class)
@@ -24,22 +28,21 @@ public class Feed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
-    private int likes;
     private String contents;
     private String img_url;
+    private int likes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="user_id")
     private User user;
 
     //ERD에 추가
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "feed", cascade = {CascadeType.REMOVE})
     private final List<Comment> commentList = new ArrayList<>();
 
     @CreatedDate //insert
@@ -51,15 +54,21 @@ public class Feed {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Feed(Long id, String title, int likes, String contents, String img_url, Club club, User user, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Feed(Long id, String title, String contents, String img_url, Club club, User user, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
-        this.likes = likes;
+        this.likes = 0;
         this.contents = contents;
         this.img_url = img_url;
         this.club = club;
         this.user = user;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public void update(FeedUpdateReqDto req) {
+        this.title = req.getTitle();
+        this.contents = req.getContents();
+        this.img_url = getImg_url();
     }
 }

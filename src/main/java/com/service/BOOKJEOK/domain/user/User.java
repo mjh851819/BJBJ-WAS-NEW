@@ -39,7 +39,7 @@ public class User {
 
     private String refresh;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Club club;
 
     @CreatedDate //insert

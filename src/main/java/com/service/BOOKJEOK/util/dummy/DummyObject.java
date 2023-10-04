@@ -1,5 +1,6 @@
 package com.service.BOOKJEOK.util.dummy;
 
+import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.domain.user.UserEnum;
@@ -52,6 +53,18 @@ public class DummyObject {
                 .id(id)
                 .title(title)
                 .tags("온라인,오프라인")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+    }
+
+    protected Feed newFeed(String title, User user, Club club) {
+        return Feed.builder()
+                .club(club)
+                .user(user)
+                .title(title)
+                .img_url("url")
+                .contents("contents")
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();

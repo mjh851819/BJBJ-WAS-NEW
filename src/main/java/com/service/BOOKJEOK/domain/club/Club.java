@@ -43,17 +43,9 @@ public class Club {
     @JoinColumn(name = "club_id")
     private List<TagEntity> tags = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    //ERD에 추가
-    @OneToMany(mappedBy = "club")
-    private List<Member> memberList = new ArrayList<>();
-
-    //ERD에 추가
-    @OneToMany(mappedBy = "club")
-    private List<Feed> feedList = new ArrayList<>();
 
     @CreatedDate //insert
     @Column(nullable = false)

@@ -11,6 +11,7 @@ import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.likedclub.LikedClubRepository;
 import com.service.BOOKJEOK.service.LikedClubService;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,6 @@ class LikedClubControllerTest extends DummyObject {
         Club club = newClub("myclub", user);
         Club clubPS = clubRepository.save(club);
         likedClubService.createLike(new LikedClubCreateReqDto(userPS.getId(), clubPS.getId()));
-
 
         //when
         ResultActions resultActions = mvc.perform(delete("/likedclubs")
