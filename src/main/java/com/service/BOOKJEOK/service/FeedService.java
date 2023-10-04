@@ -76,4 +76,10 @@ public class FeedService {
     }
 
 
+    public FeedSearchPageResDto searchUserFeedList(Long userId, String sortBy, Pageable pageable) {
+
+        Page<FeedSearchResDto> res = feedRepository.findUserFeedList(userId, sortBy, pageable);
+
+        return new FeedSearchPageResDto((int) res.getTotalElements(), res.getContent());
+    }
 }

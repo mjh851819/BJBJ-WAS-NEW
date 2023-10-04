@@ -166,4 +166,22 @@ class FeedServiceTest extends DummyObject {
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
     }
 
+    @Test
+    public void searchUserFeedList_Test() throws Exception {
+        //given
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //stub
+        List<FeedSearchResDto> list = new ArrayList<>();
+        list.add(new FeedSearchResDto(1L, "contents", 0, 0));
+        Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
+        when(feedRepository.findUserFeedList(any(), any(), any())).thenReturn(tar);
+
+        //when
+        FeedSearchPageResDto res = feedService.searchUserFeedList(1L, PathMessage.CREATED_AT, pageRequest);
+
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
+    }
+
 }

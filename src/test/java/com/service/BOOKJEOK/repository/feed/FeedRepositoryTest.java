@@ -115,4 +115,16 @@ class FeedRepositoryTest extends DummyObject {
         //then
         Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
     }
+
+    @Test
+    public void findUserFeedList_Test() throws Exception {
+        //given
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //when
+        Page<FeedSearchResDto> res = feedRepository.findUserFeedList(userId, PathMessage.CREATED_AT, pageRequest);
+
+        //then
+        Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
+    }
 }

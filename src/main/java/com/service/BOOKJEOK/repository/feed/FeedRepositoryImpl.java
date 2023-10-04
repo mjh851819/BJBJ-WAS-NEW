@@ -98,6 +98,34 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom{
                 query::fetchOne);
     }
 
+    @Override
+    public Page<FeedSearchResDto> findUserFeedList(Long userId, String sortBy, Pageable pageable) {
+        List<FeedSearchResDto> res = queryFactory
+                .select(new QFeedResponseDto_FeedSearchResDto(
+                        feed.id,
+                        feed.contents,
+                        feed.likes,
+                        feed.commentList.size()
+                ))
+                .from(feed)
+                .leftJoin(feed.user, user)
+                .leftJoin(feed.commentList, comment)
+                .where(user.id.eq(userId))
+                .orderBy(sort(sortBy))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> query = queryFactory
+                .select(feed.count())
+                .from(feed)
+                .leftJoin(feed.user, user)
+                .where(user.id.eq(userId));
+
+        return PageableExecutionUtils.getPage(res, pageable,
+                query::fetchOne);
+    }
+
     private OrderSpecifier<?> sort(String sortBy) {
         if(sortBy.equals(PathMessage.LIKES)) return feed.likes.asc();
         else return feed.createdAt.asc();

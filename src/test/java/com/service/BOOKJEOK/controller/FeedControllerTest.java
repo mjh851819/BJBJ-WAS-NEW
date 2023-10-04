@@ -178,4 +178,18 @@ class FeedControllerTest extends DummyObject {
         //then
         resultActions.andExpect(status().isOk());
     }
+
+    @Test
+    public void getUserFeedList_Test() throws Exception {
+        //given
+        //when
+        ResultActions resultActions = mvc.perform(get("/feeds/users/" + userId)
+                .param("sortBy", PathMessage.CREATED_AT)
+                .param("page", "1"));
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
 }
