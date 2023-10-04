@@ -3,16 +3,18 @@ package com.service.BOOKJEOK.service;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
-import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.handler.ex.ExMessage;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
@@ -59,5 +61,12 @@ public class FeedService {
         FeedSearchDetailResDto res = new FeedSearchDetailResDto(feedPS);
 
         return res;
+    }
+
+    public FeedSearchPageResDto searchFeedList(Long clubId, Pageable pageable) {
+
+        Page<FeedSearchResDto> res = feedRepository.findClubFeedList(clubId, pageable);
+
+        return new FeedSearchPageResDto((int) res.getTotalElements(), res.getContent());
     }
 }

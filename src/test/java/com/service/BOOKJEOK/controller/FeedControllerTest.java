@@ -53,6 +53,8 @@ class FeedControllerTest extends DummyObject {
     private WebApplicationContext ctx;
 
     private Long feedId;
+    private Long clubId;
+    private Long userId;
 
     @BeforeEach
     public void setup() {
@@ -82,6 +84,8 @@ class FeedControllerTest extends DummyObject {
                 .build();
 
         this.feedId = feedPS.getId();
+        this.clubId = clubPS.getId();
+        this.userId = mePS.getId();
     }
 
     @WithMockUser
@@ -108,13 +112,7 @@ class FeedControllerTest extends DummyObject {
     @Test
     public void updateFeed_Test() throws Exception {
         //given
-        User me = newUser("mjh", "abc");
-        User mePS = userRepository.save(me);
-        Club club = newClub("club1", mePS);
-        Club clubPS = clubRepository.save(club);
-        Feed feed = newFeed("myFeed", mePS, clubPS);
-        Feed feedPS = feedRepository.save(feed);
-        FeedUpdateReqDto req = new FeedUpdateReqDto(feedPS.getId(), mePS.getId(), clubPS.getId(), "abc", "abc", "abc");
+        FeedUpdateReqDto req = new FeedUpdateReqDto(feedId, userId, clubId, "abc", "abc", "abc");
         String dto = om.writeValueAsString(req);
 
         //when
@@ -130,16 +128,9 @@ class FeedControllerTest extends DummyObject {
     @Test
     public void deleteFeed_Test() throws Exception {
         //given
-        User me = newUser("mjh", "abc");
-        User mePS = userRepository.save(me);
-        Club myClub = newClub("club", mePS);
-        Club clubPS = clubRepository.save(myClub);
-        Feed feed = newFeed("feed", mePS, clubPS);
-        Feed feedPS = feedRepository.save(feed);
-
         //when
         ResultActions resultActions = mvc.perform(delete("/feeds")
-                        .param("feedId", feedPS.getId().toString()));
+                        .param("feedId", feedId.toString()));
         //String res = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println("테스트 : " + res);
 
@@ -154,8 +145,20 @@ class FeedControllerTest extends DummyObject {
 
         //when
         ResultActions resultActions = mvc.perform(get("/feeds/"+feedId));
-        String res = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + res);
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    public void getClubFeedList_Test() throws Exception {
+        //given
+        //when
+        ResultActions resultActions = mvc.perform(get("/feeds/clubs/"+clubId));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());

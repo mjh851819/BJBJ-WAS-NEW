@@ -5,6 +5,8 @@ import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
 import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.service.FeedService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -60,4 +62,15 @@ public class FeedController {
 
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 조회 성공", res), HttpStatus.OK);
     }
+
+    @GetMapping("/clubs/{clubId}")
+    public ResponseEntity<?> getClubFeedList(
+            @PathVariable Long clubId,
+            @PageableDefault(size = 4) Pageable pageable) {
+
+        FeedSearchPageResDto res = feedService.searchFeedList(clubId, pageable);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "게시글 리스트 조회 성공", res), HttpStatus.OK);
+    }
+
 }

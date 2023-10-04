@@ -6,18 +6,25 @@ import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
 import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
+import com.service.BOOKJEOK.dto.member.MemberResponseDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
@@ -38,6 +45,10 @@ class FeedServiceTest extends DummyObject {
     private UserRepository userRepository;
     @Mock
     private ClubRepository clubRepository;
+
+    private Long userId;
+    private Long clubId;
+    private Long feedId;
 
     @Test
     public void createFeed_Test() throws Exception {
@@ -93,7 +104,6 @@ class FeedServiceTest extends DummyObject {
     @Test
     public void searchFeed() throws Exception {
         //given
-        Long feedId = 1L;
         User me = newUser("mjh", "abc");
         Club myClub = newClub("club", me);
         Feed feed = newFeed("feed", me, myClub);
@@ -101,15 +111,15 @@ class FeedServiceTest extends DummyObject {
                 .contents("contents1")
                 .user(me)
                 .feed(feed)
-                .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build();
         Comment comment2 = Comment.builder()
                 .contents("contents2")
                 .user(me)
                 .feed(feed)
-                .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build();
 
         //stub
@@ -121,6 +131,25 @@ class FeedServiceTest extends DummyObject {
         //then
         Assertions.assertThat(res.getComments().size()).isEqualTo(2);
         Assertions.assertThat(res.getTitle()).isEqualTo(feed.getTitle());
+    }
+
+    @Test
+    public void searchFeedList_Test() throws Exception {
+        //given
+        Long clubId = 1L;
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //stub
+        List<FeedSearchResDto> list = new ArrayList<>();
+        list.add(new FeedSearchResDto(1L, "contents", 0, 0));
+        Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
+        when(feedRepository.findClubFeedList(any(), any())).thenReturn(tar);
+
+        //when
+        FeedSearchPageResDto res = feedService.searchFeedList(clubId, pageRequest);
+
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
     }
 
 }

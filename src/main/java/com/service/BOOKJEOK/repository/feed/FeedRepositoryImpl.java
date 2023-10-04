@@ -1,9 +1,14 @@
 package com.service.BOOKJEOK.repository.feed;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.dto.feed.QFeedResponseDto_FeedSearchDetailResDto;
+import com.service.BOOKJEOK.dto.feed.QFeedResponseDto_FeedSearchResDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
 
@@ -37,5 +42,32 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom{
                 .fetchOne();
 
         return res;
+    }
+
+    @Override
+    public Page<FeedSearchResDto> findClubFeedList(Long clubId, Pageable pageable) {
+        List<FeedSearchResDto> res = queryFactory
+                .select(new QFeedResponseDto_FeedSearchResDto(
+                        feed.id,
+                        feed.contents,
+                        feed.likes,
+                        feed.commentList.size()
+                ))
+                .from(feed)
+                .leftJoin(feed.club, club)
+                .leftJoin(feed.commentList, comment)
+                .where(club.id.eq(clubId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> query = queryFactory
+                .select(feed.count())
+                .from(feed)
+                .leftJoin(feed.club, club)
+                .where(club.id.eq(clubId));
+
+        return PageableExecutionUtils.getPage(res, pageable,
+                query::fetchOne);
     }
 }
