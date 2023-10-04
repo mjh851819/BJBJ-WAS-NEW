@@ -4,15 +4,12 @@ import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
-import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
-import com.service.BOOKJEOK.dto.member.MemberResponseDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
+import com.service.BOOKJEOK.util.PathMessage;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +26,6 @@ import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -134,7 +130,7 @@ class FeedServiceTest extends DummyObject {
     }
 
     @Test
-    public void searchFeedList_Test() throws Exception {
+    public void searchClubFeedList_Test() throws Exception {
         //given
         Long clubId = 1L;
         PageRequest pageRequest = PageRequest.of(0, 4);
@@ -146,7 +142,25 @@ class FeedServiceTest extends DummyObject {
         when(feedRepository.findClubFeedList(any(), any())).thenReturn(tar);
 
         //when
-        FeedSearchPageResDto res = feedService.searchFeedList(clubId, pageRequest);
+        FeedSearchPageResDto res = feedService.searchClubFeedList(clubId, pageRequest);
+
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
+    }
+
+    @Test
+    public void searchFeedList_Test() throws Exception {
+        //given
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //stub
+        List<FeedSearchResDto> list = new ArrayList<>();
+        list.add(new FeedSearchResDto(1L, "contents", 0, 0));
+        Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
+        when(feedRepository.findFeedList(any(), any())).thenReturn(tar);
+
+        //when
+        FeedSearchPageResDto res = feedService.searchFeedList(PathMessage.CREATED_AT, pageRequest);
 
         //then
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);

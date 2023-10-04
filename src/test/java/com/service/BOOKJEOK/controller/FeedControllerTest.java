@@ -9,6 +9,7 @@ import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
+import com.service.BOOKJEOK.util.PathMessage;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -159,6 +160,20 @@ class FeedControllerTest extends DummyObject {
         ResultActions resultActions = mvc.perform(get("/feeds/clubs/"+clubId));
         //String res = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    public void getFeedList_Test() throws Exception {
+        //given
+        //when
+        ResultActions resultActions = mvc.perform(get("/feeds")
+                .param("sortBy", PathMessage.CREATED_AT)
+                .param("page", "1"));
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());

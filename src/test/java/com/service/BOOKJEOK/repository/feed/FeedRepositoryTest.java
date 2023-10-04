@@ -8,6 +8,7 @@ import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.comment.CommentRepository;
+import com.service.BOOKJEOK.util.PathMessage;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,7 +88,7 @@ class FeedRepositoryTest extends DummyObject {
     public void findByIdDetail_Test() throws Exception {
         //given
         //when
-        Feed res = feedRepository.findByIdDetail(userId);
+        Feed res = feedRepository.findByIdDetail(feedId);
         FeedSearchDetailResDto dto = new FeedSearchDetailResDto(res);
         System.out.println("테스트 : " + dto.toString());
 
@@ -100,6 +101,17 @@ class FeedRepositoryTest extends DummyObject {
         PageRequest pageRequest = PageRequest.of(0, 4);
         //when
         Page<FeedSearchResDto> res = feedRepository.findClubFeedList(clubId, pageRequest);
+        //then
+        Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
+    }
+
+    @Test
+    public void findFeedList_Test() throws Exception {
+        //given
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //when
+        Page<FeedSearchResDto> res = feedRepository.findFeedList(PathMessage.CREATED_AT, pageRequest);
         //then
         Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
     }

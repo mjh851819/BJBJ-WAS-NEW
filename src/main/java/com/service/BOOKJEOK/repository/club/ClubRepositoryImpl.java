@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.service.BOOKJEOK.domain.club.*;
+import com.service.BOOKJEOK.util.PathMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -74,7 +75,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
     }
 
     private OrderSpecifier<?> sortBy(String sortBy) {
-        if(sortBy.equals("likes")) return club.likes.asc();
+        if(sortBy.equals(PathMessage.LIKES)) return club.likes.asc();
         return club.createdAt.asc();
     }
 }

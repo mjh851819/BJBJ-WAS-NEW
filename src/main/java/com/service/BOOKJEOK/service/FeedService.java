@@ -14,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 
@@ -63,10 +61,19 @@ public class FeedService {
         return res;
     }
 
-    public FeedSearchPageResDto searchFeedList(Long clubId, Pageable pageable) {
+    public FeedSearchPageResDto searchFeedList(String sortBy, Pageable pageable) {
+
+        Page<FeedSearchResDto> res = feedRepository.findFeedList(sortBy, pageable);
+
+        return new FeedSearchPageResDto((int) res.getTotalElements(), res.getContent());
+    }
+
+    public FeedSearchPageResDto searchClubFeedList(Long clubId, Pageable pageable) {
 
         Page<FeedSearchResDto> res = feedRepository.findClubFeedList(clubId, pageable);
 
         return new FeedSearchPageResDto((int) res.getTotalElements(), res.getContent());
     }
+
+
 }
