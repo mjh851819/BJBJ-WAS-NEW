@@ -1,16 +1,11 @@
 package com.service.BOOKJEOK.repository.club;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
-import com.service.BOOKJEOK.domain.club.Tag;
-import com.service.BOOKJEOK.domain.club.TagEntity;
 import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.club.ClubRequestDto;
-import com.service.BOOKJEOK.dto.club.ClubResponseDto;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.comment.CommentRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.repository.member.MemberRepository;
@@ -22,21 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityManager;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.service.BOOKJEOK.dto.club.ClubRequestDto.*;
-import static com.service.BOOKJEOK.dto.club.ClubResponseDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class ClubRepositoryTest extends DummyObject {

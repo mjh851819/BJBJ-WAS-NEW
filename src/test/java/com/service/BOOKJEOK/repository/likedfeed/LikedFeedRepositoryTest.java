@@ -1,12 +1,10 @@
 package com.service.BOOKJEOK.repository.likedfeed;
 
-import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
@@ -18,10 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDateTime;
-
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class LikedFeedRepositoryTest extends DummyObject {

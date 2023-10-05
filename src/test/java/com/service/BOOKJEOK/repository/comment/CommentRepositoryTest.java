@@ -4,8 +4,7 @@ import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.comment.CommentResponseDto;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import java.time.LocalDateTime;
 
 import static com.service.BOOKJEOK.dto.comment.CommentResponseDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class CommentRepositoryTest extends DummyObject {

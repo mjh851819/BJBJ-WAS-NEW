@@ -1,7 +1,7 @@
 package com.service.BOOKJEOK.service;
 
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

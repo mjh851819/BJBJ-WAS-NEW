@@ -4,9 +4,7 @@ import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
-import com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.repository.likedfeed.LikedFeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
@@ -26,7 +24,6 @@ import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
