@@ -71,4 +71,21 @@ class CommentServiceTest extends DummyObject {
         commentService.updateComment(req);
     }
 
+    @Test
+    public void deleteComment_Test() throws Exception {
+        //given
+        Long commentId = 1L;
+
+        //stub
+        User me = newUser("mjh", "abc");
+        Club myClub = newClub("club", me);
+        Feed feed = newFeed("title", me, myClub);
+        Comment comment = newComment("abc", me, feed);
+        when(commentRepository.findById(any())).thenReturn(Optional.of(comment));
+
+        //when
+        //then
+        commentService.deleteComment(1L);
+    }
+
 }

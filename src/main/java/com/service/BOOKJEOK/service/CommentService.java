@@ -43,4 +43,10 @@ public class CommentService {
         commentPS.update(req.getContents());
 
     }
+
+    public void deleteComment(Long commentId) {
+        Comment commentPS = commentRepository.findById(commentId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_COMMENT));
+
+        commentRepository.delete(commentPS);
+    }
 }

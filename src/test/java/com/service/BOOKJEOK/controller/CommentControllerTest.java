@@ -30,8 +30,7 @@ import java.time.LocalDateTime;
 
 import static com.service.BOOKJEOK.dto.comment.CommentRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -98,6 +97,7 @@ class CommentControllerTest extends DummyObject {
         resultActions.andExpect(status().isCreated());
     }
 
+    @WithMockUser
     @Test
     public void updateComment_Test() throws Exception {
         //given
@@ -106,11 +106,28 @@ class CommentControllerTest extends DummyObject {
 
         //when
         ResultActions resultActions = mvc.perform(put("/comments").content(dto).contentType(MediaType.APPLICATION_JSON));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void deleteComment_Test() throws Exception {
+        //given
+
+        //when
+        ResultActions resultActions = mvc.perform(delete("/comments/")
+                .param("commentId", commentId.toString()));
         String res = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());
     }
+
+
 
 }
