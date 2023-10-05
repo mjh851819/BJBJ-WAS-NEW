@@ -53,4 +53,20 @@ class LikedFeedServiceTest extends DummyObject {
         likedFeedService.createLike(req);
     }
 
+    @Test
+    public void deleteLike_Test() throws Exception {
+        //given
+        User user = newUser("mjh", "abc");
+        Club club = newClub("club", user);
+        Feed feed = newFeed("abc", user, club);
+        LikedFeed likedFeed = newLikedFeed(user, feed);
+
+        //stub
+        when(likedFeedRepository.findById(any())).thenReturn(Optional.of(likedFeed));
+
+        //when
+        //then
+        likedFeedService.deleteLike(1L);
+    }
+
 }

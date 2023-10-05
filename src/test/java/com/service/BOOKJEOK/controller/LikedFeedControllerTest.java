@@ -3,12 +3,14 @@ package com.service.BOOKJEOK.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
+import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
+import com.service.BOOKJEOK.repository.likedfeed.LikedFeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,7 @@ import java.time.LocalDateTime;
 
 import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,6 +50,8 @@ class LikedFeedControllerTest extends DummyObject {
     @Autowired
     private FeedRepository feedRepository;
     @Autowired
+    private LikedFeedRepository likedFeedRepository;
+    @Autowired
     private ObjectMapper om;
     @Autowired
     private WebApplicationContext ctx;
@@ -54,6 +59,7 @@ class LikedFeedControllerTest extends DummyObject {
     private Long feedId;
     private Long clubId;
     private Long userId;
+    private Long likedFeedId;
 
     @BeforeEach
     public void setup() {
@@ -67,24 +73,14 @@ class LikedFeedControllerTest extends DummyObject {
         Club clubPS = clubRepository.save(myClub);
         Feed feed = newFeed("feed", mePS, clubPS);
         Feed feedPS = feedRepository.save(feed);
-        Comment comment1 = Comment.builder()
-                .contents("contents1")
-                .user(mePS)
-                .feed(feedPS)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
-        Comment comment2 = Comment.builder()
-                .contents("contents2")
-                .user(mePS)
-                .feed(feedPS)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
+
+        LikedFeed likedFeed = newLikedFeed(mePS, feedPS);
+        LikedFeed likedFeedPS = likedFeedRepository.save(likedFeed);
 
         this.feedId = feedPS.getId();
         this.clubId = clubPS.getId();
         this.userId = mePS.getId();
+        this.likedFeedId = likedFeedPS.getId();
     }
 
     @Test
@@ -95,11 +91,24 @@ class LikedFeedControllerTest extends DummyObject {
 
         //when
         ResultActions resultActions = mvc.perform(post("/likedfeeds").content(dto).contentType(MediaType.APPLICATION_JSON));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isCreated());
+    }
+
+    @Test
+    public void deleteLike_Test() throws Exception {
+        //given
+
+        //when
+        ResultActions resultActions = mvc.perform(delete("/likedfeeds/" + likedFeedId));
         String res = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + res);
 
         //then
-        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(status().isOk());
     }
 
 }

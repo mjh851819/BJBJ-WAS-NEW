@@ -32,4 +32,11 @@ public class LikedFeedService {
         LikedFeed likedFeed = req.toEntity(userPS, feedPS);
         likedFeedRepository.save(likedFeed);
     }
+
+    @Transactional
+    public void deleteLike(Long feedId) {
+        LikedFeed likedFeed = likedFeedRepository.findById(feedId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_LIKE));
+
+        likedFeedRepository.delete(likedFeed);
+    }
 }
