@@ -1,7 +1,7 @@
-package com.service.BOOKJEOK.repository.comment;
+package com.service.BOOKJEOK.repository.likedfeed;
 
-import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
+import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.repository.user.UserRepository;
@@ -16,12 +16,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDateTime;
-
-import static com.service.BOOKJEOK.dto.comment.CommentResponseDto.*;
+import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 
 @DataJpaTest
-class CommentRepositoryTest extends DummyObject {
+class LikedFeedRepositoryTest extends DummyObject {
 
     @Autowired
     private FeedRepository feedRepository;
@@ -30,11 +28,12 @@ class CommentRepositoryTest extends DummyObject {
     @Autowired
     private ClubRepository clubRepository;
     @Autowired
-    private CommentRepository commentRepository;
+    private LikedFeedRepository likedFeedRepository;
 
     private Long userId;
     private Long clubId;
     private Long feedId;
+    private Long likedFeedId;
 
 
     @BeforeEach
@@ -45,36 +44,24 @@ class CommentRepositoryTest extends DummyObject {
         Club clubPS = clubRepository.save(myClub);
         Feed feed = newFeed("feed", mePS, clubPS);
         Feed feedPS = feedRepository.save(feed);
-        Comment comment1 = Comment.builder()
-                .contents("contents1")
-                .user(mePS)
-                .feed(feedPS)
-                .updatedAt(LocalDateTime.now())
-                .createdAt(LocalDateTime.now())
-                .build();
-        Comment comment2 = Comment.builder()
-                .contents("contents2")
-                .user(mePS)
-                .feed(feedPS)
-                .updatedAt(LocalDateTime.now())
-                .createdAt(LocalDateTime.now())
-                .build();
-        commentRepository.save(comment1);
-        commentRepository.save(comment2);
+        LikedFeed likedFeed = newLikedFeed(mePS, feedPS);
+        LikedFeed likedFeedPS = likedFeedRepository.save(likedFeed);
 
+        this.likedFeedId = likedFeedPS.getId();
         this.clubId = clubPS.getId();
         this.userId = mePS.getId();
         this.feedId = feedPS.getId();
     }
 
     @Test
-    public void searchCommentList_Test() throws Exception {
+    public void searchFeedList_Test() throws Exception {
         //given
         PageRequest pageRequest = PageRequest.of(0, 4);
-        //when
-        Page<CommentSearchResDto> res = commentRepository.searchCommentList(userId, pageRequest);
-        //then
-        Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
-    }
 
+        //when
+        Page<FeedSearchResDto> res = likedFeedRepository.searchFeedList(userId, pageRequest);
+
+        //then
+        Assertions.assertThat(res.getTotalElements()).isEqualTo(1);
+    }
 }

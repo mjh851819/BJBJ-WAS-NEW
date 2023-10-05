@@ -5,8 +5,7 @@ import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.feed.FeedRequestDto;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.util.PathMessage;
@@ -29,7 +28,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.time.LocalDateTime;
 
 import static com.service.BOOKJEOK.dto.feed.FeedRequestDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

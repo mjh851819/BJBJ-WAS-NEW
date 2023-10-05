@@ -1,14 +1,14 @@
 package com.service.BOOKJEOK.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
+import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
-import com.service.BOOKJEOK.repository.comment.CommentRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
+import com.service.BOOKJEOK.repository.likedfeed.LikedFeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import static com.service.BOOKJEOK.dto.comment.CommentRequestDto.*;
+import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class CommentControllerTest extends DummyObject {
+class LikedFeedControllerTest extends DummyObject {
 
     @Autowired
     private MockMvc mvc;
@@ -45,7 +45,7 @@ class CommentControllerTest extends DummyObject {
     @Autowired
     private FeedRepository feedRepository;
     @Autowired
-    private CommentRepository commentRepository;
+    private LikedFeedRepository likedFeedRepository;
     @Autowired
     private ObjectMapper om;
     @Autowired
@@ -54,7 +54,7 @@ class CommentControllerTest extends DummyObject {
     private Long feedId;
     private Long clubId;
     private Long userId;
-    private Long commentId;
+    private Long likedFeedId;
 
     @BeforeEach
     public void setup() {
@@ -68,24 +68,25 @@ class CommentControllerTest extends DummyObject {
         Club clubPS = clubRepository.save(myClub);
         Feed feed = newFeed("feed", mePS, clubPS);
         Feed feedPS = feedRepository.save(feed);
-        Comment comment = newComment("contents", mePS, feedPS);
-        Comment commentPS = commentRepository.save(comment);
+
+        LikedFeed likedFeed = newLikedFeed(mePS, feedPS);
+        LikedFeed likedFeedPS = likedFeedRepository.save(likedFeed);
 
         this.feedId = feedPS.getId();
         this.clubId = clubPS.getId();
         this.userId = mePS.getId();
-        this.commentId = commentPS.getId();
+        this.likedFeedId = likedFeedPS.getId();
     }
 
     @WithMockUser
     @Test
-    public void createComment_Test() throws Exception {
+    public void createLike_Test() throws Exception {
         //given
-        CommentCreateReqDto req = new CommentCreateReqDto(userId, feedId, "abc");
+        LikedFeedCreateReqDto req = new LikedFeedCreateReqDto(feedId, userId);
         String dto = om.writeValueAsString(req);
 
         //when
-        ResultActions resultActions = mvc.perform(post("/comments").content(dto).contentType(MediaType.APPLICATION_JSON));
+        ResultActions resultActions = mvc.perform(post("/likedfeeds").content(dto).contentType(MediaType.APPLICATION_JSON));
         //String res = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println("테스트 : " + res);
 
@@ -95,15 +96,13 @@ class CommentControllerTest extends DummyObject {
 
     @WithMockUser
     @Test
-    public void updateComment_Test() throws Exception {
+    public void deleteLike_Test() throws Exception {
         //given
-        CommentUpdateReqDto req = new CommentUpdateReqDto(commentId, userId, feedId, "abc");
-        String dto = om.writeValueAsString(req);
 
         //when
-        ResultActions resultActions = mvc.perform(put("/comments").content(dto).contentType(MediaType.APPLICATION_JSON));
-        //String res = resultActions.andReturn().getResponse().getContentAsString();
-        //System.out.println("테스트 : " + res);
+        ResultActions resultActions = mvc.perform(delete("/likedfeeds/" + likedFeedId));
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());
@@ -111,34 +110,18 @@ class CommentControllerTest extends DummyObject {
 
     @WithMockUser
     @Test
-    public void deleteComment_Test() throws Exception {
+    public void searchFeedList_Test() throws Exception {
         //given
 
         //when
-        ResultActions resultActions = mvc.perform(delete("/comments/")
-                .param("commentId", commentId.toString()));
+        ResultActions resultActions = mvc.perform(get("/likedfeeds/users/" + userId)
+                .param("page", "1")
+        );
         String res = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());
     }
-
-    @Test
-    public void searchCommentList_Test() throws Exception {
-        //given
-
-
-        //when
-        ResultActions resultActions = mvc.perform(get("/comments/users/" + userId)
-                .param("page", "1"));
-        String res = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + res);
-
-        //then
-        resultActions.andExpect(status().isOk());
-    }
-
-
 
 }

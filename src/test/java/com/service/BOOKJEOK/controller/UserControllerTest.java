@@ -2,7 +2,7 @@ package com.service.BOOKJEOK.controller;
 
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.domain.user.UserEnum;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

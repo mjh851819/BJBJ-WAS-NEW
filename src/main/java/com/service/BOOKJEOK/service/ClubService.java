@@ -5,7 +5,9 @@ import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.handler.ex.ExMessage;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
+import com.service.BOOKJEOK.repository.comment.CommentRepository;
+import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.service.BOOKJEOK.dto.club.ClubRequestDto.*;
@@ -26,7 +27,8 @@ public class ClubService {
 
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
-
+    private final FeedRepository feedRepository;
+    private final CommentRepository commentRepository;
     @Transactional
     public ClubCreateResDto createClub(ClubCreateReqDto requestDto) {
         User userPS = userRepository.findById(requestDto.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
@@ -80,12 +82,14 @@ public class ClubService {
         clubPS.updateClub(requestDto);
     }
 
+    @Transactional
     public void deleteClub(Long userId) {
         Club club = clubRepository.findByUserId(userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
-        // TO DO : 추후 구현 필요!
-        //commentRepository.deleteAllByClub(club);
-        //likedClubRepository.deleteByClub(club);
-        //memberRepository.deleteAllByClub(club);
-        clubRepository.delete(club);
+
+        //연관된 member, likedClub 삭제
+        clubRepository.deleteClub(club);
+        List<Long> ids = feedRepository.findIdsByClub(club);
+        //연관된 feed, comment, likedFeed 삭제
+        feedRepository.deleteByFeedIds(ids);
     }
 }

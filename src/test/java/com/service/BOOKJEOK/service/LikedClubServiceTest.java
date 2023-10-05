@@ -2,12 +2,9 @@ package com.service.BOOKJEOK.service;
 
 import com.service.BOOKJEOK.domain.LikedClub;
 import com.service.BOOKJEOK.domain.club.Club;
-import com.service.BOOKJEOK.domain.member.ApprovalStatus;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.likedclub.LikedClubResponseDto;
-import com.service.BOOKJEOK.dto.member.MemberResponseDto;
 import com.service.BOOKJEOK.repository.likedclub.LikedClubRepository;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;

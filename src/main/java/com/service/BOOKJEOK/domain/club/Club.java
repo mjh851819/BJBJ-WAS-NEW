@@ -1,6 +1,7 @@
 package com.service.BOOKJEOK.domain.club;
 
 import com.service.BOOKJEOK.domain.Feed;
+import com.service.BOOKJEOK.domain.LikedClub;
 import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.club.ClubRequestDto;

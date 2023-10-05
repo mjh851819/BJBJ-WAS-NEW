@@ -2,7 +2,7 @@ package com.service.BOOKJEOK.service;
 
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

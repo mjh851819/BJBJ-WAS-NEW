@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.domain.user.UserEnum;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.security.ex.JwtException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

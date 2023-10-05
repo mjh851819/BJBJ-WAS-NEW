@@ -6,7 +6,7 @@ import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.handler.ex.ExMessage;
 import com.service.BOOKJEOK.repository.likedclub.LikedClubRepository;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

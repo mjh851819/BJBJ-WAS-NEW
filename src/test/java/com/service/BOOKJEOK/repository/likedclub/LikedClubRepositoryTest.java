@@ -3,9 +3,7 @@ package com.service.BOOKJEOK.repository.likedclub;
 import com.service.BOOKJEOK.domain.LikedClub;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.likedclub.LikedClubRequestDto;
-import com.service.BOOKJEOK.dto.likedclub.LikedClubResponseDto;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import java.util.List;
 
 import static com.service.BOOKJEOK.dto.likedclub.LikedClubResponseDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class LikedClubRepositoryTest extends DummyObject {

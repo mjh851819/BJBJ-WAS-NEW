@@ -11,4 +11,6 @@ import static com.service.BOOKJEOK.dto.comment.CommentResponseDto.*;
 
 public interface CommentRepositoryCustom {
     Page<CommentSearchResDto> searchCommentList(Long userId, Pageable pageable);
+
+    void deleteByFeedIds(List<Long> ids);
 }

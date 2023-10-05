@@ -1,7 +1,7 @@
 package com.service.BOOKJEOK.security.oauth;
 
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.security.dto.CustomOauth2UserDetails;
 import com.service.BOOKJEOK.security.oauth.provider.OAuthAttributes;
 import lombok.RequiredArgsConstructor;

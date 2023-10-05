@@ -2,6 +2,7 @@ package com.service.BOOKJEOK.util.dummy;
 
 import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
+import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.domain.user.UserEnum;
@@ -78,6 +79,13 @@ public class DummyObject {
                 .contents(contents)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
+                .build();
+    }
+
+    protected LikedFeed newLikedFeed(User user, Feed feed) {
+        return LikedFeed.builder()
+                .user(user)
+                .feed(feed)
                 .build();
     }
 }

@@ -14,4 +14,6 @@ import static com.service.BOOKJEOK.dto.club.ClubResponseDto.*;
 
 public interface ClubRepositoryCustom {
     Page<Club> searchClub(ClubSearchReqDto clubSearchReqDto, Pageable pageable);
+
+    void deleteClub(Club club);
 }

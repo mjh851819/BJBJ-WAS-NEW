@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.service.BOOKJEOK.domain.Feed;
+import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.dto.feed.QFeedResponseDto_FeedSearchDetailResDto;
 import com.service.BOOKJEOK.dto.feed.QFeedResponseDto_FeedSearchResDto;
@@ -19,11 +20,12 @@ import java.util.List;
 
 import static com.service.BOOKJEOK.domain.QComment.comment;
 import static com.service.BOOKJEOK.domain.QFeed.feed;
+import static com.service.BOOKJEOK.domain.QLikedFeed.likedFeed;
 import static com.service.BOOKJEOK.domain.club.QClub.club;
 import static com.service.BOOKJEOK.domain.user.QUser.user;
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 
-public class FeedRepositoryImpl implements FeedRepositoryCustom{
+public class FeedRepositoryImpl implements FeedRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -125,6 +127,50 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom{
 
         return PageableExecutionUtils.getPage(res, pageable,
                 query::fetchOne);
+    }
+
+    @Override
+    public List<Long> findIdsByClub(Club club) {
+        List<Long> res = queryFactory
+                .select(feed.id)
+                .from(feed)
+                .where(feed.club.eq(club))
+                .fetch();
+
+        return res;
+    }
+
+    @Override
+    public void deleteByFeedIds(List<Long> ids) {
+        queryFactory
+                .delete(comment)
+                        .where(comment.feed.id.in(ids))
+                                .execute();
+        queryFactory
+                .delete(likedFeed)
+                .where(likedFeed.feed.id.in(ids))
+                .execute();
+
+        queryFactory
+                .delete(feed)
+                .where(feed.id.in(ids))
+                .execute();
+    }
+
+    @Override
+    public void deleteFeedById(Long feedId) {
+        queryFactory
+                .delete(likedFeed)
+                .where(likedFeed.feed.id.eq(feedId))
+                .execute();
+        queryFactory
+                .delete(comment)
+                .where(comment.feed.id.eq(feedId))
+                .execute();
+        queryFactory
+                .delete(feed)
+                .where(feed.id.eq(feedId))
+                .execute();
     }
 
     private OrderSpecifier<?> sort(String sortBy) {
