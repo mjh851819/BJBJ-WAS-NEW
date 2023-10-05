@@ -87,13 +87,8 @@ public class SecurityConfig {
         http.httpBasic().disable();
 
         http.authorizeRequests()
-                //.antMatchers("/api/s/**").authenticated()
-                //.antMatchers("/api/admin/**").hasRole(""+UserEnum.ADMIN)
-                //.antMatchers("/oauth2", "/login").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/auth").authenticated()
-                .anyRequest().permitAll();
+                .antMatchers("/oauth2", "/login").permitAll()
+                .anyRequest().authenticated();
 
         http.oauth2Login(oauth2 -> oauth2
                 .successHandler(new OAuth2SuccessHandler(jwtService))
