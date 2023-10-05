@@ -33,4 +33,12 @@ public class CommentController {
 
         return new ResponseEntity<>(new ResponseDto<>(1, "덧글 작성 성공", null), HttpStatus.CREATED);
     }
+
+    @PutMapping
+    public ResponseEntity<?> updateComment(@Valid @RequestBody CommentUpdateReqDto req, BindingResult bindingResult) {
+
+        commentService.updateComment(req);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "덧글 수정 성공", null), HttpStatus.OK);
+    }
 }

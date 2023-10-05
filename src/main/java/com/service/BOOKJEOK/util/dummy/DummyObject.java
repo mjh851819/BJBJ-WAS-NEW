@@ -1,5 +1,6 @@
 package com.service.BOOKJEOK.util.dummy;
 
+import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
@@ -65,6 +66,16 @@ public class DummyObject {
                 .title(title)
                 .img_url("url")
                 .contents("contents")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+    }
+
+    protected Comment newComment(String contents, User user, Feed feed) {
+        return Comment.builder()
+                .user(user)
+                .feed(feed)
+                .contents(contents)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();

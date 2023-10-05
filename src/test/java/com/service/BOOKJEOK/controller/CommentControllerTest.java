@@ -8,6 +8,7 @@ import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.dto.comment.CommentRequestDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
+import com.service.BOOKJEOK.repository.comment.CommentRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 import static com.service.BOOKJEOK.dto.comment.CommentRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,6 +50,8 @@ class CommentControllerTest extends DummyObject {
     @Autowired
     private FeedRepository feedRepository;
     @Autowired
+    private CommentRepository commentRepository;
+    @Autowired
     private ObjectMapper om;
     @Autowired
     private WebApplicationContext ctx;
@@ -55,6 +59,7 @@ class CommentControllerTest extends DummyObject {
     private Long feedId;
     private Long clubId;
     private Long userId;
+    private Long commentId;
 
     @BeforeEach
     public void setup() {
@@ -68,10 +73,13 @@ class CommentControllerTest extends DummyObject {
         Club clubPS = clubRepository.save(myClub);
         Feed feed = newFeed("feed", mePS, clubPS);
         Feed feedPS = feedRepository.save(feed);
+        Comment comment = newComment("contents", mePS, feedPS);
+        Comment commentPS = commentRepository.save(comment);
 
         this.feedId = feedPS.getId();
         this.clubId = clubPS.getId();
         this.userId = mePS.getId();
+        this.commentId = commentPS.getId();
     }
 
     @WithMockUser
@@ -88,6 +96,21 @@ class CommentControllerTest extends DummyObject {
 
         //then
         resultActions.andExpect(status().isCreated());
+    }
+
+    @Test
+    public void updateComment_Test() throws Exception {
+        //given
+        CommentUpdateReqDto req = new CommentUpdateReqDto(commentId, userId, feedId, "abc");
+        String dto = om.writeValueAsString(req);
+
+        //when
+        ResultActions resultActions = mvc.perform(put("/comments").content(dto).contentType(MediaType.APPLICATION_JSON));
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
     }
 
 }

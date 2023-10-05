@@ -24,11 +24,23 @@ public class CommentService {
     private final UserRepository userRepository;
     private final FeedRepository feedRepository;
 
+    @Transactional
     public void createComment(CommentCreateReqDto req) {
         User userPS = userRepository.findById(req.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
         Feed feedPS = feedRepository.findById(req.getFeedId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_FEED));
 
         Comment comment = req.toEntity(userPS, feedPS);
         commentRepository.save(comment);
+    }
+
+    @Transactional
+    public void updateComment(CommentUpdateReqDto req) {
+        userRepository.findById(req.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
+        feedRepository.findById(req.getFeedId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_FEED));
+
+        Comment commentPS = commentRepository.findById(req.getCommentId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_COMMENT));
+
+        commentPS.update(req.getContents());
+
     }
 }

@@ -1,5 +1,6 @@
 package com.service.BOOKJEOK.service;
 
+import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
@@ -49,6 +50,25 @@ class CommentServiceTest extends DummyObject {
         //when
         //then
         commentService.createComment(req);
+    }
+
+    @Test
+    public void updateComment_Test() throws Exception {
+        //given
+        CommentUpdateReqDto req = new CommentUpdateReqDto(1L, 1L, 1L, "abc");
+
+        //stub
+        User me = newUser("mjh", "abc");
+        when(userRepository.findById(any())).thenReturn(Optional.of(me));
+        Club myClub = newClub("club", me);
+        Feed feed = newFeed("title", me, myClub);
+        when(feedRepository.findById(any())).thenReturn(Optional.of(feed));
+        Comment comment = newComment("abc", me, feed);
+        when(commentRepository.findById(any())).thenReturn(Optional.of(comment));
+
+        //when
+        //then
+        commentService.updateComment(req);
     }
 
 }

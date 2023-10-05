@@ -26,4 +26,14 @@ public class CommentRequestDto {
                     .build();
         }
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class CommentUpdateReqDto {
+        private Long commentId;
+        private Long userId;
+        private Long feedId;
+        @NotNull
+        private String contents;
+    }
 }
