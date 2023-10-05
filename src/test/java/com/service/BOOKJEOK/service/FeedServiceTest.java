@@ -42,10 +42,6 @@ class FeedServiceTest extends DummyObject {
     @Mock
     private ClubRepository clubRepository;
 
-    private Long userId;
-    private Long clubId;
-    private Long feedId;
-
     @Test
     public void createFeed_Test() throws Exception {
         //given
@@ -121,7 +117,7 @@ class FeedServiceTest extends DummyObject {
         //stub
         when(feedRepository.findByIdDetail(any())).thenReturn(feed);
         //when
-        FeedSearchDetailResDto res = feedService.searchFeed(feedId);
+        FeedSearchDetailResDto res = feedService.searchFeed(1L);
         System.out.println(res);
 
         //then
