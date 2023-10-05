@@ -4,19 +4,27 @@ import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.repository.likedfeed.LikedFeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -67,6 +75,25 @@ class LikedFeedServiceTest extends DummyObject {
         //when
         //then
         likedFeedService.deleteLike(1L);
+    }
+
+    @Test
+    public void searchFeedList_Test() throws Exception {
+        //given
+        Long userID = 1L;
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //stub
+        List<FeedSearchResDto> list = new ArrayList<>();
+        list.add(new FeedSearchResDto(1L, "contents", 0, 0));
+        Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
+        when(likedFeedRepository.searchFeedList(any(), any())).thenReturn(tar);
+
+        //when
+        FeedSearchPageResDto res = likedFeedService.searchFeedList(userID, pageRequest);
+
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
     }
 
 }

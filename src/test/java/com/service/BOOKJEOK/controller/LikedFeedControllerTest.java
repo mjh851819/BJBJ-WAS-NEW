@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -30,8 +31,7 @@ import java.time.LocalDateTime;
 
 import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -83,6 +83,7 @@ class LikedFeedControllerTest extends DummyObject {
         this.likedFeedId = likedFeedPS.getId();
     }
 
+    @WithMockUser
     @Test
     public void createLike_Test() throws Exception {
         //given
@@ -98,12 +99,29 @@ class LikedFeedControllerTest extends DummyObject {
         resultActions.andExpect(status().isCreated());
     }
 
+    @WithMockUser
     @Test
     public void deleteLike_Test() throws Exception {
         //given
 
         //when
         ResultActions resultActions = mvc.perform(delete("/likedfeeds/" + likedFeedId));
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void searchFeedList_Test() throws Exception {
+        //given
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/likedfeeds/users/" + userId)
+                .param("page", "1")
+        );
         String res = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + res);
 
