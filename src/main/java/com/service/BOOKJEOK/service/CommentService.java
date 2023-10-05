@@ -3,18 +3,29 @@ package com.service.BOOKJEOK.service;
 import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.club.ClubResponseDto;
 import com.service.BOOKJEOK.dto.comment.CommentRequestDto;
+import com.service.BOOKJEOK.dto.comment.CommentResponseDto;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.handler.ex.ExMessage;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.comment.CommentRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.service.BOOKJEOK.dto.comment.CommentRequestDto.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import static com.service.BOOKJEOK.dto.club.ClubResponseDto.*;
+import static com.service.BOOKJEOK.dto.comment.CommentRequestDto.*;
+import static com.service.BOOKJEOK.dto.comment.CommentResponseDto.*;
+
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -48,5 +59,12 @@ public class CommentService {
         Comment commentPS = commentRepository.findById(commentId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_COMMENT));
 
         commentRepository.delete(commentPS);
+    }
+
+    public CommentSearchPageResDto searchCommentList(Long userId, Pageable pageable) {
+
+        Page<CommentSearchResDto> res = commentRepository.searchCommentList(userId, pageable);
+
+        return new CommentSearchPageResDto((int) res.getTotalElements(), res.getContent());
     }
 }
