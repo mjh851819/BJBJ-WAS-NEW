@@ -48,4 +48,12 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
         return PageableExecutionUtils.getPage(res, pageable,
                 query::fetchOne);
     }
+
+    @Override
+    public void deleteByFeedIds(List<Long> ids) {
+        queryFactory
+                .delete(comment)
+                .where(comment.feed.id.in(ids))
+                .execute();
+    }
 }

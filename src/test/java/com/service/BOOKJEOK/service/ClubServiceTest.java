@@ -7,6 +7,8 @@ import com.service.BOOKJEOK.dto.user.UserResponseDto;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.UserRepository;
+import com.service.BOOKJEOK.repository.comment.CommentRepository;
+import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.util.dummy.DummyObject;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,6 +38,10 @@ class ClubServiceTest extends DummyObject {
     private ClubRepository clubRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private FeedRepository feedRepository;
+    @Mock
+    private CommentRepository commentRepository;
 
     @Test
     public void create_club_test() throws Exception {

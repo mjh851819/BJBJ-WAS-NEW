@@ -2,6 +2,7 @@ package com.service.BOOKJEOK.repository.member;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.member.ApprovalStatus;
 import com.service.BOOKJEOK.dto.member.MemberResponseDto;
 import com.service.BOOKJEOK.dto.member.QMemberResponseDto_MemberJoiningClubResDto;
@@ -97,5 +98,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .fetch();
 
         return res;
+    }
+
+    @Override
+    public void deleteMemberByClub(Club club) {
+        queryFactory
+                .delete(member)
+                .where(member.club.eq(club))
+                .execute();
     }
 }

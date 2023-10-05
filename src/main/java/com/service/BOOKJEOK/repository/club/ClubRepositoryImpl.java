@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.service.BOOKJEOK.domain.club.*;
+import com.service.BOOKJEOK.domain.member.QMember;
 import com.service.BOOKJEOK.util.PathMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +17,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.service.BOOKJEOK.domain.QComment.comment;
+import static com.service.BOOKJEOK.domain.QFeed.feed;
+import static com.service.BOOKJEOK.domain.QLikedClub.likedClub;
+import static com.service.BOOKJEOK.domain.club.QClub.*;
 import static com.service.BOOKJEOK.domain.club.QClub.club;
 import static com.service.BOOKJEOK.domain.club.QTagEntity.tagEntity;
+import static com.service.BOOKJEOK.domain.member.QMember.member;
 import static com.service.BOOKJEOK.dto.club.ClubRequestDto.*;
 
 public class ClubRepositoryImpl implements ClubRepositoryCustom{
@@ -57,6 +63,20 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
 
         return PageableExecutionUtils.getPage(result, pageable,
                 query::fetchOne);
+    }
+
+    @Override
+    public void deleteClub(Club club) {
+        queryFactory.delete(member)
+                .where(member.club.eq(club))
+                .execute();
+
+        queryFactory.delete(likedClub)
+                .where(likedClub.club.eq(club))
+                .execute();
+
+        queryFactory.delete(QClub.club)
+                .where(QClub.club.eq(club));
     }
 
     private BooleanExpression keywordIn(String keyword) {
