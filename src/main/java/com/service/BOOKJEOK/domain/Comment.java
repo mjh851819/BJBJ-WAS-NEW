@@ -51,4 +51,9 @@ public class Comment {
 
         feed.getCommentList().add(this);
     }
+
+    public void update(String contents){
+        this.contents = contents;
+        this.updatedAt = LocalDateTime.now();
+    }
 }
