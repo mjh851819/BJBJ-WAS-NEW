@@ -2,7 +2,6 @@ package com.service.BOOKJEOK.repository.feed;
 
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
-import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,5 +21,7 @@ public interface FeedRepositoryCustom {
 
     List<Long> findIdsByClub(Club club);
 
-    void deleteById(List<Long> ids);
+    void deleteByFeedIds(List<Long> ids);
+
+    void deleteFeedById(Long feedId);
 }

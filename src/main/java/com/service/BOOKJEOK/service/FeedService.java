@@ -50,6 +50,7 @@ public class FeedService {
 
         // issue: delete()를 호출했을때 나가는 쿼리수를 체크해 봐야함.
         feedRepository.delete(feedPS);
+        feedRepository.deleteFeedById(feedId);
     }
 
     public FeedSearchDetailResDto searchFeed(Long feedId) {

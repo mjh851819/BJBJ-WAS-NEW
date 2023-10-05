@@ -5,7 +5,6 @@ import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
-import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.comment.CommentRepository;
@@ -22,10 +21,8 @@ import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class FeedRepositoryTest extends DummyObject {
@@ -141,7 +138,7 @@ class FeedRepositoryTest extends DummyObject {
     }
 
     @Test
-    public void deleteById_Test() throws Exception {
+    public void deleteByFeedIds_Test() throws Exception {
         //given
         Club club = clubRepository.findById(clubId).get();
         List<Long> ids = feedRepository.findIdsByClub(club);
@@ -152,7 +149,7 @@ class FeedRepositoryTest extends DummyObject {
         Assertions.assertThat(beforeLike.size()).isEqualTo(2);
         Assertions.assertThat(beforeFeed.size()).isEqualTo(2);
         Assertions.assertThat(beforeComment.size()).isEqualTo(2);
-        feedRepository.deleteById(ids);
+        feedRepository.deleteByFeedIds(ids);
         List<Feed> after = feedRepository.findAll();
         List<Comment> afterComment = commentRepository.findAll();
         List<LikedFeed> afterLike = likedFeedRepository.findAll();
@@ -160,6 +157,27 @@ class FeedRepositoryTest extends DummyObject {
         Assertions.assertThat(after.size()).isEqualTo(0);
         Assertions.assertThat(afterComment.size()).isEqualTo(0);
         Assertions.assertThat(afterLike.size()).isEqualTo(0);
+    }
 
+    @Test
+    public void deleteFeedById_Test() throws Exception {
+        //given
+        List<Comment> beforeC = commentRepository.findAll();
+        List<LikedFeed> beforeL = likedFeedRepository.findAll();
+        List<Feed> beforeF = feedRepository.findAll();
+        Assertions.assertThat(beforeC.size()).isEqualTo(2);
+        Assertions.assertThat(beforeF.size()).isEqualTo(2);
+        Assertions.assertThat(beforeL.size()).isEqualTo(2);
+
+        //when
+        feedRepository.deleteFeedById(feedId);
+        List<Comment> afterC = commentRepository.findAll();
+        List<LikedFeed> afterL = likedFeedRepository.findAll();
+        List<Feed> afterF = feedRepository.findAll();
+
+        //then
+        Assertions.assertThat(afterC.size()).isEqualTo(1);
+        Assertions.assertThat(afterL.size()).isEqualTo(1);
+        Assertions.assertThat(afterF.size()).isEqualTo(1);
     }
 }

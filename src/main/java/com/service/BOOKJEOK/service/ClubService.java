@@ -8,7 +8,6 @@ import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.UserRepository;
 import com.service.BOOKJEOK.repository.comment.CommentRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
-import com.service.BOOKJEOK.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.service.BOOKJEOK.dto.club.ClubRequestDto.*;
@@ -92,6 +90,6 @@ public class ClubService {
         clubRepository.deleteClub(club);
         List<Long> ids = feedRepository.findIdsByClub(club);
         //연관된 feed, comment, likedFeed 삭제
-        feedRepository.deleteById(ids);
+        feedRepository.deleteByFeedIds(ids);
     }
 }

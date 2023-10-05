@@ -141,7 +141,7 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
     }
 
     @Override
-    public void deleteById(List<Long> ids) {
+    public void deleteByFeedIds(List<Long> ids) {
         queryFactory
                 .delete(comment)
                         .where(comment.feed.id.in(ids))
@@ -154,6 +154,22 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
         queryFactory
                 .delete(feed)
                 .where(feed.id.in(ids))
+                .execute();
+    }
+
+    @Override
+    public void deleteFeedById(Long feedId) {
+        queryFactory
+                .delete(likedFeed)
+                .where(likedFeed.feed.id.eq(feedId))
+                .execute();
+        queryFactory
+                .delete(comment)
+                .where(comment.feed.id.eq(feedId))
+                .execute();
+        queryFactory
+                .delete(feed)
+                .where(feed.id.eq(feedId))
                 .execute();
     }
 
