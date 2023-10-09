@@ -114,4 +114,23 @@ class CommentServiceTest extends DummyObject {
 
     }
 
+    @Test
+    public void searchDetailCommentList_Test() throws Exception {
+        //given
+        Long feedId = 1L;
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //stub
+        List<CommentDetailResDto> list = new ArrayList<>();
+        list.add(new CommentDetailResDto(1L, "min", "qwert", "con"));
+        list.add(new CommentDetailResDto(2L, "min", "qwert", "con"));
+        Page<CommentDetailResDto> tar = new PageImpl<>(list, pageRequest, 2);
+        when(commentRepository.searchCommentListByFeedId(any(), any())).thenReturn(tar);
+
+        //when
+        CommentDetailPageResDto res = commentService.searchDetailCommentList(feedId, pageRequest);
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(2);
+
+    }
 }

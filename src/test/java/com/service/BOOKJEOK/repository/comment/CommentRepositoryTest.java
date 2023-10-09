@@ -77,4 +77,16 @@ class CommentRepositoryTest extends DummyObject {
         Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
     }
 
+    @Test
+    public void searchCommentListByFeedId() throws Exception {
+        //given
+        PageRequest pageRequest = PageRequest.of(0, 4);
+
+        //when
+        Page<CommentSearchResDto> res = commentRepository.searchCommentList(feedId, pageRequest);
+
+        //then
+        Assertions.assertThat(res.getTotalElements()).isEqualTo(2);
+    }
+
 }

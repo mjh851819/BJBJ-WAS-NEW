@@ -60,4 +60,12 @@ public class CommentController {
         return new ResponseEntity<>(new ResponseDto<>(1, "덧글 리스트 조회 성공", res), HttpStatus.OK);
     }
 
+    @GetMapping("/feeds/{feedId}")
+    public ResponseEntity<?> searchCommentListDetail(@PathVariable("feedId") Long feedId, @PageableDefault(size = 3) Pageable pageable) {
+
+        CommentDetailPageResDto res = commentService.searchDetailCommentList(feedId, pageable);
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "덧글 리스트 조회 성공", res), HttpStatus.OK);
+    }
+
 }

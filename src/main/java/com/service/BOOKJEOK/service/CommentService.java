@@ -60,4 +60,11 @@ public class CommentService {
 
         return new CommentSearchPageResDto((int) res.getTotalElements(), res.getContent());
     }
+
+    public CommentDetailPageResDto searchDetailCommentList(Long feedId, Pageable pageable) {
+
+        Page<CommentDetailResDto> res = commentRepository.searchCommentListByFeedId(feedId, pageable);
+
+        return new CommentDetailPageResDto((int) res.getTotalElements(), res.getContent());
+    }
 }

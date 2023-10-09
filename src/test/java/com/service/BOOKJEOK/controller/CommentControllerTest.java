@@ -117,13 +117,14 @@ class CommentControllerTest extends DummyObject {
         //when
         ResultActions resultActions = mvc.perform(delete("/comments/")
                 .param("commentId", commentId.toString()));
-        String res = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + res);
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());
     }
 
+    @WithMockUser
     @Test
     public void searchCommentList_Test() throws Exception {
         //given
@@ -132,13 +133,26 @@ class CommentControllerTest extends DummyObject {
         //when
         ResultActions resultActions = mvc.perform(get("/comments/users/" + userId)
                 .param("page", "1"));
+        //String res = resultActions.andReturn().getResponse().getContentAsString();
+        //System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void searchCommentListDetail_Test() throws Exception {
+        //given
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/comments/feeds/" + feedId)
+                .param("page", "1"));
         String res = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());
     }
-
-
 
 }

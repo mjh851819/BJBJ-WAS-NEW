@@ -38,8 +38,6 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
         Feed res = queryFactory
                 .select(feed)
                 .from(feed)
-                .leftJoin(feed.commentList, comment)
-                .leftJoin(comment.user)
                 .leftJoin(feed.user, user)
                 .leftJoin(feed.club, club)
                 .fetchJoin()

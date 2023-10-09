@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.service.BOOKJEOK.domain.Comment;
 import com.service.BOOKJEOK.dto.comment.CommentResponseDto;
+import com.service.BOOKJEOK.dto.comment.QCommentResponseDto_CommentDetailResDto;
 import com.service.BOOKJEOK.dto.comment.QCommentResponseDto_CommentSearchResDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,5 +56,31 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                 .delete(comment)
                 .where(comment.feed.id.in(ids))
                 .execute();
+    }
+
+    @Override
+    public Page<CommentDetailResDto> searchCommentListByFeedId(Long feedId, Pageable pageable) {
+        List<CommentDetailResDto> res = queryFactory
+                .select(new QCommentResponseDto_CommentDetailResDto(
+                        user.id,
+                        user.name,
+                        user.img_url,
+                        comment.contents
+                ))
+                .from(comment)
+                .leftJoin(comment.user, user)
+                .where(comment.feed.id.eq(feedId))
+                .orderBy(comment.createdAt.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> query = queryFactory
+                .select(comment.count())
+                .from(comment)
+                .where(comment.feed.id.eq(feedId));
+
+        return PageableExecutionUtils.getPage(res, pageable,
+                query::fetchOne);
     }
 }
