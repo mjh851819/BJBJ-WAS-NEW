@@ -38,9 +38,8 @@ public class MemberController {
     @DeleteMapping
     public ResponseEntity<?> memberDelete(
             @RequestParam("userId") Long userId,
-            @RequestParam("clubId") Long clubId,
-            @RequestParam("myId") Long myId) {
-        memberService.delete(userId, clubId, myId);
+            @RequestParam("clubId") Long clubId) {
+        memberService.delete(userId, clubId);
         return new ResponseEntity<>(new ResponseDto<>(1, "멤버 삭제 성공", null), HttpStatus.OK);
     }
 
