@@ -50,8 +50,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         return UriComponentsBuilder
                 .newInstance()
-                .fromUriString("http://localhost:8080")
-                .path("/tokenTest")
+                .fromUriString("https://main.d22qmtfllzykxy.amplifyapp.com")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

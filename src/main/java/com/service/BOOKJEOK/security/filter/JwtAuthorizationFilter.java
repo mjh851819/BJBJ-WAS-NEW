@@ -103,7 +103,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         chain.doFilter(request, response);
     }
 
-
         private boolean isHeaderVerify(HttpServletRequest request, HttpServletResponse response){
         String access = request.getHeader(JwtVO.ACCESS_TOKEN_HEADER);
         String refresh = request.getHeader(JwtVO.REFRESH_TOKEN_HEADER);
@@ -112,8 +111,4 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         }
         return true;
     }
-
-
-
-
 }
