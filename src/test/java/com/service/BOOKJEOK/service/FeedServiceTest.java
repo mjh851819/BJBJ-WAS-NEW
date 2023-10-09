@@ -121,7 +121,6 @@ class FeedServiceTest extends DummyObject {
         System.out.println(res);
 
         //then
-        Assertions.assertThat(res.getComments().size()).isEqualTo(2);
         Assertions.assertThat(res.getTitle()).isEqualTo(feed.getTitle());
     }
 

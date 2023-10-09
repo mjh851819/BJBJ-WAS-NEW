@@ -27,4 +27,28 @@ public class CommentResponseDto {
             this.contents = contents;
         }
     }
+
+    @AllArgsConstructor
+    @Getter
+    static public class CommentDetailPageResDto {
+
+        private int totalCount;
+        private List<CommentDetailResDto> commentList;
+    }
+
+    @Getter
+    static public class CommentDetailResDto {
+        private Long userId;
+        private String userName;
+        private String imgUrl;
+        private String contents;
+
+        @QueryProjection
+        public CommentDetailResDto(Long userId, String userName, String imgUrl, String contents) {
+            this.userId = userId;
+            this.userName = userName;
+            this.imgUrl = imgUrl;
+            this.contents = contents;
+        }
+    }
 }

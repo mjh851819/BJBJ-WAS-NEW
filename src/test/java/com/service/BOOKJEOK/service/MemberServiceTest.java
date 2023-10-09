@@ -65,7 +65,6 @@ class MemberServiceTest extends DummyObject {
         //given
         Long userId = 1L;
         Long clubId = 2L;
-        Long myId = userId;
 
         User myUser = newMockUser(userId, "mjh", "abc@abc.com");
         when(userRepository.findById(any())).thenReturn(Optional.of(myUser));
@@ -82,7 +81,7 @@ class MemberServiceTest extends DummyObject {
 
         //when
         //then
-        memberService.delete(userId, clubId, myId);
+        memberService.delete(userId, clubId);
     }
 
     @Test

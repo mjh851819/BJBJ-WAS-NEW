@@ -51,13 +51,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void delete(Long userId, Long clubId, Long myId) {
+    public void delete(Long userId, Long clubId) {
         User userPS = userRepository.findById(userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
         Club clubPS = clubRepository.findById(clubId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
-
-        if(!(userPS.getId().equals(myId) || clubPS.getUser().getId().equals(myId))) {
-            throw new CustomApiException(ExMessage.FORBIDDEN);
-        }
 
         Member memberPS = memberRepository.findByUserAndClub(userPS, clubPS).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_MEMBER));
 

@@ -13,4 +13,6 @@ public interface CommentRepositoryCustom {
     Page<CommentSearchResDto> searchCommentList(Long userId, Pageable pageable);
 
     void deleteByFeedIds(List<Long> ids);
+
+    Page<CommentDetailResDto> searchCommentListByFeedId(Long feedId, Pageable pageable);
 }

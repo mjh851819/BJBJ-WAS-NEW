@@ -25,7 +25,6 @@ public class FeedResponseDto {
         private int likes;
         private String created_at;
         private String updated_at;
-        private List<CommentListDto> comments;
 
         @QueryProjection
         public FeedSearchDetailResDto(Feed feed) {
@@ -38,10 +37,6 @@ public class FeedResponseDto {
             this.likes = feed.getLikes();
             this.created_at = feed.getCreatedAt().toString();
             this.updated_at = feed.getUpdatedAt().toString();
-
-            List<CommentListDto> collect = feed.getCommentList().stream().map(m ->
-                    new CommentListDto(m)).collect(Collectors.toList());
-            this.comments = collect;
         }
     }
     @Data
@@ -54,22 +49,6 @@ public class FeedResponseDto {
             this.userId = user.getId();
             this.name = user.getName();
             this.imgUrl = user.getImg_url();
-        }
-    }
-    @Data
-    static private class CommentListDto {
-        private Long commentId;
-        private UserDto user;
-        private String contents;
-        private String created_at;
-        private String updated_at;
-
-        public CommentListDto(Comment comment) {
-            this.commentId = comment.getId();
-            this.user = new UserDto(comment.getUser());
-            this.contents = comment.getContents();
-            this.created_at = comment.getCreatedAt().toString();
-            this.updated_at = comment.getUpdatedAt().toString();
         }
     }
 
