@@ -81,11 +81,4 @@ public class ClubController {
 
         return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 삭제 성공", null), HttpStatus.OK);
     }
-
-    @GetMapping("/main")
-    public ResponseEntity<?> mainPageLikesClub(@RequestParam("sortBy") String sortBy) {
-        ClubSearchPageResDto res = clubService.searchClubForMain(sortBy);
-
-        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 조회 성공", res), HttpStatus.OK);
-    }
 }
