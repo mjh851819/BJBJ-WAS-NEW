@@ -51,15 +51,15 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
     public Page<FeedSearchResDto> findClubFeedList(Long clubId, String sortBy, Pageable pageable) {
         List<FeedSearchResDto> res = queryFactory
                 .select(new QFeedResponseDto_FeedSearchResDto(
+                        user,
                         feed.id,
                         feed.contents,
                         feed.likes,
                         feed.commentList.size()
                 ))
                 .from(feed)
-                .leftJoin(feed.club, club)
-                .leftJoin(feed.commentList, comment)
-                .where(club.id.eq(clubId))
+                .leftJoin(feed.user, user)
+                .where(feed.club.id.eq(clubId))
                 .orderBy(sort(sortBy))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -79,13 +79,14 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
     public Page<FeedSearchResDto> findFeedList(String sortBy, Pageable pageable) {
         List<FeedSearchResDto> res = queryFactory
                 .select(new QFeedResponseDto_FeedSearchResDto(
+                        user,
                         feed.id,
                         feed.contents,
                         feed.likes,
                         feed.commentList.size()
                 ))
                 .from(feed)
-                .leftJoin(feed.commentList, comment)
+                .leftJoin(feed.user, user)
                 .orderBy(sort(sortBy))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -103,6 +104,7 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
     public Page<FeedSearchResDto> findUserFeedList(Long userId, String sortBy, Pageable pageable) {
         List<FeedSearchResDto> res = queryFactory
                 .select(new QFeedResponseDto_FeedSearchResDto(
+                        user,
                         feed.id,
                         feed.contents,
                         feed.likes,
@@ -110,12 +112,12 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
                 ))
                 .from(feed)
                 .leftJoin(feed.user, user)
-                .leftJoin(feed.commentList, comment)
                 .where(user.id.eq(userId))
                 .orderBy(sort(sortBy))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+
 
         JPAQuery<Long> query = queryFactory
                 .select(feed.count())
@@ -175,14 +177,14 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
     public List<FeedSearchResDto> find4FeedList(String sortBy) {
         List<FeedSearchResDto> res = queryFactory
                 .select(new QFeedResponseDto_FeedSearchResDto(
+                        user,
                         feed.id,
                         feed.contents,
                         feed.likes,
                         feed.commentList.size()
                 ))
-                .distinct()
                 .from(feed)
-                .leftJoin(feed.commentList, comment)
+                .leftJoin(feed.user, user)
                 .orderBy(sort(sortBy))
                 .limit(4)
                 .fetch();

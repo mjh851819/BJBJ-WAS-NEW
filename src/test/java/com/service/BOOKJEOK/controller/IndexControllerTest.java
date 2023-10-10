@@ -92,6 +92,20 @@ class IndexControllerTest extends DummyObject {
     }
 
     @Test
+    public void mainPageLikesClub_Test() throws Exception {
+        //given
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/main/clubs")
+                .param("sortBy", "likes"));
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
     public void mainPageFeedList_Test() throws Exception {
         //given
 

@@ -36,19 +36,20 @@ class JwtAuthorizationFilterTest {
         userRepository.save(user);
         rf = JwtVO.TOKEN_PREFIX + rf;
 
-                //when
-        ResultActions resultActions = mvc.perform(get("/user").header(JwtVO.ACCESS_TOKEN_HEADER, ac).header(JwtVO.REFRESH_TOKEN_HEADER, rf));
+        //when
+        ResultActions resultActions = mvc.perform(get("/").header(JwtVO.ACCESS_TOKEN_HEADER, ac).header(JwtVO.REFRESH_TOKEN_HEADER, rf));
 
         //then
         resultActions.andExpect(status().isOk());
     }
+
 
     @Test
     public void authorization_fail_test() throws Exception {
         //given
 
         //when
-        ResultActions resultActions = mvc.perform(get("/user"));
+        ResultActions resultActions = mvc.perform(get("/"));
         //then
         resultActions.andExpect(status().isUnauthorized());
     }
