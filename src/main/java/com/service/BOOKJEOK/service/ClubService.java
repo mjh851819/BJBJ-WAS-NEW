@@ -92,4 +92,10 @@ public class ClubService {
         //연관된 feed, comment, likedFeed 삭제
         feedRepository.deleteByFeedIds(ids);
     }
+
+    public ClubSearchPageResDto searchClubForMain(String sortBy) {
+        List<ClubSearchResDto> res = clubRepository.find4ClubList(sortBy);
+
+        return new ClubSearchPageResDto(res.size(), res);
+    }
 }

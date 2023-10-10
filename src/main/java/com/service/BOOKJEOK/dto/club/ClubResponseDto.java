@@ -43,35 +43,21 @@ public class ClubResponseDto {
         private String title;
         private String contents;
         private String img_url;
-        private List<String> tags;
-        private int likes;
 
         public ClubSearchResDto(Club club) {
             this.id = club.getId();
             this.title = club.getTitle();
             this.contents = club.getContents();
             this.img_url = club.getImg_url();
-            this.likes = club.getLikes();
-
-            List<TagEntity> tags = club.getTags();
-            List<String> taglist = tags.stream().map(m ->
-                    m.getTag().getValue()
-            ).collect(Collectors.toList());
-            this.tags = taglist;
         }
 
+        @QueryProjection
         @Builder
-        public ClubSearchResDto(Long id, String title, String contents, String img_url, List<TagEntity> tags, int likes) {
+        public ClubSearchResDto(Long id, String title, String contents, String img_url) {
             this.id = id;
             this.title = title;
             this.contents = contents;
             this.img_url = img_url;
-            this.likes = likes;
-
-            List<String> taglist = tags.stream().map(m ->
-                    m.getTag().getValue()
-            ).collect(Collectors.toList());
-            this.tags = taglist;
         }
     }
 
