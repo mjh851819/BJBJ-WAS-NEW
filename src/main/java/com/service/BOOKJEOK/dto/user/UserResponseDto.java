@@ -14,6 +14,7 @@ public class UserResponseDto {
         String user_email;
         String img_url;
 
+
         public UserSearchResDto(User user) {
             this.user_id = user.getId();
             this.user_name = user.getName();

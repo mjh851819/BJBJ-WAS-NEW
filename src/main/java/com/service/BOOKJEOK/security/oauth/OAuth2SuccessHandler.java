@@ -5,6 +5,7 @@ import com.service.BOOKJEOK.security.dto.CustomOauth2UserDetails;
 import com.service.BOOKJEOK.security.jwt.JwtService;
 import com.service.BOOKJEOK.security.jwt.JwtVO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 
+@Slf4j
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtService jwtService;
@@ -35,11 +37,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = jwtService.createAccessToken(oAuth2User.getUser());  // Access Token 생성
         String refreshToken = jwtService.createRefreshToken();     // Refresh Token 생성
         //인증 성공 로직이기 때문에 반드시 객체가 존재한다.
-        User user = jwtService.getUserByEmail(email);
-        jwtService.setRefreshTokenToUser(user, refreshToken);
+        jwtService.setRefreshTokenToUser(email, refreshToken);
 
         String uri = createURI(accessToken, refreshToken).toString();   // Access Token과 Refresh Token을 포함한 URL을 생성
         getRedirectStrategy().sendRedirect(request, response, uri);   // sendRedirect() 메서드를 이용해 Frontend 애플리케이션 쪽으로 리다이렉트
+        log.info("로그인 완료");
     }
 
     // Redirect URI 생성. JWT를 쿼리 파라미터로 담아 전달한다.
@@ -51,6 +53,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return UriComponentsBuilder
                 .newInstance()
                 .fromUriString("https://main.d22qmtfllzykxy.amplifyapp.com")
+                //.fromUriString("http://localhost:8080")
+                //.path("/tokenTest")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

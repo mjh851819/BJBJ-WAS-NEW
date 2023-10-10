@@ -5,6 +5,7 @@ import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.security.dto.CustomOauth2UserDetails;
 import com.service.BOOKJEOK.security.oauth.provider.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor

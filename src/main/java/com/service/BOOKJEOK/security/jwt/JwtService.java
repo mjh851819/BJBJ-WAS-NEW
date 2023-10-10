@@ -132,8 +132,8 @@ public class JwtService {
     }
 
     @Transactional
-    public void setRefreshTokenToUser(User user, String token) {
-        userRepository.findByEmail(user.getEmail())
+    public void setRefreshTokenToUser(String email, String token) {
+        userRepository.findByEmail(email)
                 .orElseThrow(() -> new JwtException(JwtError.JWT_MEMBER_NOT_FOUND_TOKEN))
                 .setRefreshToken(token);
     }
