@@ -171,6 +171,25 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
                 .execute();
     }
 
+    @Override
+    public List<FeedSearchResDto> find4FeedList(String sortBy) {
+        List<FeedSearchResDto> res = queryFactory
+                .select(new QFeedResponseDto_FeedSearchResDto(
+                        feed.id,
+                        feed.contents,
+                        feed.likes,
+                        feed.commentList.size()
+                ))
+                .distinct()
+                .from(feed)
+                .leftJoin(feed.commentList, comment)
+                .orderBy(sort(sortBy))
+                .limit(4)
+                .fetch();
+
+        return res;
+    }
+
     private OrderSpecifier<?> sort(String sortBy) {
         if(sortBy.equals(PathMessage.LIKES)) return feed.likes.asc();
         else return feed.createdAt.asc();

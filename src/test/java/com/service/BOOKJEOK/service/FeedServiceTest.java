@@ -179,4 +179,21 @@ class FeedServiceTest extends DummyObject {
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
     }
 
+    @Test
+    public void searchFeedForMain_Test() throws Exception {
+        //given
+
+        //stub
+        List<FeedSearchResDto> list = new ArrayList<>();
+        list.add(new FeedSearchResDto(1L, "abc", 0, 1));
+        list.add(new FeedSearchResDto(2L, "def", 1, 2));
+        when(feedRepository.find4FeedList(any())).thenReturn(list);
+
+        //when
+        FeedSearchPageResDto res = feedService.searchFeedForMain("likes");
+
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(2);
+    }
+
 }
