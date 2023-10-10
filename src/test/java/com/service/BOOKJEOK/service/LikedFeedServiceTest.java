@@ -81,8 +81,9 @@ class LikedFeedServiceTest extends DummyObject {
         PageRequest pageRequest = PageRequest.of(0, 4);
 
         //stub
+        User user = newUser("mjh", "abc");
         List<FeedSearchResDto> list = new ArrayList<>();
-        list.add(new FeedSearchResDto(1L, "contents", 0, 0));
+        list.add(new FeedSearchResDto(user, 1L, "contents", 0, 0));
         Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
         when(likedFeedRepository.searchFeedList(any(), any())).thenReturn(tar);
 

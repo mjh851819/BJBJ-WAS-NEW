@@ -79,20 +79,6 @@ class FeedRepositoryTest extends DummyObject {
         this.feedId = feedPS1.getId();
     }
 
-    /*@Test
-    public void delete_Test() throws Exception {
-        //given
-        Feed feedPS = feedRepository.findById(feedId).get();
-
-        //when
-        //then
-        Assertions.assertThat(commentRepository.findAll().size()).isEqualTo(2);
-        Assertions.assertThat(feedRepository.findAll().size()).isEqualTo(1);
-        feedRepository.delete(feedPS);
-        Assertions.assertThat(commentRepository.findAll().size()).isEqualTo(0);
-        Assertions.assertThat(feedRepository.findAll().size()).isEqualTo(0);
-    }*/
-
     @Test
     public void findByIdDetail_Test() throws Exception {
         //given
@@ -179,5 +165,16 @@ class FeedRepositoryTest extends DummyObject {
         Assertions.assertThat(afterC.size()).isEqualTo(1);
         Assertions.assertThat(afterL.size()).isEqualTo(1);
         Assertions.assertThat(afterF.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void find4FeedList_Test() throws Exception {
+        //given
+
+        //when
+        List<FeedSearchResDto> res = feedRepository.find4FeedList("likes");
+
+        //then
+        Assertions.assertThat(res.size()).isEqualTo(2);
     }
 }

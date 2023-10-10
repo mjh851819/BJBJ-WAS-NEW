@@ -131,8 +131,9 @@ class FeedServiceTest extends DummyObject {
         PageRequest pageRequest = PageRequest.of(0, 4);
 
         //stub
+        User user = newUser("mjh", "abc");
         List<FeedSearchResDto> list = new ArrayList<>();
-        list.add(new FeedSearchResDto(1L, "contents", 0, 0));
+        list.add(new FeedSearchResDto(user, 1L, "contents", 0, 0));
         Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
         when(feedRepository.findClubFeedList(any(), any(), any())).thenReturn(tar);
 
@@ -149,8 +150,9 @@ class FeedServiceTest extends DummyObject {
         PageRequest pageRequest = PageRequest.of(0, 4);
 
         //stub
+        User user = newUser("mjh", "abc");
         List<FeedSearchResDto> list = new ArrayList<>();
-        list.add(new FeedSearchResDto(1L, "contents", 0, 0));
+        list.add(new FeedSearchResDto(user, 1L, "contents", 0, 0));
         Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
         when(feedRepository.findFeedList(any(), any())).thenReturn(tar);
 
@@ -167,8 +169,9 @@ class FeedServiceTest extends DummyObject {
         PageRequest pageRequest = PageRequest.of(0, 4);
 
         //stub
+        User user = newUser("mjh", "abc");
         List<FeedSearchResDto> list = new ArrayList<>();
-        list.add(new FeedSearchResDto(1L, "contents", 0, 0));
+        list.add(new FeedSearchResDto(user, 1L, "contents", 0, 0));
         Page<FeedSearchResDto> tar = new PageImpl<>(list, pageRequest, 1);
         when(feedRepository.findUserFeedList(any(), any(), any())).thenReturn(tar);
 
@@ -177,6 +180,24 @@ class FeedServiceTest extends DummyObject {
 
         //then
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
+    }
+
+    @Test
+    public void searchFeedForMain_Test() throws Exception {
+        //given
+
+        //stub
+        User user = newUser("mjh", "abc");
+        List<FeedSearchResDto> list = new ArrayList<>();
+        list.add(new FeedSearchResDto(user, 1L, "contents", 0, 0));
+        list.add(new FeedSearchResDto(user, 2L, "contents", 1, 2));
+        when(feedRepository.find4FeedList(any())).thenReturn(list);
+
+        //when
+        FeedSearchPageResDto res = feedService.searchFeedForMain("likes");
+
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(2);
     }
 
 }

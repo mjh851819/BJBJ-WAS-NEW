@@ -24,4 +24,6 @@ public interface FeedRepositoryCustom {
     void deleteByFeedIds(List<Long> ids);
 
     void deleteFeedById(Long feedId);
+
+    List<FeedSearchResDto> find4FeedList(String sortBy);
 }

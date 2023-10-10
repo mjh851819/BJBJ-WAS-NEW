@@ -65,13 +65,15 @@ public class FeedResponseDto {
 
     @Getter
     static public class FeedSearchResDto {
+        private UserDto user;
         private Long id;
         private String contents;
         private int likes;
         private int commentCount;
 
         @QueryProjection
-        public FeedSearchResDto(Long id, String contents, int likes, int commentCount) {
+        public FeedSearchResDto(User user, Long id, String contents, int likes, int commentCount) {
+            this.user = new UserDto(user);
             this.id = id;
             this.contents = contents;
             this.likes = likes;

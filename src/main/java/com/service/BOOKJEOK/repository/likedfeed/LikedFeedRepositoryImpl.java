@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.service.BOOKJEOK.domain.QFeed.feed;
 import static com.service.BOOKJEOK.domain.QLikedFeed.*;
+import static com.service.BOOKJEOK.domain.user.QUser.user;
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 
 public class LikedFeedRepositoryImpl implements LikedFeedRepositoryCustom{
@@ -29,6 +30,7 @@ public class LikedFeedRepositoryImpl implements LikedFeedRepositoryCustom{
     public Page<FeedSearchResDto> searchFeedList(Long userId, Pageable pageable) {
         List<FeedSearchResDto> res = queryFactory
                 .select(new QFeedResponseDto_FeedSearchResDto(
+                        user,
                         feed.id,
                         feed.contents,
                         feed.likes,
@@ -36,6 +38,7 @@ public class LikedFeedRepositoryImpl implements LikedFeedRepositoryCustom{
                 ))
                 .from(likedFeed)
                 .leftJoin(likedFeed.feed, feed)
+                .leftJoin(likedFeed.user, user)
                 .where(likedFeed.user.id.eq(userId))
                 .orderBy(likedFeed.createdAt.asc())
                 .offset(pageable.getOffset())
