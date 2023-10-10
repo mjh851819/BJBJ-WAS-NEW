@@ -145,10 +145,10 @@ class JwtServiceTest {
         //when
         //then
         when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
-        jwtService.setRefreshTokenToUser(user, "1234");
+        jwtService.setRefreshTokenToUser(user.getEmail(), "1234");
 
         when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
-        Assertions.assertThrows(JwtException.class, () -> jwtService.setRefreshTokenToUser(user, "1234"));
+        Assertions.assertThrows(JwtException.class, () -> jwtService.setRefreshTokenToUser(user.getEmail(), "1234"));
     }
 
     @Test

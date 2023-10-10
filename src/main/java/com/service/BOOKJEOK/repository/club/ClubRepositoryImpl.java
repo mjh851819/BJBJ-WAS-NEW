@@ -6,6 +6,10 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.service.BOOKJEOK.domain.club.*;
 import com.service.BOOKJEOK.domain.member.QMember;
+import com.service.BOOKJEOK.dto.club.ClubResponseDto;
+import com.service.BOOKJEOK.dto.club.QClubResponseDto_ClubSearchResDto;
+import com.service.BOOKJEOK.dto.comment.QCommentResponseDto_CommentSearchResDto;
+import com.service.BOOKJEOK.dto.likedclub.QLikedClubResponseDto_LikedClubSearchResDto;
 import com.service.BOOKJEOK.util.PathMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,6 +81,23 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
 
         queryFactory.delete(QClub.club)
                 .where(QClub.club.eq(club));
+    }
+
+    @Override
+    public List<ClubResponseDto.ClubSearchResDto> find4ClubList(String sortBy) {
+        List<ClubResponseDto.ClubSearchResDto> res = queryFactory
+                .select(new QClubResponseDto_ClubSearchResDto(
+                        club.id,
+                        club.title,
+                        club.contents,
+                        club.img_url
+                ))
+                .from(club)
+                .orderBy(sortBy(sortBy))
+                .limit(4)
+                .fetch();
+
+        return res;
     }
 
     private BooleanExpression keywordIn(String keyword) {

@@ -87,7 +87,7 @@ public class SecurityConfig {
         http.httpBasic().disable();
 
         http.authorizeRequests()
-                .antMatchers("/oauth2", "/login").permitAll()
+                .antMatchers("/oauth2", "/login", "/tokenTest", "/main").permitAll()
                 .anyRequest().authenticated();
 
         http.oauth2Login(oauth2 -> oauth2

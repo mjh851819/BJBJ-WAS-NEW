@@ -1,11 +1,16 @@
 package com.service.BOOKJEOK.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.BOOKJEOK.dto.ResponseDto;
 import com.service.BOOKJEOK.dto.club.ClubRequestDto;
+import com.service.BOOKJEOK.dto.club.ClubResponseDto;
+import com.service.BOOKJEOK.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
 
     private final ObjectMapper om;
+    private final ClubService clubService;
 
     @GetMapping
     public String index(){
@@ -29,25 +35,11 @@ public class IndexController {
         return Access_Token + '\n' + Refresh_Token;
     }
 
-    @GetMapping("/auth")
-    public String auth(Authentication authentication){
-        Object principal = authentication.getAuthorities();
-        System.out.println(principal);
+    @GetMapping("/main")
+    public ResponseEntity<?> mainPageLikesClub(@RequestParam("sortBy") String sortBy) {
+        ClubResponseDto.ClubSearchPageResDto res = clubService.searchClubForMain(sortBy);
 
-        return "Ok";
-    }
-
-    @GetMapping("/user")
-    public String user(){
-        return "Ok";
-    }
-
-    @GetMapping("/page")
-    public String Page(ClubRequestDto.ClubSearchReqDto clubSearchReqDto,
-                       @PageableDefault(size = 9) Pageable pageable) {
-        log.info("dto : " + clubSearchReqDto.toString());
-        log.info("page : " + pageable);
-        return "ok";
+        return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 조회 성공", res), HttpStatus.OK);
     }
 
 }

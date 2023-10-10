@@ -5,6 +5,7 @@ import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.club.ClubResponseDto;
 import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.comment.CommentRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.service.BOOKJEOK.dto.club.ClubRequestDto.*;
+import static com.service.BOOKJEOK.dto.club.ClubResponseDto.*;
 
 @DataJpaTest
 class ClubRepositoryTest extends DummyObject {
@@ -167,6 +169,17 @@ class ClubRepositoryTest extends DummyObject {
         Assertions.assertThat(afterMember.size()).isEqualTo(0);
         //Assertions.assertThat(afterComment.size()).isEqualTo(0);
         //Assertions.assertThat(afterFeed.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void find4ClubList_Test() throws Exception {
+        //given
+
+        //when
+        List<ClubSearchResDto> res = clubRepository.find4ClubList("likes");
+        //then
+        Assertions.assertThat(res.size()).isEqualTo(1);
+
     }
 
 }

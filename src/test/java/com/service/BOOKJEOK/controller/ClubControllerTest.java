@@ -213,4 +213,18 @@ class ClubControllerTest extends DummyObject {
         resultActions.andExpect(status().isOk());
 
     }
+
+    @Test
+    public void mainPageLikesClub_Test() throws Exception {
+        //given
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/clubs/main")
+                .param("sortBy", "likes"));
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
 }

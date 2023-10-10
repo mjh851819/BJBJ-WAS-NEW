@@ -137,7 +137,6 @@ class ClubServiceTest extends DummyObject {
 
         //when
         ClubSearchPageResDto res = clubService.searchClub(req, pageRequest);
-        System.out.println("테스트 : " + res.getClubList().get(0).getTags());
 
         //then
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
@@ -236,6 +235,28 @@ class ClubServiceTest extends DummyObject {
 
         //then
         clubService.deleteClub(userId);
+    }
+
+    @Test
+    public void searchClubForMain_Test() throws Exception {
+        //given
+
+        //stub
+        User user = newUser("mjh", "abc");
+        List<ClubSearchResDto> list = new ArrayList<>();
+        list.add(ClubSearchResDto.builder()
+                        .id(1L)
+                        .title("abc")
+                        .contents("contents")
+                        .img_url("qwer")
+                .build());
+        when(clubRepository.find4ClubList(any())).thenReturn(list);
+
+        //when
+        ClubSearchPageResDto res = clubService.searchClubForMain("likes");
+
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(res.getClubList().size());
     }
 
 

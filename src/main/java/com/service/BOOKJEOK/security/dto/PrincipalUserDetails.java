@@ -1,6 +1,7 @@
 package com.service.BOOKJEOK.security.dto;
 
 import com.service.BOOKJEOK.domain.user.User;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Getter
 @RequiredArgsConstructor
 public class PrincipalUserDetails implements UserDetails {
 
