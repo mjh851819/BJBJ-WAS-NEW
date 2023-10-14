@@ -27,4 +27,10 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(new ResponseDto<>(-1, "잘못된 파라미터 입력입니다.", null), HttpStatus.BAD_REQUEST);
     }
 
+/*    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> NotDefineException(Exception e){
+        log.error(e.getMessage());
+        return new ResponseEntity<>(new ResponseDto<>(-1, "미정의 예외 발생.", null), HttpStatus.BAD_REQUEST);
+    }*/
+
 }
