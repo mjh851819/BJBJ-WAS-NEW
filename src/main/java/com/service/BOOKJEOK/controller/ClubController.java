@@ -37,7 +37,7 @@ public class ClubController {
     @GetMapping
     public ResponseEntity<?> getClubList(
             ClubSearchReqDto clubSearchReqDto,
-            @PageableDefault(size = 9) Pageable pageable) {
+            @PageableDefault(size = 8) Pageable pageable) {
 
         ClubSearchPageResDto res = clubService.searchClub(clubSearchReqDto, pageable);
 

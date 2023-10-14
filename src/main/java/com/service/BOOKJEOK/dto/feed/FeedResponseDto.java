@@ -42,12 +42,12 @@ public class FeedResponseDto {
     @Data
     static private class UserDto {
         private Long userId;
-        private String name;
+        private String userName;
         private String imgUrl;
 
         public UserDto(User user) {
             this.userId = user.getId();
-            this.name = user.getName();
+            this.userName = user.getName();
             this.imgUrl = user.getImg_url();
         }
     }
