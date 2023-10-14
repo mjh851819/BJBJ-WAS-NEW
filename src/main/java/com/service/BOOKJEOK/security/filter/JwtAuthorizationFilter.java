@@ -99,6 +99,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 request.setAttribute(JwtVO.EXCEPTION, e.getMessage());
             }
         }
+        
+        log.info("필터 통과");
 
         chain.doFilter(request, response);
     }
