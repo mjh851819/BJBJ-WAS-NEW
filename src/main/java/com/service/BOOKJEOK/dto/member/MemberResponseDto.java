@@ -47,7 +47,7 @@ public class MemberResponseDto {
 
     @Getter
     static public class MemberJoiningClubResDto {
-        private Long id;
+        private Long clubId;
         private String title;
         private String imgUrl;
         private String contents;
@@ -55,7 +55,7 @@ public class MemberResponseDto {
 
         @QueryProjection
         public MemberJoiningClubResDto(Long id, String title, String imgUrl, String contents, int likes) {
-            this.id = id;
+            this.clubId = id;
             this.title = title;
             this.imgUrl = imgUrl;
             this.contents = contents;
@@ -67,16 +67,20 @@ public class MemberResponseDto {
     @AllArgsConstructor
     static public class MemberJoiningClubsIdListResDto {
         private int totalCount;
-        private List<MemberJoiningClubsIdResDto> clubIdList;
+        private List<MemberJoiningClubsIdResDto> memberList;
     }
 
     @Getter
     static public class MemberJoiningClubsIdResDto {
-        private Long id;
+        private Long userId;
+        private Long clubId;
+        private String status;
 
         @QueryProjection
-        public MemberJoiningClubsIdResDto(Long id) {
-            this.id = id;
+        public MemberJoiningClubsIdResDto(Long userId, Long clubId, ApprovalStatus status) {
+            this.userId = userId;
+            this.clubId = clubId;
+            this.status = status.toString();
         }
     }
 }

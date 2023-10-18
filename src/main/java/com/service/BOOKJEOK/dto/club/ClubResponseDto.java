@@ -15,11 +15,11 @@ public class ClubResponseDto {
 
     @Getter
     public static class ClubCreateResDto {
-        private Long id;
+        private Long clubId;
         private String title;
 
         public ClubCreateResDto(Club club) {
-            this.id = club.getId();
+            this.clubId = club.getId();
             this.title = club.getTitle();
         }
     }
@@ -39,13 +39,13 @@ public class ClubResponseDto {
     @Data
     @Getter
     public static class ClubSearchResDto {
-        private Long id;
+        private Long clubId;
         private String title;
         private String contents;
         private String img_url;
 
         public ClubSearchResDto(Club club) {
-            this.id = club.getId();
+            this.clubId = club.getId();
             this.title = club.getTitle();
             this.contents = club.getContents();
             this.img_url = club.getImg_url();
@@ -54,7 +54,7 @@ public class ClubResponseDto {
         @QueryProjection
         @Builder
         public ClubSearchResDto(Long id, String title, String contents, String img_url) {
-            this.id = id;
+            this.clubId = id;
             this.title = title;
             this.contents = contents;
             this.img_url = img_url;
