@@ -35,10 +35,10 @@ public class LikedFeedController {
         return new ResponseEntity<>(new ResponseDto<>(1, "좋아요 신청 성공", null), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{feedId}")
-    public ResponseEntity<?> deleteLike(@PathVariable("feedId") Long feedId) {
+    @DeleteMapping
+    public ResponseEntity<?> deleteLike(@RequestParam("feedId") Long feedId, @RequestParam("userId") Long userId) {
 
-        likedFeedService.deleteLike(feedId);
+        likedFeedService.deleteLike(feedId, userId);
 
         return new ResponseEntity<>(new ResponseDto<>(1, "좋아요 삭제 성공", null), HttpStatus.OK);
     }

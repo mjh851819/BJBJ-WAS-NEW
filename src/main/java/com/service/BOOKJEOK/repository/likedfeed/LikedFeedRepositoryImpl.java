@@ -2,6 +2,7 @@ package com.service.BOOKJEOK.repository.likedfeed;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.QLikedFeed;
 import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.dto.feed.QFeedResponseDto_FeedSearchResDto;
@@ -12,6 +13,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import javax.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.service.BOOKJEOK.domain.QFeed.feed;
 import static com.service.BOOKJEOK.domain.QLikedFeed.*;
@@ -52,5 +54,16 @@ public class LikedFeedRepositoryImpl implements LikedFeedRepositoryCustom{
 
         return PageableExecutionUtils.getPage(res, pageable,
                 query::fetchOne);
+    }
+
+    @Override
+    public Optional<LikedFeed> findByFeedAndUser(Long feedId, Long userId) {
+        LikedFeed likedFeed = queryFactory
+                .select(QLikedFeed.likedFeed)
+                .from(QLikedFeed.likedFeed)
+                .where(QLikedFeed.likedFeed.feed.id.eq(feedId), QLikedFeed.likedFeed.user.id.eq(userId))
+                .fetchOne();
+
+        return Optional.of(likedFeed);
     }
 }

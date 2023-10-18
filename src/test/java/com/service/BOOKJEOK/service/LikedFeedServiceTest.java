@@ -71,7 +71,7 @@ class LikedFeedServiceTest extends DummyObject {
 
         //when
         //then
-        likedFeedService.deleteLike(1L);
+        likedFeedService.deleteLike(1L, 1L);
     }
 
     @Test

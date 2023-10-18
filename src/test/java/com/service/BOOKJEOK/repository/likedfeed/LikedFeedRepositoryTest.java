@@ -16,6 +16,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.Optional;
+
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 
 @DataJpaTest
@@ -63,5 +65,15 @@ class LikedFeedRepositoryTest extends DummyObject {
 
         //then
         Assertions.assertThat(res.getTotalElements()).isEqualTo(1);
+    }
+
+    @Test
+    public void findByFeedAndUser() throws Exception {
+        //given
+
+        //when
+        LikedFeed res = likedFeedRepository.findByFeedAndUser(userId, feedId).get();
+        //then
+        Assertions.assertThat(res.getId()).isEqualTo(likedFeedId);
     }
 }
