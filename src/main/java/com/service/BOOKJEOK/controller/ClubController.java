@@ -73,9 +73,9 @@ public class ClubController {
         return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 업데이트 성공", null), HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/users")
     public ResponseEntity<?> deleteClub(
-            @PathVariable Long userId) {
+            @RequestParam("userId") Long userId) {
 
         clubService.deleteClub(userId);
 
