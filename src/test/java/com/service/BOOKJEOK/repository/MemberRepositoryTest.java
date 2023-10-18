@@ -119,12 +119,10 @@ class MemberRepositoryTest extends DummyObject {
         //given
 
         //when
-        List<MemberJoiningClubsIdResDto> res1 = memberRepository.searchJoiningClubIds(userId, ApprovalStatus.WAITING);
-        List<MemberJoiningClubsIdResDto> res2 = memberRepository.searchJoiningClubIds(userId, ApprovalStatus.CONFIRMED);
+        List<MemberJoiningClubsIdResDto> res = memberRepository.searchJoiningClubIds(userId);
 
         //then
-        Assertions.assertThat(res1.size()).isEqualTo(0);
-        Assertions.assertThat(res2.size()).isEqualTo(2);
+        Assertions.assertThat(res.size()).isEqualTo(2);
     }
 
     @Test

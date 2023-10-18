@@ -233,10 +233,9 @@ class MemberControllerTest extends DummyObject {
         //when
         ResultActions resultActions = mvc.perform(get("/members/ids/")
                         .param("userId", mePS.getId().toString())
-                        .param("approvalStatus", ApprovalStatus.WAITING.getValue())
         );
-        //String res = resultActions.andReturn().getResponse().getContentAsString();
-        //System.out.println("테스트 : " + res);
+        String res = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + res);
 
         //then
         resultActions.andExpect(status().isOk());
