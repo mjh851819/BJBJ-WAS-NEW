@@ -72,7 +72,7 @@ class LikedFeedRepositoryTest extends DummyObject {
         //given
 
         //when
-        LikedFeed res = likedFeedRepository.findByFeedAndUser(userId, feedId).get();
+        LikedFeed res = likedFeedRepository.findByFeedAndUser(feedId, userId).get();
         //then
         Assertions.assertThat(res.getId()).isEqualTo(likedFeedId);
     }
