@@ -97,8 +97,7 @@ class MemberControllerTest extends DummyObject {
         //when
         ResultActions resultActions = mvc.perform(delete("/members")
                 .param("userId", userPS.getId().toString())
-                .param("clubId", clubPS.getId().toString())
-                .param("myId", userPS.getId().toString()));
+                .param("clubId", clubPS.getId().toString()));
         //String res = resultActions.andReturn().getResponse().getContentAsString();
         //System.out.println("테스트 : " + res);
 
