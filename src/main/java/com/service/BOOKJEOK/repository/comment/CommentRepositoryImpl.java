@@ -65,6 +65,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                         user.id,
                         user.name,
                         user.img_url,
+                        comment.id,
                         comment.contents
                 ))
                 .from(comment)

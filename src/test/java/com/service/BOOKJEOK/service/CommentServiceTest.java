@@ -122,8 +122,8 @@ class CommentServiceTest extends DummyObject {
 
         //stub
         List<CommentDetailResDto> list = new ArrayList<>();
-        list.add(new CommentDetailResDto(1L, "min", "qwert", "con"));
-        list.add(new CommentDetailResDto(2L, "min", "qwert", "con"));
+        list.add(new CommentDetailResDto(1L, "min", "qwert", 1L, "con"));
+        list.add(new CommentDetailResDto(2L, "min", "qwert", 2L, "con"));
         Page<CommentDetailResDto> tar = new PageImpl<>(list, pageRequest, 2);
         when(commentRepository.searchCommentListByFeedId(any(), any())).thenReturn(tar);
 
