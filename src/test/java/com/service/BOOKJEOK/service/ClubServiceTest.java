@@ -104,7 +104,7 @@ class ClubServiceTest extends DummyObject {
         ClubCreateResDto res = clubService.createClub(clubCreateReqDto);
 
         //then
-        Assertions.assertThat(res.getId()).isEqualTo(1L);
+        Assertions.assertThat(res.getClubId()).isEqualTo(1L);
         Assertions.assertThat(res.getTitle()).isEqualTo("mjhClub");
     }
 

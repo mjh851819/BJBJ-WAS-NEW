@@ -100,7 +100,10 @@ class LikedFeedControllerTest extends DummyObject {
         //given
 
         //when
-        ResultActions resultActions = mvc.perform(delete("/likedfeeds/" + likedFeedId));
+        ResultActions resultActions = mvc.perform(delete("/likedfeeds")
+                .param("feedId", feedId.toString())
+                .param("userId", userId.toString())
+        );
         String res = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + res);
 

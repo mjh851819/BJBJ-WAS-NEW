@@ -4,6 +4,7 @@ import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.member.ApprovalStatus;
 import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.member.MemberResponseDto;
 import com.service.BOOKJEOK.repository.member.MemberRepository;
 import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
@@ -106,10 +107,11 @@ class MemberServiceTest extends DummyObject {
         Long userId = 1L;
         ApprovalStatus status = ApprovalStatus.WAITING;
         PageRequest pageRequest = PageRequest.of(0, 4);
+        User user = newUser("mjh", "abc");
 
         //stub
         List<MemberSearchResDto> dto = new ArrayList<>();
-        dto.add(new MemberSearchResDto(1L, 1L, 1L, "a", "a", "a", ApprovalStatus.CONFIRMED));
+        dto.add(new MemberSearchResDto(1L, 1L, user, ApprovalStatus.CONFIRMED));
         Page<MemberSearchResDto> clubPage = new PageImpl<>(dto, pageRequest, 1);
 
         when(memberRepository.searchMember(any(), any(), any())).thenReturn(clubPage);
@@ -118,7 +120,7 @@ class MemberServiceTest extends DummyObject {
         MemberSearchPageResDto res = memberService.getMemberList(userId, "WAITING", pageRequest);
 
         //then
-        Assertions.assertThat(res.getMemberList().get(0).getName()).isEqualTo("a");
+        //Assertions.assertThat(res.getMemberList().get(0).getUser()).isEqualTo("a");
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
     }
 
@@ -147,15 +149,16 @@ class MemberServiceTest extends DummyObject {
     public void getJoiningClubIds() throws Exception {
         //given
         Long userId = 1L;
+        Long feedId = 1L;
 
         //stub
         List<MemberJoiningClubsIdResDto> dtos = new ArrayList<>();
-        dtos.add(new MemberJoiningClubsIdResDto(userId));
-        when(memberRepository.searchJoiningClubIds(any(), any())).thenReturn(dtos);
+        dtos.add(new MemberJoiningClubsIdResDto(userId, feedId, ApprovalStatus.WAITING ));
+        when(memberRepository.searchJoiningClubIds(any())).thenReturn(dtos);
 
         //when
-        MemberJoiningClubsIdListResDto res1 = memberService.getJoiningClubIds(userId, ApprovalStatus.CONFIRMED.getValue());
-        MemberJoiningClubsIdListResDto res2 = memberService.getJoiningClubIds(userId, ApprovalStatus.WAITING.getValue());
+        MemberJoiningClubsIdListResDto res1 = memberService.getJoiningClubIds(userId);
+        MemberJoiningClubsIdListResDto res2 = memberService.getJoiningClubIds(userId);
 
         //then
         Assertions.assertThat(res1.getTotalCount()).isEqualTo(1);

@@ -18,7 +18,7 @@ public class LikedClubResponseDto {
 
     @Getter
     static public class LikedClubSearchResDto {
-        private Long id;
+        private Long clubId;
         private String title;
         private String contents;
         private String imgUrl;
@@ -26,7 +26,7 @@ public class LikedClubResponseDto {
 
         @QueryProjection
         public LikedClubSearchResDto(Long id, String title, String contents, String imgUrl, int likes) {
-            this.id = id;
+            this.clubId = id;
             this.title = title;
             this.contents = contents;
             this.imgUrl = imgUrl;
@@ -43,11 +43,11 @@ public class LikedClubResponseDto {
 
     @Getter
     static public class LikedClubIdResDto {
-        private Long id;
+        private Long clubId;
 
         @QueryProjection
         public LikedClubIdResDto(Long id) {
-            this.id = id;
+            this.clubId = id;
         }
     }
 }

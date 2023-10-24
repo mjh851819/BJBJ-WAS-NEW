@@ -207,7 +207,9 @@ class ClubControllerTest extends DummyObject {
         Club myClub = newMockClub(myClubId, "MyClub", myUserPS);
         Club myClubPS = clubRepository.save(myClub);
         //when
-        ResultActions resultActions = mvc.perform(delete("/clubs/users/" + myUserPS.getId()));
+        ResultActions resultActions = mvc.perform(delete("/clubs/users")
+                .param("userId", myUserPS.getId().toString())
+        );
 
         //then
         resultActions.andExpect(status().isOk());

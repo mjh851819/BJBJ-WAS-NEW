@@ -36,8 +36,8 @@ public class LikedFeedService {
     }
 
     @Transactional
-    public void deleteLike(Long feedId) {
-        LikedFeed likedFeed = likedFeedRepository.findById(feedId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_LIKE));
+    public void deleteLike(Long feedId, Long userId) {
+        LikedFeed likedFeed = likedFeedRepository.findByFeedAndUser(feedId, userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_LIKE));
 
         likedFeedRepository.delete(likedFeed);
     }

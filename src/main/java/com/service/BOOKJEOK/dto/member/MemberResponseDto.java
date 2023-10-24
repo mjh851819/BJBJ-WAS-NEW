@@ -2,8 +2,11 @@ package com.service.BOOKJEOK.dto.member;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.service.BOOKJEOK.domain.member.ApprovalStatus;
+import com.service.BOOKJEOK.domain.user.User;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -20,21 +23,28 @@ public class MemberResponseDto {
     public static class MemberSearchResDto {
         private Long memberId;
         private Long clubId;
-        private Long userId;
-        private String img_url;
-        private String name;
-        private String email;
+        private UserDto user;
         private String status;
 
         @QueryProjection
-        public MemberSearchResDto(Long memberId, Long clubId, Long userId, String img_url, String name, String email, ApprovalStatus status) {
+        public MemberSearchResDto(Long memberId, Long clubId, User user, ApprovalStatus status) {
             this.memberId = memberId;
             this.clubId = clubId;
-            this.userId = userId;
-            this.img_url = img_url;
-            this.name = name;
-            this.email = email;
             this.status = status.getValue();
+            this.user = new UserDto(user);
+        }
+    }
+
+    @Data
+    static private class UserDto {
+        private Long userId;
+        private String userName;
+        private String imgUrl;
+
+        public UserDto(User user) {
+            this.userId = user.getId();
+            this.userName = user.getName();
+            this.imgUrl = user.getImg_url();
         }
     }
 
@@ -47,7 +57,7 @@ public class MemberResponseDto {
 
     @Getter
     static public class MemberJoiningClubResDto {
-        private Long id;
+        private Long clubId;
         private String title;
         private String imgUrl;
         private String contents;
@@ -55,7 +65,7 @@ public class MemberResponseDto {
 
         @QueryProjection
         public MemberJoiningClubResDto(Long id, String title, String imgUrl, String contents, int likes) {
-            this.id = id;
+            this.clubId = id;
             this.title = title;
             this.imgUrl = imgUrl;
             this.contents = contents;
@@ -67,16 +77,20 @@ public class MemberResponseDto {
     @AllArgsConstructor
     static public class MemberJoiningClubsIdListResDto {
         private int totalCount;
-        private List<MemberJoiningClubsIdResDto> clubIdList;
+        private List<MemberJoiningClubsIdResDto> memberList;
     }
 
     @Getter
     static public class MemberJoiningClubsIdResDto {
-        private Long id;
+        private Long userId;
+        private Long clubId;
+        private String status;
 
         @QueryProjection
-        public MemberJoiningClubsIdResDto(Long id) {
-            this.id = id;
+        public MemberJoiningClubsIdResDto(Long userId, Long clubId, ApprovalStatus status) {
+            this.userId = userId;
+            this.clubId = clubId;
+            this.status = status.toString();
         }
     }
 }

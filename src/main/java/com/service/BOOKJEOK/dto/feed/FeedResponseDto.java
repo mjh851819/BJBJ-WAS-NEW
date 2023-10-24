@@ -66,7 +66,7 @@ public class FeedResponseDto {
     @Getter
     static public class FeedSearchResDto {
         private UserDto user;
-        private Long id;
+        private Long feedId;
         private String contents;
         private int likes;
         private int commentCount;
@@ -74,7 +74,7 @@ public class FeedResponseDto {
         @QueryProjection
         public FeedSearchResDto(User user, Long id, String contents, int likes, int commentCount) {
             this.user = new UserDto(user);
-            this.id = id;
+            this.feedId = id;
             this.contents = contents;
             this.likes = likes;
             this.commentCount = commentCount;

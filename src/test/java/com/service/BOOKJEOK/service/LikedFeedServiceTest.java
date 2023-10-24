@@ -67,11 +67,11 @@ class LikedFeedServiceTest extends DummyObject {
         LikedFeed likedFeed = newLikedFeed(user, feed);
 
         //stub
-        when(likedFeedRepository.findById(any())).thenReturn(Optional.of(likedFeed));
+        when(likedFeedRepository.findByFeedAndUser(any(), any())).thenReturn(Optional.of(likedFeed));
 
         //when
         //then
-        likedFeedService.deleteLike(1L);
+        likedFeedService.deleteLike(1L, 1L);
     }
 
     @Test

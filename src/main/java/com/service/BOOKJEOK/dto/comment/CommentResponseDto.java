@@ -41,13 +41,16 @@ public class CommentResponseDto {
         private Long userId;
         private String userName;
         private String imgUrl;
+
+        private Long commentId;
         private String contents;
 
         @QueryProjection
-        public CommentDetailResDto(Long userId, String userName, String imgUrl, String contents) {
+        public CommentDetailResDto(Long userId, String userName, String imgUrl, Long commentId, String contents) {
             this.userId = userId;
             this.userName = userName;
             this.imgUrl = imgUrl;
+            this.commentId = commentId;
             this.contents = contents;
         }
     }

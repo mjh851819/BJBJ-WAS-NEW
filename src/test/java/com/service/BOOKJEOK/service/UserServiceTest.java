@@ -36,9 +36,9 @@ class UserServiceTest extends DummyObject {
         UserSearchResDto userSearchResDto = userService.searchUser(id);
 
         //then
-        Assertions.assertThat(userSearchResDto.getUser_id()).isEqualTo(id);
-        Assertions.assertThat(userSearchResDto.getUser_name()).isEqualTo(user.getName());
-        Assertions.assertThat(userSearchResDto.getUser_email()).isEqualTo(user.getEmail());
+        Assertions.assertThat(userSearchResDto.getUserId()).isEqualTo(id);
+        Assertions.assertThat(userSearchResDto.getUserName()).isEqualTo(user.getName());
+        Assertions.assertThat(userSearchResDto.getUserEmail()).isEqualTo(user.getEmail());
     }
 
 }

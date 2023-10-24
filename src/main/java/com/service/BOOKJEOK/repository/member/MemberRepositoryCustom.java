@@ -14,7 +14,7 @@ public interface MemberRepositoryCustom {
 
     Page<MemberJoiningClubResDto> searchJoiningClubs(Long userId, Pageable pageable);
 
-    List<MemberJoiningClubsIdResDto> searchJoiningClubIds(Long userId, ApprovalStatus status);
+    List<MemberJoiningClubsIdResDto> searchJoiningClubIds(Long userId);
 
     void deleteMemberByClub(Club club);
 }

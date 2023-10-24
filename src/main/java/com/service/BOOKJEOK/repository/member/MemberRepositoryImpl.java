@@ -36,10 +36,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .select(new QMemberResponseDto_MemberSearchResDto(
                         member.id,
                         member.club.id,
-                        user.id,
-                        user.img_url,
-                        user.name,
-                        user.email,
+                        member.user,
                         member.status
                 ))
                 .from(member)
@@ -88,13 +85,15 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     }
 
     @Override
-    public List<MemberJoiningClubsIdResDto> searchJoiningClubIds(Long userId, ApprovalStatus status) {
+    public List<MemberJoiningClubsIdResDto> searchJoiningClubIds(Long userId) {
         List<MemberJoiningClubsIdResDto> res = queryFactory
                 .select(new QMemberResponseDto_MemberJoiningClubsIdResDto(
-                        member.club.id
+                        member.club.id,
+                        member.user.id,
+                        member.status
                 ))
                 .from(member)
-                .where(member.user.id.eq(userId), member.status.eq(status))
+                .where(member.user.id.eq(userId))
                 .fetch();
 
         return res;

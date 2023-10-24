@@ -86,9 +86,9 @@ public class MemberService {
         return new MemberJoiningClubsPageResDto((int) res.getTotalElements(), res.getContent());
     }
 
-    public MemberJoiningClubsIdListResDto getJoiningClubIds(Long userId, String status) {
+    public MemberJoiningClubsIdListResDto getJoiningClubIds(Long userId) {
 
-        List<MemberJoiningClubsIdResDto> res = memberRepository.searchJoiningClubIds(userId, status.equals(ApprovalStatus.WAITING.getValue()) ? ApprovalStatus.WAITING : ApprovalStatus.CONFIRMED);
+        List<MemberJoiningClubsIdResDto> res = memberRepository.searchJoiningClubIds(userId);
 
         return new MemberJoiningClubsIdListResDto(res.size(), res);
     }
