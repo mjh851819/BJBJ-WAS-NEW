@@ -36,10 +36,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .select(new QMemberResponseDto_MemberSearchResDto(
                         member.id,
                         member.club.id,
-                        user.id,
-                        user.img_url,
-                        user.name,
-                        user.email,
+                        member.user,
                         member.status
                 ))
                 .from(member)
