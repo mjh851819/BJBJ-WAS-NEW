@@ -3,6 +3,7 @@ package com.service.BOOKJEOK.service;
 import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.likedfeed.LikedFeedResponseDto;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.handler.ex.ExMessage;
 import com.service.BOOKJEOK.repository.user.UserRepository;
@@ -14,8 +15,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto.*;
+import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedResponseDto.*;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -47,5 +51,12 @@ public class LikedFeedService {
         Page<FeedSearchResDto> res = likedFeedRepository.searchFeedList(userId, pageable);
 
         return new FeedSearchPageResDto((int) res.getTotalElements(), res.getContent());
+    }
+
+    public LikedFeedIdListResDto getLikedFeedIds(Long userId) {
+
+        List<LikedFeedIdResDto> res = likedFeedRepository.searchFeedIdList(userId);
+
+        return new LikedFeedIdListResDto(res.size(), res);
     }
 }
