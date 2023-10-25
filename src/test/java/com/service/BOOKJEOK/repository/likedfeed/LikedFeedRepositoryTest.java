@@ -4,6 +4,7 @@ import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.likedfeed.LikedFeedResponseDto;
 import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
@@ -16,9 +17,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
+import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedResponseDto.*;
 
 @DataJpaTest
 class LikedFeedRepositoryTest extends DummyObject {
@@ -75,5 +78,16 @@ class LikedFeedRepositoryTest extends DummyObject {
         LikedFeed res = likedFeedRepository.findByFeedAndUser(feedId, userId).get();
         //then
         Assertions.assertThat(res.getId()).isEqualTo(likedFeedId);
+    }
+
+    @Test
+    public void searchFeedIdList_Test() throws Exception {
+        //given
+
+        //when
+        List<LikedFeedIdResDto> res = likedFeedRepository.searchFeedIdList(userId);
+
+        //then
+        Assertions.assertThat(res.size()).isEqualTo(1);
     }
 }

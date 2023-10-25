@@ -6,6 +6,8 @@ import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.QLikedFeed;
 import com.service.BOOKJEOK.dto.feed.FeedResponseDto;
 import com.service.BOOKJEOK.dto.feed.QFeedResponseDto_FeedSearchResDto;
+import com.service.BOOKJEOK.dto.likedfeed.LikedFeedResponseDto;
+import com.service.BOOKJEOK.dto.likedfeed.QLikedFeedResponseDto_LikedFeedIdResDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -19,6 +21,7 @@ import static com.service.BOOKJEOK.domain.QFeed.feed;
 import static com.service.BOOKJEOK.domain.QLikedFeed.*;
 import static com.service.BOOKJEOK.domain.user.QUser.user;
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
+import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedResponseDto.*;
 
 public class LikedFeedRepositoryImpl implements LikedFeedRepositoryCustom{
 
@@ -65,5 +68,16 @@ public class LikedFeedRepositoryImpl implements LikedFeedRepositoryCustom{
                 .fetchOne();
 
         return Optional.of(likedFeed);
+    }
+
+    @Override
+    public List<LikedFeedIdResDto> searchFeedIdList(Long userId) {
+        List<LikedFeedIdResDto> res = queryFactory
+                .select(new QLikedFeedResponseDto_LikedFeedIdResDto(likedFeed.feed.id))
+                .from(likedFeed)
+                .where(likedFeed.user.id.eq(userId))
+                .fetch();
+
+        return res;
     }
 }

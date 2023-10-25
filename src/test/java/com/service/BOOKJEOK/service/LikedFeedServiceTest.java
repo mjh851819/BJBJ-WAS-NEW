@@ -4,6 +4,7 @@ import com.service.BOOKJEOK.domain.Feed;
 import com.service.BOOKJEOK.domain.LikedFeed;
 import com.service.BOOKJEOK.domain.club.Club;
 import com.service.BOOKJEOK.domain.user.User;
+import com.service.BOOKJEOK.dto.likedfeed.LikedFeedResponseDto;
 import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
 import com.service.BOOKJEOK.repository.likedfeed.LikedFeedRepository;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto.*;
+import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedResponseDto.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -92,6 +94,26 @@ class LikedFeedServiceTest extends DummyObject {
 
         //then
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
+    }
+
+    @Test
+    public void getLikedFeedIds_Test() throws Exception {
+        //given
+
+
+        //when
+        List<LikedFeedIdResDto> list = new ArrayList<>();
+        list.add(new LikedFeedIdResDto(1L));
+        list.add(new LikedFeedIdResDto(2L));
+        list.add(new LikedFeedIdResDto(3L));
+
+        when(likedFeedRepository.searchFeedIdList(any())).thenReturn(list);
+
+        //when
+        LikedFeedIdListResDto res = likedFeedService.getLikedFeedIds(1L);
+
+        //then
+        Assertions.assertThat(res.getTotalCount()).isEqualTo(3);
     }
 
 }
