@@ -69,7 +69,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 ))
                 .from(member)
                 .leftJoin(member.club, club)
-                .where(member.user.id.eq(userId), member.status.eq(ApprovalStatus.CONFIRMED))
+                .where(member.user.id.eq(userId), member.status.eq(ApprovalStatus.CONFIRMED).or(member.status.eq(ApprovalStatus.MASTER)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -93,7 +93,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                         member.status
                 ))
                 .from(member)
-                .where(member.user.id.eq(userId), member.status.eq(ApprovalStatus.CONFIRMED).or(member.status.eq(ApprovalStatus.MASTER)))
+                .where(member.user.id.eq(userId))
                 .fetch();
 
         return res;
