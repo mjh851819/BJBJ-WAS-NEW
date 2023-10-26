@@ -42,13 +42,13 @@ public class ClubResponseDto {
         private Long clubId;
         private String title;
         private String contents;
-        private String img_url;
+        private String imgUrl;
 
         public ClubSearchResDto(Club club) {
             this.clubId = club.getId();
             this.title = club.getTitle();
             this.contents = club.getContents();
-            this.img_url = club.getImg_url();
+            this.imgUrl = club.getImg_url();
         }
 
         @QueryProjection
@@ -57,7 +57,7 @@ public class ClubResponseDto {
             this.clubId = id;
             this.title = title;
             this.contents = contents;
-            this.img_url = img_url;
+            this.imgUrl = img_url;
         }
     }
 
@@ -66,7 +66,7 @@ public class ClubResponseDto {
         private Long userId;
         private Long clubId;
         private String title;
-        private String img_url;
+        private String imgUrl;
         private String contents;
         private int maxPersonnel;
         private String description;
@@ -81,7 +81,7 @@ public class ClubResponseDto {
             this.userId = club.getUser().getId();
             this.clubId = club.getId();
             this.title = club.getTitle();
-            this.img_url = club.getImg_url();
+            this.imgUrl = club.getImg_url();
             this.contents = club.getContents();
             this.maxPersonnel = club.getMax_personnel();
             this.description = club.getDescription();
