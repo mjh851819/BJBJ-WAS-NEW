@@ -48,21 +48,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         */
 
         log.info("인가 / 권한 검증");
+        log.info("요청 url ={}", request.getRequestURL());
 
         if(isHeaderVerify(request, response)){
-            log.info("필터 통과1");
             try {
                 // 올바르지 않은 헤더는 재로그인
                 if (jwtService.isValidHeaderOrThrow(request)) {
                     String refreshToken = jwtService.extractRefreshToken(request);
                     String accessToken = jwtService.extractAccessToken(request);
-                    log.info("Access : " + accessToken);
-                    log.info("Refresh : " + refreshToken);
-                    log.info("필터 통과2");
 
                     // 만료된 리프레쉬 토큰은 재로그인
                     if (jwtService.isNotExpiredToken(refreshToken)) {
-                        log.info("필터 통과3");
 
                         User userByToken = jwtService.getUserByToken(refreshToken);
 
@@ -79,7 +75,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                             String reissuedAccessToken = jwtService.createAccessToken(userByToken);
                             jwtService.setResponseOfAccessToken(response, reissuedAccessToken);
                         }
-                        log.info("필터 통과4");
                         PrincipalUserDetails principal = new PrincipalUserDetails(userByToken);
                         Authentication authentication = new UsernamePasswordAuthenticationToken(
                                 principal, null, principal.getAuthorities()
@@ -111,8 +106,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         private boolean isHeaderVerify(HttpServletRequest request, HttpServletResponse response){
         String access = request.getHeader(JwtVO.ACCESS_TOKEN_HEADER);
         String refresh = request.getHeader(JwtVO.REFRESH_TOKEN_HEADER);
-        log.info("엑세스 토큰 ={}", access);
-            log.info("엑세스 토큰 ={}", refresh);
         if(access == null || !access.startsWith(JwtVO.TOKEN_PREFIX) || refresh == null || !refresh.startsWith(JwtVO.TOKEN_PREFIX)) {
             return false;
         }
