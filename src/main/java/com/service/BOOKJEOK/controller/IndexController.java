@@ -28,7 +28,7 @@ public class IndexController {
     private final ClubService clubService;
     private final FeedService feedService;
 
-    @GetMapping
+    @GetMapping("/healthCheck")
     public String index(){
         return "index";
     }
