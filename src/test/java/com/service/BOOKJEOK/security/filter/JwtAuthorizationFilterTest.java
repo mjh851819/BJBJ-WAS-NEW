@@ -31,7 +31,7 @@ class JwtAuthorizationFilterTest {
         //given
         User user = User.builder().role(UserEnum.USER).email("abc@abc.com").img_url("123").name("mjh").provider("google").providerId("sub").build();
         String ac = JwtVO.TOKEN_PREFIX + jwtService.createAccessToken(user);
-        String rf = jwtService.createRefreshToken();
+        String rf = jwtService.createRefreshToken(user);
         user.setRefreshToken(rf);
         userRepository.save(user);
         rf = JwtVO.TOKEN_PREFIX + rf;

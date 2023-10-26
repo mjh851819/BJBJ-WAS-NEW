@@ -35,7 +35,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String email = oAuth2User.getUser().getEmail();
 
         String accessToken = jwtService.createAccessToken(oAuth2User.getUser());  // Access Token 생성
-        String refreshToken = jwtService.createRefreshToken();     // Refresh Token 생성
+        String refreshToken = jwtService.createRefreshToken(oAuth2User.getUser());     // Refresh Token 생성
         //인증 성공 로직이기 때문에 반드시 객체가 존재한다.
         jwtService.setRefreshTokenToUser(email, refreshToken);
 
