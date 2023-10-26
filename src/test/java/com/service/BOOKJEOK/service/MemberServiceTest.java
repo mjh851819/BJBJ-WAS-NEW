@@ -108,8 +108,11 @@ class MemberServiceTest extends DummyObject {
         ApprovalStatus status = ApprovalStatus.WAITING;
         PageRequest pageRequest = PageRequest.of(0, 4);
         User user = newUser("mjh", "abc");
+        Club club = newClub("abc", user);
 
         //stub
+        when(clubRepository.findByUserId(any())).thenReturn(Optional.of(club));
+
         List<MemberSearchResDto> dto = new ArrayList<>();
         dto.add(new MemberSearchResDto(1L, 1L, user, ApprovalStatus.CONFIRMED));
         Page<MemberSearchResDto> clubPage = new PageImpl<>(dto, pageRequest, 1);
