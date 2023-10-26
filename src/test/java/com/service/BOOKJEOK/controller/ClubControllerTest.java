@@ -81,7 +81,7 @@ class ClubControllerTest extends DummyObject {
         ClubRequestDto.ClubCreateReqDto clubCreateReqDto = ClubRequestDto.ClubCreateReqDto.builder()
                 .userId(userPS.getId())
                 .title("mjhClub")
-                .img_url("123")
+                .imgUrl("123")
                 .contents("abc")
                 .max_personnel(3)
                 .description("good")
