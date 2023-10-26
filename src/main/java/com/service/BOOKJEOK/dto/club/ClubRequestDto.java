@@ -22,7 +22,7 @@ public class ClubRequestDto {
         @Size(min = 2, max = 10)
         private String title;
         @NotEmpty
-        private String img_url;
+        private String imgUrl;
         @NotEmpty
         @Size(min = 1, max = 30)
         private String contents;
@@ -45,7 +45,7 @@ public class ClubRequestDto {
         public Club toEntity(User user){
             return Club.builder()
                     .title(title)
-                    .img_url(img_url)
+                    .img_url(imgUrl)
                     .contents(contents)
                     .max_personnel(max_personnel)
                     .description(description)
