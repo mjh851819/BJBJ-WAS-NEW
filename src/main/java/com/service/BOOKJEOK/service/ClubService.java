@@ -91,6 +91,8 @@ public class ClubService {
         List<Long> ids = feedRepository.findIdsByClub(club);
         //연관된 feed, comment, likedFeed 삭제
         feedRepository.deleteByFeedIds(ids);
+
+        clubRepository.delete(club);
     }
 
     public ClubSearchPageResDto searchClubForMain(String sortBy) {

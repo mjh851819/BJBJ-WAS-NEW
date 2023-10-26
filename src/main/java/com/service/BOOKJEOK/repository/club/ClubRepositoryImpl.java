@@ -78,9 +78,6 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
         queryFactory.delete(likedClub)
                 .where(likedClub.club.eq(club))
                 .execute();
-
-        queryFactory.delete(QClub.club)
-                .where(QClub.club.eq(club));
     }
 
     @Override
