@@ -71,4 +71,11 @@ public class Feed {
         this.contents = req.getContents();
         this.img_url = getImg_url();
     }
+
+    public void like() {
+        likes++;
+    }
+    public void unLike() {
+        likes--;
+    }
 }

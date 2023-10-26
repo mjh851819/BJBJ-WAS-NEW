@@ -17,7 +17,7 @@ public interface FeedRepositoryCustom {
 
     Page<FeedSearchResDto> findFeedList(String sortBy, Pageable pageable);
 
-    Page<FeedSearchResDto> findUserFeedList(Long userId, String sortBy, Pageable pageable);
+    Page<FeedSearchResDto> findUserFeedList(Long userId, Pageable pageable);
 
     List<Long> findIdsByClub(Club club);
 

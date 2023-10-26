@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 import static com.service.BOOKJEOK.dto.likedfeed.LikedFeedRequestDto.*;
@@ -35,13 +36,23 @@ public class LikedFeedService {
         User userPS = userRepository.findById(req.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
         Feed feedPS = feedRepository.findById(req.getFeedId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_FEED));
 
+        if(likedFeedRepository.findByUserAndFeed(userPS, feedPS).isPresent()){
+            throw new CustomApiException(ExMessage.ALREADY_LIKED_FEED);
+        }
+
+        feedPS.getLikes();
+
         LikedFeed likedFeed = req.toEntity(userPS, feedPS);
         likedFeedRepository.save(likedFeed);
     }
 
     @Transactional
     public void deleteLike(Long feedId, Long userId) {
-        LikedFeed likedFeed = likedFeedRepository.findByFeedAndUser(feedId, userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_LIKE));
+        User userPS = userRepository.findById(userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
+        Feed feedPS = feedRepository.findById(feedId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_FEED));
+        feedPS.unLike();
+
+        LikedFeed likedFeed = likedFeedRepository.findByUserAndFeed(userPS, feedPS).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_LIKE));
 
         likedFeedRepository.delete(likedFeed);
     }

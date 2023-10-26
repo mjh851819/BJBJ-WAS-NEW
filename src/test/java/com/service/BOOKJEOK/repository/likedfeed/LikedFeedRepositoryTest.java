@@ -71,16 +71,6 @@ class LikedFeedRepositoryTest extends DummyObject {
     }
 
     @Test
-    public void findByFeedAndUser() throws Exception {
-        //given
-
-        //when
-        LikedFeed res = likedFeedRepository.findByFeedAndUser(feedId, userId).get();
-        //then
-        Assertions.assertThat(res.getId()).isEqualTo(likedFeedId);
-    }
-
-    @Test
     public void searchFeedIdList_Test() throws Exception {
         //given
 
