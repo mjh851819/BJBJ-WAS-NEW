@@ -40,7 +40,7 @@ public class LikedFeedService {
             throw new CustomApiException(ExMessage.ALREADY_LIKED_FEED);
         }
 
-        feedPS.getLikes();
+        feedPS.like();
 
         LikedFeed likedFeed = req.toEntity(userPS, feedPS);
         likedFeedRepository.save(likedFeed);
