@@ -31,7 +31,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     }
 
     @Override
-    public Page<MemberSearchResDto> searchMember(Long userId, ApprovalStatus status, Pageable pageable) {
+    public Page<MemberSearchResDto> searchMember(Long clubId, ApprovalStatus status, Pageable pageable) {
         List<MemberSearchResDto> res = queryFactory
                 .select(new QMemberResponseDto_MemberSearchResDto(
                         member.id,
@@ -41,7 +41,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 ))
                 .from(member)
                 .leftJoin(member.user, user)
-                .where(member.user.id.eq(userId), member.status.eq(status))
+                .where(member.club.id.eq(clubId), member.status.eq(status))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -50,7 +50,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .select(member.count())
                 .from(member)
                 .leftJoin(member.user, user)
-                .where(member.user.id.eq(userId), member.status.eq(status));
+                .where(member.club.id.eq(clubId), member.status.eq(status));
 
         return PageableExecutionUtils.getPage(res, pageable,
                 query::fetchOne);

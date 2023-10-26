@@ -143,22 +143,18 @@ class MemberControllerTest extends DummyObject {
         User user1PS = userRepository.save(user1);
 
         Club club1 = newMockClub(1L, "abc", user1PS);
-        Club club2 = newMockClub(2L, "cde", user1PS);
-        Club club3 = newMockClub(3L, "fgh", user1PS);
         Club club1PS = clubRepository.save(club1);
-        Club club2PS = clubRepository.save(club2);
-        Club club3PS = clubRepository.save(club3);
 
         Member member1 = Member.builder().club(club1PS).user(mePS).build();
-        Member member2 = Member.builder().club(club2PS).user(mePS).build();
-        Member member3 = Member.builder().club(club3PS).user(user1PS).build();
+        Member member2 = Member.builder().club(club1PS).user(mePS).build();
+        Member member3 = Member.builder().club(club1PS).user(user1PS).build();
         memberRepository.save(member1);
         memberRepository.save(member2);
         memberRepository.save(member3);
 
         //when
         ResultActions resultActions = mvc.perform(get("/members")
-                .param("userId", mePS.getId().toString())
+                .param("userId", user1PS.getId().toString())
                 .param("approvalStatus", ApprovalStatus.WAITING.getValue())
                 .param("page", "0"));
 

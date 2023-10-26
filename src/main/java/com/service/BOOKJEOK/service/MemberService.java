@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.service.BOOKJEOK.dto.member.MemberRequestDto.*;
 import static com.service.BOOKJEOK.dto.member.MemberResponseDto.*;
@@ -71,8 +72,9 @@ public class MemberService {
     }
 
     public MemberSearchPageResDto getMemberList(Long userId, String approvalStatus, Pageable pageable) {
+        Club clubPS = clubRepository.findByUserId(userId).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_CLUB));
         Page<MemberSearchResDto> res = memberRepository.searchMember(
-                userId,
+                clubPS.getId(),
                 approvalStatus.equals(ApprovalStatus.CONFIRMED.getValue()) ? ApprovalStatus.CONFIRMED : ApprovalStatus.WAITING,
                 pageable
         );
