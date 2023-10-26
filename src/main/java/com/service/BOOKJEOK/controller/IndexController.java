@@ -33,6 +33,10 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/")
+    public String home(){
+        return "home";
+    }
 
     @GetMapping("/tokenTest")
     public String tokenTest(@RequestParam String Access_Token, @RequestParam String Refresh_Token) {
