@@ -25,8 +25,6 @@ import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 @RequiredArgsConstructor
 @RestController
 public class IndexController {
-
-    private final ObjectMapper om;
     private final ClubService clubService;
     private final FeedService feedService;
 

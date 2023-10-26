@@ -48,7 +48,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         */
 
         log.info("인가 / 권한 검증");
-        log.info("요청 url ={}", request.getRequestURL());
+        log.info("FROM_URL ={}", request.getRequestURL());
+        log.info("FROM_URI ={}", request.getRequestURI());
+        log.info("FROM_URI ={}", request.getRemoteAddr());
 
         if(isHeaderVerify(request, response)){
             try {
