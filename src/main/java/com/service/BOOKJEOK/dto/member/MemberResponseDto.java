@@ -90,7 +90,7 @@ public class MemberResponseDto {
         public MemberJoiningClubsIdResDto(Long userId, Long clubId, ApprovalStatus status) {
             this.userId = userId;
             this.clubId = clubId;
-            this.status = status.toString();
+            this.status = status.getValue();
         }
     }
 }
