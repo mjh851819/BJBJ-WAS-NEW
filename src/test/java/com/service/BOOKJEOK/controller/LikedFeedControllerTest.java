@@ -52,6 +52,7 @@ class LikedFeedControllerTest extends DummyObject {
     private WebApplicationContext ctx;
 
     private Long feedId;
+    private Long feedId2;
     private Long clubId;
     private Long userId;
     private Long likedFeedId;
@@ -68,6 +69,8 @@ class LikedFeedControllerTest extends DummyObject {
         Club clubPS = clubRepository.save(myClub);
         Feed feed = newFeed("feed", mePS, clubPS);
         Feed feedPS = feedRepository.save(feed);
+        Feed feed2 = newFeed("feed2", mePS, clubPS);
+        Feed feedPS2 = feedRepository.save(feed2);
 
         LikedFeed likedFeed = newLikedFeed(mePS, feedPS);
         LikedFeed likedFeedPS = likedFeedRepository.save(likedFeed);
@@ -76,13 +79,14 @@ class LikedFeedControllerTest extends DummyObject {
         this.clubId = clubPS.getId();
         this.userId = mePS.getId();
         this.likedFeedId = likedFeedPS.getId();
+        this.feedId2 = feedPS2.getId();
     }
 
     @WithMockUser
     @Test
     public void createLike_Test() throws Exception {
         //given
-        LikedFeedCreateReqDto req = new LikedFeedCreateReqDto(feedId, userId);
+        LikedFeedCreateReqDto req = new LikedFeedCreateReqDto(feedId2, userId);
         String dto = om.writeValueAsString(req);
 
         //when

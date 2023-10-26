@@ -14,7 +14,5 @@ import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 public interface LikedFeedRepositoryCustom {
     Page<FeedSearchResDto> searchFeedList(Long userId, Pageable pageable);
 
-    Optional<LikedFeed> findByFeedAndUser(Long feedId, Long userId);
-
     List<LikedFeedResponseDto.LikedFeedIdResDto> searchFeedIdList(Long userId);
 }

@@ -69,7 +69,9 @@ class LikedFeedServiceTest extends DummyObject {
         LikedFeed likedFeed = newLikedFeed(user, feed);
 
         //stub
-        when(likedFeedRepository.findByFeedAndUser(any(), any())).thenReturn(Optional.of(likedFeed));
+        when(likedFeedRepository.findByUserAndFeed(any(), any())).thenReturn(Optional.of(likedFeed));
+        when(feedRepository.findById(any())).thenReturn(Optional.of(feed));
+        when(userRepository.findById(any())).thenReturn(Optional.of(user));
 
         //when
         //then

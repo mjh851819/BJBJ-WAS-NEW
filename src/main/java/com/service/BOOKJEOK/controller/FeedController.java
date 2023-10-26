@@ -85,10 +85,9 @@ public class FeedController {
     @GetMapping("/users/{userId}")
     public ResponseEntity<?> getUserFeedList(
             @PathVariable Long userId,
-            @RequestParam String sortBy,
             @PageableDefault(size = 4) Pageable pageable) {
 
-        FeedSearchPageResDto res = feedService.searchUserFeedList(userId, sortBy ,pageable);
+        FeedSearchPageResDto res = feedService.searchUserFeedList(userId, pageable);
 
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 리스트 조회 성공", res), HttpStatus.OK);
     }

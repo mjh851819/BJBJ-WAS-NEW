@@ -101,7 +101,7 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
     }
 
     @Override
-    public Page<FeedSearchResDto> findUserFeedList(Long userId, String sortBy, Pageable pageable) {
+    public Page<FeedSearchResDto> findUserFeedList(Long userId, Pageable pageable) {
         List<FeedSearchResDto> res = queryFactory
                 .select(new QFeedResponseDto_FeedSearchResDto(
                         user,
@@ -113,7 +113,7 @@ public class FeedRepositoryImpl implements FeedRepositoryCustom {
                 .from(feed)
                 .leftJoin(feed.user, user)
                 .where(user.id.eq(userId))
-                .orderBy(sort(sortBy))
+                .orderBy(feed.createdAt.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

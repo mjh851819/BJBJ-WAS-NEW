@@ -60,17 +60,6 @@ public class LikedFeedRepositoryImpl implements LikedFeedRepositoryCustom{
     }
 
     @Override
-    public Optional<LikedFeed> findByFeedAndUser(Long feedId, Long userId) {
-        LikedFeed likedFeed = queryFactory
-                .select(QLikedFeed.likedFeed)
-                .from(QLikedFeed.likedFeed)
-                .where(QLikedFeed.likedFeed.feed.id.eq(feedId), QLikedFeed.likedFeed.user.id.eq(userId))
-                .fetchOne();
-
-        return Optional.of(likedFeed);
-    }
-
-    @Override
     public List<LikedFeedIdResDto> searchFeedIdList(Long userId) {
         List<LikedFeedIdResDto> res = queryFactory
                 .select(new QLikedFeedResponseDto_LikedFeedIdResDto(likedFeed.feed.id))
