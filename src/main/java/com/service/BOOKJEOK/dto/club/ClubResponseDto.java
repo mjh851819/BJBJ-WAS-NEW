@@ -70,7 +70,7 @@ public class ClubResponseDto {
         private String contents;
         private int maxPersonnel;
         private String description;
-        private List<String> tags;
+        private String tags = "";
         private int likes;
         private String status;
         private String bookTitle;
@@ -92,10 +92,10 @@ public class ClubResponseDto {
             this.publisher = club.getBook().getPublisher();
 
             List<TagEntity> tags = club.getTags();
-            List<String> taglist = tags.stream().map(m ->
-                    m.getTag().getValue()
-            ).collect(Collectors.toList());
-            this.tags = taglist;
+            for(int i = 0; i < tags.size(); i++){
+                this.tags += tags.get(i).getTag().getValue();
+                if(i != tags.size() - 1) this.tags += ",";
+            }
 
         }
     }
