@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -37,9 +38,10 @@ public class JwtService {
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtVO.ACCESS_EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SECRET_KEY));
     }
-    public String createRefreshToken() {
+    public String createRefreshToken(User user) {
         return JWT.create()
                 .withSubject(JwtVO.REFRESH_TOKEN)
+                .withClaim(JwtVO.EMAIL, user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtVO.REFRESH_EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SECRET_KEY));
     }
@@ -140,7 +142,8 @@ public class JwtService {
 
     @Transactional
     public String updateRefreshTokenOfUser(String token) {
-        String reissuedRefreshToken = createRefreshToken();
+        User user = userRepository.findByRefresh(token).get();
+        String reissuedRefreshToken = createRefreshToken(user);
 
         userRepository.findByRefresh(token)
                 .orElseThrow(() -> new JwtException(JwtError.JWT_MEMBER_NOT_FOUND_TOKEN))

@@ -41,7 +41,7 @@ class JwtServiceTest {
 
         //when
         String accessToken = jwtService.createAccessToken(user);
-        String refreshToken = jwtService.createRefreshToken();
+        String refreshToken = jwtService.createRefreshToken(user);
         System.out.println("테스트: " + accessToken);
         System.out.println("테스트: " + refreshToken);
 
@@ -77,7 +77,7 @@ class JwtServiceTest {
 
         //when
         String accessToken = jwtService.createAccessToken(user);
-        String refreshToken = jwtService.createRefreshToken();
+        String refreshToken = jwtService.createRefreshToken(user);
 
         //then
         assertTrue((jwtService.isExpiredInHourTokenOrThrow(accessToken)));
@@ -155,7 +155,7 @@ class JwtServiceTest {
     public void updateRefreshTokenOfUser_test() throws Exception {
         //given
         User user = User.builder().id(1L).role(UserEnum.USER).email("abc@naver.com").build();
-        String refreshToken = jwtService.createRefreshToken();
+        String refreshToken = jwtService.createRefreshToken(user);
 
         //when
         when(userRepository.findByRefresh(any())).thenReturn(Optional.of(user));
@@ -171,7 +171,7 @@ class JwtServiceTest {
         //given
         User user = User.builder().id(1L).role(UserEnum.USER).email("abc@naver.com").build();
         String accessToken = jwtService.createAccessToken(user);
-        String refreshToken = jwtService.createRefreshToken();
+        String refreshToken = jwtService.createRefreshToken(user);
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         //when
