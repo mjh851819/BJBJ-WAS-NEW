@@ -56,4 +56,7 @@ public class Member {
     public void updateState() {
         this.status = ApprovalStatus.CONFIRMED;
     }
+    public void master() {
+        this.status = ApprovalStatus.MASTER;
+    }
 }

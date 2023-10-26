@@ -93,7 +93,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                         member.status
                 ))
                 .from(member)
-                .where(member.user.id.eq(userId))
+                .where(member.user.id.eq(userId), member.status.eq(ApprovalStatus.CONFIRMED).or(member.status.eq(ApprovalStatus.MASTER)))
                 .fetch();
 
         return res;

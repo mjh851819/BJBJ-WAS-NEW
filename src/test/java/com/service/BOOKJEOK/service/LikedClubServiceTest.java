@@ -120,6 +120,6 @@ class LikedClubServiceTest extends DummyObject {
 
         //then
         Assertions.assertThat(res.getTotalCount()).isEqualTo(1);
-        Assertions.assertThat(res.getClubList().get(0).getClubId()).isEqualTo(userID);
+        Assertions.assertThat(res.getLikedClubList().get(0).getClubId()).isEqualTo(userID);
     }
 }
