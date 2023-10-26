@@ -1,10 +1,12 @@
 package com.service.BOOKJEOK.service;
 
 import com.service.BOOKJEOK.domain.club.Club;
+import com.service.BOOKJEOK.domain.member.Member;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.handler.ex.ExMessage;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
+import com.service.BOOKJEOK.repository.member.MemberRepository;
 import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.comment.CommentRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
@@ -28,7 +30,7 @@ public class ClubService {
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
     private final FeedRepository feedRepository;
-    private final CommentRepository commentRepository;
+    private final MemberRepository memberRepository;
     @Transactional
     public ClubCreateResDto createClub(ClubCreateReqDto requestDto) {
         User userPS = userRepository.findById(requestDto.getUserId()).orElseThrow(() -> new CustomApiException(ExMessage.NOT_FOUND_USER));
@@ -40,6 +42,14 @@ public class ClubService {
         Club club = requestDto.toEntity(userPS);
 
         Club savedClub = clubRepository.save(club);
+
+        Member myMember = Member.builder()
+                .user(userPS)
+                .club(savedClub)
+                .build();
+        myMember.master();
+
+        memberRepository.save(myMember);
 
         return new ClubCreateResDto(savedClub);
     }

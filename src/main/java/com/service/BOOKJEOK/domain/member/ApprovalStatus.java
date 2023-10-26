@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ApprovalStatus {
-    WAITING("대기중"), CONFIRMED("승인됨");
+    MASTER("클럽장"), WAITING("대기중"), CONFIRMED("승인됨");
 
     private String value;
 }

@@ -5,6 +5,7 @@ import com.service.BOOKJEOK.domain.club.TagEntity;
 import com.service.BOOKJEOK.domain.user.User;
 import com.service.BOOKJEOK.handler.ex.CustomApiException;
 import com.service.BOOKJEOK.repository.club.ClubRepository;
+import com.service.BOOKJEOK.repository.member.MemberRepository;
 import com.service.BOOKJEOK.repository.user.UserRepository;
 import com.service.BOOKJEOK.repository.comment.CommentRepository;
 import com.service.BOOKJEOK.repository.feed.FeedRepository;
@@ -37,6 +38,8 @@ class ClubServiceTest extends DummyObject {
     private ClubRepository clubRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private MemberRepository memberRepository;
     @Mock
     private FeedRepository feedRepository;
     @Mock
