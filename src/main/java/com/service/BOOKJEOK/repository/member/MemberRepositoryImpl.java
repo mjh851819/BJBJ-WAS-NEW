@@ -88,8 +88,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     public List<MemberJoiningClubsIdResDto> searchJoiningClubIds(Long userId) {
         List<MemberJoiningClubsIdResDto> res = queryFactory
                 .select(new QMemberResponseDto_MemberJoiningClubsIdResDto(
-                        member.club.id,
                         member.user.id,
+                        member.club.id,
                         member.status
                 ))
                 .from(member)
