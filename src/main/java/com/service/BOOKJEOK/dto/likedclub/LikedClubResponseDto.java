@@ -38,7 +38,7 @@ public class LikedClubResponseDto {
     @AllArgsConstructor
     static public class LikedClubIdListResDto{
         private int totalCount;
-        private List<LikedClubIdResDto> clubIdList;
+        private List<LikedClubIdResDto> clubList;
     }
 
     @Getter

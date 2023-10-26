@@ -10,11 +10,11 @@ public class LikedFeedResponseDto {
     @Getter
     static public class LikedFeedIdListResDto{
         private int totalCount;
-        private List<LikedFeedIdResDto> feedIdList;
+        private List<LikedFeedIdResDto> feedList;
 
         public LikedFeedIdListResDto(int totalCount, List<LikedFeedIdResDto> feedIdList) {
             this.totalCount = totalCount;
-            this.feedIdList = feedIdList;
+            this.feedList = feedIdList;
         }
     }
 
