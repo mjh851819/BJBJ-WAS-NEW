@@ -83,9 +83,9 @@ public class Club {
 
     public void updateClub(ClubUpdateReqDto req) {
         this.title = req.getTitle();
-        this.img_url = req.getImg_url();
+        this.img_url = req.getImgUrl();
         this.contents = req.getContents();
-        this.max_personnel = req.getMax_personnel();
+        this.max_personnel = req.getMaxPersonnel();
         this.description = req.getDescription();
         this.updatedAt = LocalDateTime.now();
 
