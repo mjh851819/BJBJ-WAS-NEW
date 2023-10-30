@@ -106,7 +106,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
         if(tags == null) return null;
         List<String> list = Arrays.asList(tags.split(","));
         List<Tag> tagList = list.stream().map(m ->
-                Tag.valueOf(m)).collect(Collectors.toList());
+                Tag.of(m)).collect(Collectors.toList());
 
         return tag.tag.in(tagList);
 
