@@ -88,8 +88,8 @@ class ClubRepositoryTest extends DummyObject {
     public void searchClub_test() throws Exception {
         //given
         ClubSearchReqDto clubSearchReqDto = ClubSearchReqDto.builder()
-                .keyword("club")
-                .tags("온라인")
+                //.keyword("")
+                //.tags("")
                 .sortBy("createdAt")
                 .build();
 
@@ -123,9 +123,9 @@ class ClubRepositoryTest extends DummyObject {
         ClubUpdateReqDto req = ClubUpdateReqDto.builder()
                 .clubId(clubId)
                 .title("update")
-                .img_url("update")
+                .imgUrl("update")
                 .contents("update")
-                .max_personnel(1)
+                .maxPersonnel(1)
                 .description("update")
                 .tags("소모임")
                 .bookTitle("update")

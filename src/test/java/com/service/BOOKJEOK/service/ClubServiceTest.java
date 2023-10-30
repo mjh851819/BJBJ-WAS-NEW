@@ -52,7 +52,7 @@ class ClubServiceTest extends DummyObject {
                 .userId(1L)
                 .title("mjhClub")
                 .tags("소모임,오프라인,온라인")
-                .max_personnel(3)
+                .maxPersonnel(3)
                 .build();
         //when
         User user = newMockUser(1L, "mjh", "abc@abc");
@@ -204,9 +204,9 @@ class ClubServiceTest extends DummyObject {
         ClubUpdateReqDto req = ClubUpdateReqDto.builder()
                 .clubId(1L)
                 .title("update")
-                .img_url("update")
+                .imgUrl("update")
                 .contents("update")
-                .max_personnel(1)
+                .maxPersonnel(1)
                 .description("update")
                 .tags("소모임")
                 .bookTitle("update")
