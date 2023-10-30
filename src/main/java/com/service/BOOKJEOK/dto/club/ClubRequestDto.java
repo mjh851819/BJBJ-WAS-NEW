@@ -27,7 +27,7 @@ public class ClubRequestDto {
         @Size(min = 1, max = 30)
         private String contents;
         @NotNull
-        private int max_personnel;
+        private int maxPersonnel;
         @Size(min = 1, max = 300)
         private String description;
         @NotEmpty
@@ -47,7 +47,7 @@ public class ClubRequestDto {
                     .title(title)
                     .img_url(imgUrl)
                     .contents(contents)
-                    .max_personnel(max_personnel)
+                    .max_personnel(maxPersonnel)
                     .description(description)
                     .tags(tags)
                     .bookTitle(bookTitle)
@@ -78,12 +78,12 @@ public class ClubRequestDto {
         @Size(min = 2, max = 10)
         private String title;
         @NotEmpty
-        private String img_url;
+        private String imgUrl;
         @NotEmpty
         @Size(min = 1, max = 30)
         private String contents;
         @NotNull
-        private int max_personnel;
+        private int maxPersonnel;
         @Size(min = 1, max = 300)
         private String description;
         @NotEmpty
