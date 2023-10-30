@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.service.BOOKJEOK.dto.club.ClubResponseDto.*;
 import static com.service.BOOKJEOK.dto.feed.FeedResponseDto.*;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class IndexController {
@@ -45,14 +44,18 @@ public class IndexController {
 
     @GetMapping("/main/clubs")
     public ResponseEntity<?> mainPageClubList(@RequestParam("sortBy") String sortBy) {
+        System.out.println("clubs 시작");
         ClubSearchPageResDto res = clubService.searchClubForMain(sortBy);
+        System.out.println(res + "clubs 종료");
 
         return new ResponseEntity<>(new ResponseDto<>(1, "독서모임 조회 성공", res), HttpStatus.OK);
     }
 
     @GetMapping("/main/feeds")
     public ResponseEntity<?> mainPageFeedList(@RequestParam("sortBy") String sortBy) {
+        System.out.println("feeds 시작");
         FeedSearchPageResDto res = feedService.searchFeedForMain(sortBy);
+        System.out.println(res + "feeds 종료");
 
         return new ResponseEntity<>(new ResponseDto<>(1, "피드 조회 성공", res), HttpStatus.OK);
     }

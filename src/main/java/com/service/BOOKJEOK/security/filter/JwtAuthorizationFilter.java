@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -28,6 +29,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         this.jwtService = jwtService;
     }
 
+    @Transactional(readOnly = true)
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         /*log.info("1");
@@ -49,8 +51,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         log.info("인가 / 권한 검증");
         log.info("FROM_URL ={}", request.getRequestURL());
-        log.info("FROM_URI ={}", request.getRequestURI());
-        log.info("FROM_URI ={}", request.getRemoteAddr());
+        log.info("PARA ={}", request.getParameterMap());
+
 
         if(isHeaderVerify(request, response)){
             try {
