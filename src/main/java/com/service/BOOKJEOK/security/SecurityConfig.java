@@ -87,7 +87,7 @@ public class SecurityConfig {
         http.httpBasic().disable();
 
         http.authorizeRequests()
-                .antMatchers("/main/**", "/login/**", "/tokenTest/**", "/healthCheck").permitAll()
+                .antMatchers("/main/**", "/login/**", "/tokenTest/**", "/healthCheck", "/favicon.ico").permitAll()
                 .anyRequest().authenticated();
 
 
